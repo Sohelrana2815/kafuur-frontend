@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useActionState, useEffect, useTransition, useState } from "react";
+import { useActionState, useEffect, useTransition } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
@@ -16,35 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createProductAction } from "@/actions/product";
-
-// Client Schema ensuring structural parameters match expectations before submitting
-const clientProductSchema = z.object({
-  name: z
-    .string()
-    .min(3, "Product name is too short!")
-    .max(100, "Product name is too long"),
-  slug: z
-    .string()
-    .min(5, "Slug is too short!")
-    .regex(
-      /^[a-z0-9-]+$/,
-      "Slug must be URL-safe (lowercase letters, numbers, and hyphens only)",
-    ),
-  shortDescription: z
-    .string()
-    .min(10, "Short description is too short!")
-    .max(255, "Short description is too long!"),
-  longDescription: z
-    .string()
-    .min(20, "Long description must provide substantial item specifications"),
-  price: z
-    .number({ error: "Price must be a valid number" })
-    .positive("Price must be a positive currency amount greater than 0"),
-  category: z.enum(["MEN", "WOMEN"], {
-    error:
-      "Target fragrance classification category is required (MEN or WOMEN)",
-  }),
-});
+import { createProductZodSchema } from "@/zod/admin/product.validation";
 
 export default function CreateProductForm() {
   const [state, formAction, isPending] = useActionState(
@@ -52,9 +24,8 @@ export default function CreateProductForm() {
     null,
   );
   const [, startTransition] = useTransition();
-  const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
 
-  const form = useForm<z.infer<typeof clientProductSchema>>({
+  const form = useForm<z.infer<typeof createProductZodSchema>>({
     defaultValues: {
       name: "",
       slug: "",
@@ -62,8 +33,9 @@ export default function CreateProductForm() {
       longDescription: "",
       price: 0,
       category: "MEN",
+      images: undefined,
     },
-    resolver: zodResolver(clientProductSchema),
+    resolver: zodResolver(createProductZodSchema),
     mode: "onTouched",
   });
 
@@ -73,11 +45,10 @@ export default function CreateProductForm() {
 
     if (state.success) {
       form.reset();
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSelectedFiles(null);
+
       // Manually reset the file input field layout
       const fileInput = document.getElementById(
-        "files-input",
+        "images-input",
       ) as HTMLInputElement;
       if (fileInput) fileInput.value = "";
 
@@ -96,15 +67,7 @@ export default function CreateProductForm() {
     }
   }, [state, form]);
 
-  const onSubmit = (data: z.infer<typeof clientProductSchema>) => {
-    if (!selectedFiles || selectedFiles.length === 0) {
-      form.setError("root", {
-        message: "At least one product image path is required",
-      });
-      toast.error("Please add at least one item image asset.");
-      return;
-    }
-
+  const onSubmit = (data: z.infer<typeof createProductZodSchema>) => {
     // Build standard multi-part data stream matching expected backend schema structure
     const dynamicForm = new FormData();
     dynamicForm.append("name", data.name);
@@ -114,10 +77,11 @@ export default function CreateProductForm() {
     dynamicForm.append("price", String(data.price));
     dynamicForm.append("category", data.category);
 
-    // Append binary items into the stream
-    Array.from(selectedFiles).forEach((file) => {
-      dynamicForm.append("files", file);
-    });
+    if (data.images) {
+      Array.from(data.images as FileList).forEach((file) => {
+        dynamicForm.append("files", file);
+      });
+    }
 
     startTransition(() => {
       formAction(dynamicForm);
@@ -211,7 +175,7 @@ export default function CreateProductForm() {
                       value="MEN"
                       checked={field.value === "MEN"}
                       onChange={() => field.onChange("MEN")}
-                      className="w-4 h-4 text-neutral-900 border-neutral-300 focus:ring-neutral-900"
+                      className="w-4 h-4 focus:ring-neutral-900"
                     />
                     Men Fragrances
                   </label>
@@ -234,23 +198,38 @@ export default function CreateProductForm() {
             )}
           />
           {/* File Upload Selector Field */}
-          <Field>
-            <FieldLabel htmlFor="files-input">
-              Product Image Files Assets
-            </FieldLabel>
-            <Input
-              id="files-input"
-              type="file"
-              multiple
-              accept="image/*"
-              className="cursor-pointer"
-              onChange={(e) => setSelectedFiles(e.target.files)}
-            />
-            <p className="mt-1 text-xs text-neutral-400">
-              You can hold down Ctrl/Cmd to select multiple files
-              simultaneously.
-            </p>
-          </Field>
+          <Controller
+            control={form.control}
+            name="images"
+            render={({
+              field: { ref, name, onBlur, onChange },
+              fieldState,
+            }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="images-input">
+                  Product Image Files Assets
+                </FieldLabel>
+                <Input
+                  id="images-input"
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="cursor-pointer"
+                  ref={ref}
+                  name={name}
+                  onBlur={onBlur}
+                  onChange={(e) => onChange(e.target.files)} // Saves FileList to RHF directly
+                />
+                <p className="mt-1 text-xs text-neutral-400">
+                  You can hold down Ctrl/Cmd to select multiple files
+                  simultaneously.
+                </p>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
           {/* Short Description Textarea Field */}
           <Controller
             control={form.control}

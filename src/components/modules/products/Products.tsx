@@ -1,31 +1,23 @@
 "use client";
 
-import React from "react";
+import { useCart } from "@/context/CartContext";
+import { BackendProduct } from "@/types/product.types";
+import Image from "next/image";
+import Link from "next/link";
+import { toast } from "sonner";
 
 // Aligning interface structure explicitly with your backend Prisma fields
-interface BackendProduct {
-  id: string;
-  name: string;
-  slug: string;
-  images: string[]; // Cloudinary secure image URLs array
-  shortDescription: string;
-  longDescription: string;
-  price: number;
-  category: "MEN" | "WOMEN";
-  isDeleted: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
 interface ProductsProps {
   initialProducts: BackendProduct[];
 }
 
 export default function Products({ initialProducts }: ProductsProps) {
+  const { addToCart } = useCart();
   // Empty State Safe Handling
   if (!initialProducts || initialProducts.length === 0) {
     return (
-      <div className="w-full py-24 flex flex-col items-center justify-center border border-dashed border-white/[0.05] rounded-xl bg-[#0b0b0d]">
+      <div className="w-full py-24 flex flex-col items-center justify-center border border-dashed border-white/[0.05] rounded-xl ">
         <p className="text-sm text-neutral-400 font-light tracking-wide">
           No fragrance products were found in our store database catalog.
         </p>
@@ -53,11 +45,13 @@ export default function Products({ initialProducts }: ProductsProps) {
 
               {primaryImage ? (
                 // Display the primary image retrieved from Cloudinary
-                <img
+                <Image
                   src={primaryImage}
                   alt={product.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
+                  width={500}
+                  height={500}
                 />
               ) : (
                 // Standard default luxury perfume fallback silhouette icon
@@ -76,7 +70,7 @@ export default function Products({ initialProducts }: ProductsProps) {
                 </svg>
               )}
 
-              <span className="absolute bottom-3 right-3 text-[9px] uppercase tracking-widest text-neutral-400 bg-black/40 px-2 py-0.5 rounded backdrop-blur-xs font-medium">
+              <span className="absolute bottom-3 right-3 text-[9px] uppercase tracking-widest  bg-black/40 px-2 py-0.5 rounded backdrop-blur-xs font-medium">
                 {product.category.toLowerCase()}
               </span>
             </div>
@@ -90,7 +84,12 @@ export default function Products({ initialProducts }: ProductsProps) {
                 className="text-xs md:text-sm font-normal text-white tracking-wide truncate group-hover:text-neutral-200 transition-colors"
                 title={product.name}
               >
-                {product.name}
+                <Link
+                  href={`/products/${product.id}`}
+                  className="hover:text-pink-500"
+                >
+                  {product.name}
+                </Link>
               </h3>
               <span className="text-xs font-semibold text-neutral-400">
                 ${Number(product.price).toFixed(2)}
@@ -100,7 +99,12 @@ export default function Products({ initialProducts }: ProductsProps) {
             {/* Add to Cart Button */}
             <div className="pt-1">
               <button
-                onClick={() => console.log(`Added ${product.name} to cart`)}
+                // 3. Trigger the function and show a notification
+                onClick={(e) => {
+                  e.preventDefault(); // Prevents link navigation if wrapped in an anchor later
+                  addToCart(product);
+                  toast.success(`${product.name} added to cart`);
+                }}
                 className="w-full py-2.5 px-4 text-[11px] font-bold tracking-widest text-neutral-400 border border-neutral-800 bg-transparent rounded uppercase transition-colors duration-200 hover:text-white hover:border-neutral-500 active:scale-[0.98]"
               >
                 Add To Cart

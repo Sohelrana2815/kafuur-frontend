@@ -1,37 +1,33 @@
 import z from "zod";
 
-const createProductSchema = z.object({
+export const createProductZodSchema = z.object({
   name: z
-    .string({
-      error: "Product name is required",
-    })
+    .string()
+    .min(1, "Product name is required!")
     .min(3, "Product name is too short!")
     .max(100, "Product name is too long"),
 
   slug: z
-    .string({
-      error: "Product slug is required",
-    })
+    .string()
+    .min(1, "Product slug is required")
     .min(5, "Slug is too short!")
     .regex(
       /^[a-z0-9-]+$/,
       "Slug must be URL-safe (lowercase letters, numbers, and hyphens only)",
     ),
-
+    
   images: z
-    .array(
-      z.url({
-        error: "Each image asset path must be a valid string path or URL",
-      }),
-    )
-    .nonempty({
-      message: "At least one product image path is required",
-    }),
+    .any()
+    .refine(
+      (value) => typeof window !== "undefined" && value instanceof FileList && value.length > 0,
+      { message: "At least one product image asset is required." }
+    ),
 
   shortDescription: z
     .string({
       error: "Short description is required",
     })
+    .trim()
     .min(10, "Short description is too short!")
     .max(255, "Short description is too long!"),
 
@@ -39,6 +35,7 @@ const createProductSchema = z.object({
     .string({
       error: "Long description text block is required",
     })
+    .trim()
     .min(20, "Long description must provide substantial item specifications"),
 
   price: z

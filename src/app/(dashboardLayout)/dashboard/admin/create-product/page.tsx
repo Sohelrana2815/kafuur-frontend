@@ -8,7 +8,7 @@ export default function AdminCreateProductPage() {
           <h1 className="text-2xl font-bold text-neutral-900 tracking-tight">
             Add Store Fragrance
           </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="mt-1 text-sm">
             Catalog a premium new addition to the active store database
             inventory collection.
           </p>
