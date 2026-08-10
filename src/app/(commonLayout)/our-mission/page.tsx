@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client"
 
 import { Leaf, Award, ShieldCheck, MapPin, Sparkles, Box } from "lucide-react"

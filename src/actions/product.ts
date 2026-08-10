@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-import { createProductZodSchema } from "@/zod/admin/product.validation";
+import { createProductZodSchema } from "@/zod/common/product.validation";
 import axios from "axios";
 import { cookies } from "next/headers";
 import api from "@/lib/api";

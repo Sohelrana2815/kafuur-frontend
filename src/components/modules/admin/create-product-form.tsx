@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createProductAction } from "@/actions/product";
-import { createProductZodSchema } from "@/zod/admin/product.validation";
+import { createProductZodSchema } from "@/zod/common/product.validation";
 
 export default function CreateProductForm() {
   const [state, formAction, isPending] = useActionState(

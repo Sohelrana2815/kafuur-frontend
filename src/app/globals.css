@@ -89,7 +89,7 @@ body {
 
 .dark {
   /* Main surfaces */
-  --background: oklch(0.11 0.003 260);
+  --background: oklch(0.17 0.005 260);
   --foreground: oklch(0.97 0.002 260);
 
   /* Cards */
