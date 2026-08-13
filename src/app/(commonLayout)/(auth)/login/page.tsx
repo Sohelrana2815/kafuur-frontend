@@ -3,7 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ redirect?: string }>;
+}) {
+    const params = (await searchParams) || {};
   return (
      <div className="flex h-svh w-full items-center justify-center p-4 overflow-hidden relative">
       {/* Absolute Back Button (Top Left) */}
@@ -28,7 +33,7 @@ export default function LoginPage() {
         </div>
 
         {/* Stateful client components are mounted here */}
-        <LoginForm />
+        <LoginForm  redirect={params.redirect} />
       </div>
     </div>
   );

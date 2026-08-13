@@ -1,18 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
+import { createUserSchema } from "@/zod/common/auth.validation";
+import { loginAction } from "../auth/auth.service";
 
 // Login Server Action
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const registerAction = async (_currentState: any, formData: FormData) => {
+export const registerAction = async (
+  _currentState: any,
+  formData: FormData,
+) => {
   try {
     const registerData = {
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
     };
+     // 1. Zod Validation
+    const validatedFields = createUserSchema.safeParse(registerData);
 
+    if (!validatedFields.success) {
+      return {
+        success: false,
+        errors: validatedFields.error.issues.map((issue) => {
+          return {
+            field: issue.path[0],
+            message: issue.message,
+          };
+        }),
+      };
+    }
+     // 2. Fetch from Backend
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/users/register`,
+      `${process.env.BACKEND_API_URL}/users/register`,
       {
         method: "POST",
         body: JSON.stringify(registerData),
@@ -20,22 +40,28 @@ export const registerAction = async (_currentState: any, formData: FormData) => 
       },
     );
 
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Register failed");
+    const result = await res.json();
+     if(!res.ok || !result.success) {
+      return {
+        success:false,
+        message: result.message  || "Invalid credentials. Please try again.",
+      }
     }
 
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log("Register error:", error);
+
+    if (result.success) {
+      await loginAction(_currentState, formData);
+    }
+
+    return result;
+  } catch (error: any) {
+    console.log("Login error:", error);
+    // Re-throw NEXT_REDIRECT errors so navigation works
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
     return {
-      success: false,
-      message:
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.",
-    };
+      success:false, message: error.message || "An unexpected error occurred.",
+    }
   }
 };

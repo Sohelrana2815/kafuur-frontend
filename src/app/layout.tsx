@@ -5,6 +5,8 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { CartProvider } from "@/context/CartContext";
+import LoggedOutSuccessToast from "@/components/shared/LoggedOutSuccessToast";
+import LoggedInSuccessToast from "@/components/shared/LoggedInSuccessToast";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -52,7 +54,9 @@ export default function RootLayout({
         >
           <CartProvider>{children}</CartProvider>
         </ThemeProvider>
-        <Toaster richColors />
+        <Toaster richColors position="top-right"/>
+        <LoggedInSuccessToast/>
+        <LoggedOutSuccessToast/>
       </body>
     </html>
   );

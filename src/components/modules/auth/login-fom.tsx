@@ -1,6 +1,5 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
 import {
   Field,
   FieldDescription,
@@ -10,22 +9,40 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { loginAction } from "@/services/auth/auth.service";
-// Loading Spinner Tailwind CSS
+import { loading } from "@/components/ui/authLoading";
+import { toast } from "sonner";
 
-const loading = (
-  <div className="flex items-center justify-center">
-    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-  </div>
-);
 
-export default function LoginForm() {
+
+export default function LoginForm({ redirect }: { redirect?: string }) {
   const [state, formAction, isPending] = useActionState(loginAction, null);
-  console.log("State: ", state, "Pending Status:", isPending);
+   console.log("State: ", state);
+
+    const getFieldError = (fieldName: string) => {
+    if (state && state.errors) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = state.errors.find((err: any) => err.field === fieldName);
+      return error?.message;
+    } else {
+      return null;
+    }
+  };
+
+useEffect(() => {
+  console.log("STATE:", state);
+
+  if (state && !state.success && state.message) {
+    console.log("CALLING TOAST:", state.message);
+    toast.error(state.message);
+  }
+}, [state]);
   return (
     <div className="w-full">
       <form action={formAction}>
+         {redirect && <input type="hidden" name="redirect" value={redirect} />}
+         
         <FieldGroup>
           <div className="grid grid-cols-1 gap-4">
             {/* Email */}
@@ -34,10 +51,13 @@ export default function LoginForm() {
               <Input
                 id="email"
                 name="email"
-                type="email"
                 placeholder="m@example.com"
-                //   required
               />
+               {getFieldError("email") && (
+              <FieldDescription className="text-red-600">
+                {getFieldError("email")}
+              </FieldDescription>
+            )}
             </Field>
 
             {/* Password */}
@@ -48,8 +68,12 @@ export default function LoginForm() {
                 name="password"
                 type="password"
                 placeholder="Enter your password"
-                //   required
               />
+                 {getFieldError("password") && (
+              <FieldDescription className="text-red-600">
+                {getFieldError("password")}
+              </FieldDescription>
+            )}
             </Field>
           </div>
           <FieldGroup className="mt-4">

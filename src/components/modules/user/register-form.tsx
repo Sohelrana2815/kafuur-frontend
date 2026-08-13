@@ -1,6 +1,5 @@
 "use client";
 
-import { Controller, useForm } from "react-hook-form";
 import {
   Field,
   FieldDescription,
@@ -10,19 +9,30 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { registerAction } from "@/services/user/user.service";
-// Loading Spinner Tailwind CSS
-
-const loading = (
-  <div className="flex items-center justify-center">
-    <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-  </div>
-);
+import { loading } from "@/components/ui/authLoading";
+import { toast } from "sonner";
 
 export default function RegisterForm() {
   const [state, formAction, isPending] = useActionState(registerAction, null);
   console.log("State: ", state, "Pending Status:", isPending);
+  const getFieldError = (fieldName: string) => {
+    if (state && state.errors) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const error = state.errors.find((err: any) => err.field === fieldName);
+      return error?.message;
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+
+  if (state && !state.success && state.message) {
+    toast.error(state.message);
+  }
+}, [state]);
   return (
     <div className="w-full">
       <form action={formAction}>
@@ -31,13 +41,12 @@ export default function RegisterForm() {
             {/* Name */}
             <Field>
               <FieldLabel htmlFor="email">Name</FieldLabel>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Name"
-                //   required
-              />
+              <Input id="name" name="name" type="text" placeholder="Name" />
+              {getFieldError("name") && (
+                <FieldDescription className="text-red-600">
+                  {getFieldError("name")}
+                </FieldDescription>
+              )}
             </Field>
             {/* Email */}
             <Field>
@@ -47,8 +56,12 @@ export default function RegisterForm() {
                 name="email"
                 type="email"
                 placeholder="m@example.com"
-                //   required
               />
+              {getFieldError("email") && (
+                <FieldDescription className="text-red-600">
+                  {getFieldError("email")}
+                </FieldDescription>
+              )}
             </Field>
 
             {/* Password */}
@@ -59,8 +72,12 @@ export default function RegisterForm() {
                 name="password"
                 type="password"
                 placeholder="Enter your password"
-                //   required
               />
+              {getFieldError("password") && (
+                <FieldDescription className="text-red-600">
+                  {getFieldError("password")}
+                </FieldDescription>
+              )}
             </Field>
           </div>
           <FieldGroup className="mt-4">
