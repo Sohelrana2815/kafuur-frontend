@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { loginUserSchema } from "@/zod/common/auth.validation";
+import { loginUserSchema } from "@/zod/auth.validation";
 import { parseCookie } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
@@ -11,22 +11,24 @@ import {
   UserRole,
 } from "@/utils/auth-utils";
 import { deleteCookie, setCookie } from "./tokenHandlers";
+import { serverFetch } from "@/lib/server-fetch";
+import { zodValidator } from "@/lib/zodValidator";
 // Login Server Action
 
 export const loginAction = async (_currentState: any, formData: FormData) => {
   try {
-
     const redirectTo = formData.get("redirect") || null;
     let accessTokenObject: null | any = null;
     let refreshTokenObject: null | any = null;
 
-    const loginData = {
+    const payload = {
       email: formData.get("email"),
       password: formData.get("password"),
     };
     // 1. Zod Validation
-    const validatedFields = loginUserSchema.safeParse(loginData);
-     if (!validatedFields.success) {
+    const validatedFields = loginUserSchema.safeParse(payload);
+
+    if (!validatedFields.success) {
       return {
         success: false,
         errors: validatedFields.error.issues.map((issue) => {
@@ -37,21 +39,34 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
         }),
       };
     }
-   // 2. Fetch from Backend
-    const res = await fetch(
-      `${process.env.BACKEND_API_URL}/auth/login`,
-      {
-        method: "POST",
-        body: JSON.stringify(loginData),
-        headers: { "Content-Type": "application/json" },
+  //     if (zodValidator(payload, loginUserSchema).success === false) {
+  //           return zodValidator(payload, loginUserSchema);
+  //       }
+  //  const validatedPayload = zodValidator(payload, loginUserSchema).data;
+    // 2. Fetch from Backend
+    const res = await serverFetch.post("/auth/login", {
+      body: JSON.stringify(validatedFields.data),
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+    });
+
+    // const res = await fetch(
+    //   `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/login`,
+    //   {
+    //     method:"POST",
+    //     body: JSON.stringify(payload),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   },
+    // );
     const result = await res.json();
-    if(!res.ok || !result.success) {
+    if (!res.ok || !result.success) {
       return {
-        success:false,
-        message: result.message  || "Invalid credentials. Please try again.",
-      }
+        success: false,
+        message: result.message || "Invalid credentials. Please try again.",
+      };
     }
 
     // 3. Process Cookies (Only runs if login was successful)
@@ -81,7 +96,7 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
     if (!refreshTokenObject) {
       throw new Error("Unauthorized access.");
     }
-// 4. Set Cookies in Next.js
+    // 4. Set Cookies in Next.js
     await setCookie("accessToken", accessTokenObject.accessToken, {
       httpOnly: true,
       secure: true,
@@ -106,7 +121,7 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
       throw new Error("Unauthorized");
     }
     const userRole: UserRole = verifiedToken.role;
-    
+
     // 6. Redirect User
     if (redirectTo) {
       const requestedPath = redirectTo.toString();
@@ -118,7 +133,6 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
     } else {
       redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
     }
-    
   } catch (error: any) {
     console.log("Login error:", error);
     // Re-throw NEXT_REDIRECT errors so navigation works
@@ -126,8 +140,9 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
       throw error;
     }
     return {
-      success:false, message: error.message || "An unexpected error occurred.",
-    }
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
   }
 };
 
@@ -136,5 +151,4 @@ export const logoutUser = async () => {
   await deleteCookie("refreshToken");
 
   redirect("/login?loggedOut=true");
-  
 };

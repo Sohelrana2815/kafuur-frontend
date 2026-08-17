@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { createUserSchema } from "@/zod/common/auth.validation";
+import { createUserSchema } from "@/zod/user.validation";
 import { loginAction } from "../auth/auth.service";
+import { serverFetch } from "@/lib/server-fetch";
 
 // Login Server Action
 
@@ -11,13 +12,13 @@ export const registerAction = async (
   formData: FormData,
 ) => {
   try {
-    const registerData = {
+    const payload = {
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
     };
-     // 1. Zod Validation
-    const validatedFields = createUserSchema.safeParse(registerData);
+    // 1. Zod Validation
+    const validatedFields = createUserSchema.safeParse(payload);
 
     if (!validatedFields.success) {
       return {
@@ -30,24 +31,21 @@ export const registerAction = async (
         }),
       };
     }
-     // 2. Fetch from Backend
-    const res = await fetch(
-      `${process.env.BACKEND_API_URL}/users/register`,
-      {
-        method: "POST",
-        body: JSON.stringify(registerData),
-        headers: { "Content-Type": "application/json" },
+    // 2. Fetch from Backend
+    const res = await serverFetch.post("/users/register", {
+      body: JSON.stringify(validatedFields.data),
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+    });
 
     const result = await res.json();
-     if(!res.ok || !result.success) {
+    if (!res.ok || !result.success) {
       return {
-        success:false,
-        message: result.message  || "Invalid credentials. Please try again.",
-      }
+        success: false,
+        message: result.message || "Invalid credentials. Please try again.",
+      };
     }
-
 
     if (result.success) {
       await loginAction(_currentState, formData);
@@ -61,7 +59,8 @@ export const registerAction = async (
       throw error;
     }
     return {
-      success:false, message: error.message || "An unexpected error occurred.",
-    }
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
   }
 };

@@ -1,6 +1,7 @@
 import { UserRole } from "@/utils/auth-utils";
 
 export interface UserInfo {
-    email: string;
-    role: UserRole;
+  name: string;
+  email: string;
+  role: UserRole;
 }

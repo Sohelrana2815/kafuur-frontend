@@ -7,21 +7,15 @@ export const createProductZodSchema = z.object({
     .min(3, "Product name is too short!")
     .max(100, "Product name is too long"),
 
-  slug: z
-    .string()
-    .min(1, "Product slug is required")
-    .min(5, "Slug is too short!")
-    .regex(
-      /^[a-z0-9-]+$/,
-      "Slug must be URL-safe (lowercase letters, numbers, and hyphens only)",
-    ),
-    
-  images: z
-    .any()
-    .refine(
-      (value) => typeof window !== "undefined" && value instanceof FileList && value.length > 0,
-      { message: "At least one product image asset is required." }
-    ),
+  // images: z
+  //   .any()
+  //   .refine(
+  //     (value) =>
+  //       typeof window !== "undefined" &&
+  //       value instanceof FileList &&
+  //       value.length > 0,
+  //     { message: "At least one product image asset is required." },
+  //   ),
 
   shortDescription: z
     .string({
@@ -36,7 +30,7 @@ export const createProductZodSchema = z.object({
       error: "Long description text block is required",
     })
     .trim()
-    .min(20, "Long description must provide substantial item specifications"),
+    .min(20, "Description must be at least 20 characters long."),
 
   price: z
     .number({
@@ -51,7 +45,7 @@ export const createProductZodSchema = z.object({
 });
 
 // Future Proofing: Update schema where all properties are optional
-const updateProductZodSchema = z.object({
+export const updateProductZodSchema = z.object({
   name: z
     .string()
     .min(3, "Product name is too short!")
@@ -83,17 +77,19 @@ const updateProductZodSchema = z.object({
     .positive("Price must be a positive currency amount greater than 0")
     .optional(),
 
-  category: z.enum(["MEN", "WOMEN"]).optional(),
+  category: z
+    .enum(["MEN", "WOMEN"], {
+      error: "Category must be either MEN or WOMEN",
+    })
+    .optional(),
 
   // These handle your image adding/removing logic
-  deleteImages: z
-    .array(z.string().url({ message: "Must be a valid Cloudinary URL" }))
-    .optional(),
+  deleteImages: z.array(z.url({ message: "Must be a valid URL" })).optional(),
 
   newImages: z.array(z.url()).optional(),
 });
 
-const deleteProductsZodSchema = z.object({
+export const deleteProductsZodSchema = z.object({
   ids: z
     .array(z.string())
     .min(1, "At least one product ID is required for deletion."),

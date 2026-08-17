@@ -31,9 +31,9 @@ export default function UserDropdown({ userInfo }: UserDropdownProps) {
         <DropdownMenuLabel>
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium">U</p>
-            <p className="text-xs text-muted-foreground">{userInfo?.email}</p>
+            <p className="text-xs text-muted-foreground">{userInfo.email}</p>
             <p className="text-xs text-primary capitalize">
-              {userInfo?.role?.toLowerCase()}
+              {userInfo?.role.toLowerCase()}
             </p>
           </div>
         </DropdownMenuLabel>

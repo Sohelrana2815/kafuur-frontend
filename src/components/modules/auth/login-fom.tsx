@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import {
   Field,
   FieldDescription,
-  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -19,10 +19,8 @@ import { toast } from "sonner";
 export default function LoginForm({ redirect }: { redirect?: string }) {
   const [state, formAction, isPending] = useActionState(loginAction, null);
    console.log("State: ", state);
-
-    const getFieldError = (fieldName: string) => {
+  const getFieldError = (fieldName: string) => {
     if (state && state.errors) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const error = state.errors.find((err: any) => err.field === fieldName);
       return error?.message;
     } else {
@@ -30,11 +28,12 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
     }
   };
 
+
 useEffect(() => {
   console.log("STATE:", state);
 
   if (state && !state.success && state.message) {
-    console.log("CALLING TOAST:", state.message);
+    // console.log("CALLING TOAST:", state.message);
     toast.error(state.message);
   }
 }, [state]);
@@ -53,7 +52,7 @@ useEffect(() => {
                 name="email"
                 placeholder="m@example.com"
               />
-               {getFieldError("email") && (
+              {getFieldError("email") && (
               <FieldDescription className="text-red-600">
                 {getFieldError("email")}
               </FieldDescription>
