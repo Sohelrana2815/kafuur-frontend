@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { loginUserSchema } from "@/zod/auth.validation";
-import { parseCookie } from "cookie";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { redirect } from "next/navigation";
+import { serverFetch } from "@/lib/server-fetch";
 import {
   getDefaultDashboardRoute,
   isValidRedirectForRole,
   UserRole,
 } from "@/utils/auth-utils";
+import { loginUserSchema } from "@/zod/auth.validation";
+import { parseCookie } from "cookie";
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { redirect } from "next/navigation";
 import { deleteCookie, setCookie } from "./tokenHandlers";
-import { serverFetch } from "@/lib/server-fetch";
-import { zodValidator } from "@/lib/zodValidator";
 // Login Server Action
 
 export const loginAction = async (_currentState: any, formData: FormData) => {

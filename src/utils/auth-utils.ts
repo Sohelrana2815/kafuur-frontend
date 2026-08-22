@@ -11,7 +11,7 @@ export type RouteConfig = {
 export const authRoutes = ["/login", "/register"];
 
 export const commonProtectedRoutes: RouteConfig = {
-  exact: ["my-profile","my-orders","change-password"],
+  exact: ["my-profile", "my-orders", "change-password", "cart"],
   patterns: [], // [/password/change-password, /password/reset-password => /password/*]
 };
 
@@ -30,49 +30,56 @@ export const isAuthRoute = (pathname: string) => {
 };
 
 // For protected routes / Private routes
-export const isRouteMatches = (pathname: string, routes: RouteConfig): boolean => {
-    if (routes.exact.includes(pathname)) {
-        return true;
-    }
-    return routes.patterns.some((pattern: RegExp) => pattern.test(pathname))
-    // if pathname === /dashboard/my-orders => matches /^\/dashboard/ => true
-}
+export const isRouteMatches = (
+  pathname: string,
+  routes: RouteConfig,
+): boolean => {
+  if (routes.exact.includes(pathname)) {
+    return true;
+  }
+  return routes.patterns.some((pattern: RegExp) => pattern.test(pathname));
+  // if pathname === /dashboard/my-orders => matches /^\/dashboard/ => true
+};
 
-export const getRouteOwner = (pathname: string): "ADMIN" | "CUSTOMER" | "COMMON" | null => {
-
-    if (isRouteMatches(pathname, adminProtectedRoutes)) {
-        return "ADMIN";
-    }
-      if (isRouteMatches(pathname, customerProtectedRoutes)) {
-        return "CUSTOMER";
-    }
-     if (isRouteMatches(pathname, commonProtectedRoutes)) {
-        return "COMMON";
-    }
-     return null;
-}
+export const getRouteOwner = (
+  pathname: string,
+): "ADMIN" | "CUSTOMER" | "COMMON" | null => {
+  if (isRouteMatches(pathname, adminProtectedRoutes)) {
+    return "ADMIN";
+  }
+  if (isRouteMatches(pathname, customerProtectedRoutes)) {
+    return "CUSTOMER";
+  }
+  if (isRouteMatches(pathname, commonProtectedRoutes)) {
+    return "COMMON";
+  }
+  return null;
+};
 
 export const getDefaultDashboardRoute = (role: UserRole): string => {
-    if (role === "ADMIN") {
-        return "/admin/dashboard";
-    }
-    if (role === "CUSTOMER") {
-        return "/dashboard";
-    }
+  if (role === "ADMIN") {
+    return "/admin/dashboard";
+  }
+  if (role === "CUSTOMER") {
+    return "/dashboard";
+  }
 
-    return "/";
-}
+  return "/";
+};
 
-export const isValidRedirectForRole = (redirectPath: string, role: UserRole): boolean => {
-    const routeOwner = getRouteOwner(redirectPath);
+export const isValidRedirectForRole = (
+  redirectPath: string,
+  role: UserRole,
+): boolean => {
+  const routeOwner = getRouteOwner(redirectPath);
 
-    if (routeOwner === null || routeOwner === "COMMON") {
-        return true;
-    }
+  if (routeOwner === null || routeOwner === "COMMON") {
+    return true;
+  }
 
-    if (routeOwner === role) {
-        return true;
-    }
+  if (routeOwner === role) {
+    return true;
+  }
 
-    return false;
-}
+  return false;
+};

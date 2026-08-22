@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,7 +12,7 @@ import {
 } from "@/components/ui/select";
 import {
   createProduct,
-  updateProduct,
+  updateProduct
 } from "@/services/admin/productsManagement";
 import { IBackendProduct } from "@/types/product.types";
 import { useActionState, useEffect, useState } from "react";
@@ -36,15 +31,15 @@ export default function ProductFormDialog({
   onSuccess,
   product,
 }: IProductFormDialogProps) {
-  // const isEdit = !!product;
+  const isEdit = !!product; 
   const [category, setCategory] = useState<"MEN" | "WOMEN">(
-    product?.category || "MEN",
+     product?.category || "MEN",
   );
-  // const [state, formAction, pending] = useActionState(
-  //   isEdit ? updateProduct.bind(null, product.id!) : createProduct,
-  //   null,
-  // );
-  const [state, formAction, pending] = useActionState(createProduct, null);
+  const [state, formAction, pending] = useActionState(
+    isEdit ? updateProduct.bind(null, product.id!) : createProduct,
+    null,
+  );
+  // const [state, formAction, pending] = useActionState(createProduct, null);
 
   console.log("State from Product form:", state);
   // isEdit ? updateProduct.bind(null, product.id!) :
@@ -71,7 +66,7 @@ export default function ProductFormDialog({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] flex flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-4">
-          {/* <DialogTitle>{isEdit ? "Edit Doctor" : "Add New Doctor"}</DialogTitle> */}
+          <DialogTitle>{isEdit ? "Edit Product" : "Add New Product"}</DialogTitle>
         </DialogHeader>
 
         <form action={formAction} className="flex flex-col flex-1 min-h-0">
@@ -83,7 +78,7 @@ export default function ProductFormDialog({
                 id="name"
                 name="name"
                 placeholder="X Fragrance"
-                // defaultValue={isEdit ? product?.name : undefined}
+                defaultValue={isEdit ? product?.name : undefined}
               />
               {getFieldError("name") && (
                 <FieldDescription className="text-red-600">
@@ -103,7 +98,7 @@ export default function ProductFormDialog({
                 name="shortDescription"
                 placeholder="A brief description of the product"
                 type="text"
-                // defaultValue={isEdit ? product?.shortDescription : undefined}
+                defaultValue={isEdit ? product?.shortDescription : undefined}
               />
 
               {getFieldError("shortDescription") && (
@@ -121,7 +116,7 @@ export default function ProductFormDialog({
                 id="longDescription"
                 name="longDescription"
                 placeholder="A detailed description of the product"
-                // defaultValue={isEdit ? product?.longDescription : undefined}
+                defaultValue={isEdit ? product?.longDescription : undefined}
               />
               {getFieldError("longDescription") && (
                 <FieldDescription className="text-red-600">
@@ -137,7 +132,7 @@ export default function ProductFormDialog({
                 name="price"
                 placeholder="0.00"
                 type="number"
-                // defaultValue={isEdit ? product?.price : undefined}
+                defaultValue={isEdit ? product?.price : undefined}
               />
               {getFieldError("price") && (
                 <FieldDescription className="text-red-600">
@@ -153,11 +148,13 @@ export default function ProductFormDialog({
                 id="category"
                 name="category"
                 placeholder="Select category"
-                defaultValue={category}
+                // defaultValue={isEdit ? product.category : undefined}
                 type="hidden"
+                value={category}
               />
               <Select
                 value={category}
+                // defaultValue={isEdit ? product.category : undefined}
                 onValueChange={(value) => setCategory(value as "MEN" | "WOMEN")}
               >
                 <SelectTrigger>
@@ -206,12 +203,11 @@ export default function ProductFormDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={pending}>
-              {/* {pending
+              {pending
                 ? "Saving..."
                 : isEdit
                   ? "Update Product"
-                  : "Create Product"} */}
-              Create Product
+                  : "Create Product"}
             </Button>
           </div>
         </form>

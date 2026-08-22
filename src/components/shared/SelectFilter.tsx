@@ -1,7 +1,13 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 interface SelectFilterProps {
   paramName: string; // ?category=
@@ -9,21 +15,20 @@ interface SelectFilterProps {
   options: { label: string; value: string }[];
 }
 
-
 export default function SelectFilter({
   paramName,
   placeholder,
   options,
-}:SelectFilterProps ) {
-     const router = useRouter();
+}: SelectFilterProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-const currentValue = searchParams.get(paramName) || "All";
+  const currentValue = searchParams.get(paramName) || "";
 
- const handleChange = (value: string) => {
+  const handleChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (value === "All") {
+    if (value === "Default") {
       params.delete(paramName);
     } else if (value) {
       params.set(paramName, value);
@@ -36,7 +41,7 @@ const currentValue = searchParams.get(paramName) || "All";
     });
   };
   return (
-     <Select
+    <Select
       value={currentValue}
       onValueChange={handleChange}
       disabled={isPending}
@@ -45,7 +50,7 @@ const currentValue = searchParams.get(paramName) || "All";
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="All">All</SelectItem>
+        <SelectItem value="Default">Default</SelectItem>
         {options.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}
@@ -53,5 +58,5 @@ const currentValue = searchParams.get(paramName) || "All";
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }

@@ -1,39 +1,31 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
-import ProductFormDialog from "./ProductFormDialog";
 import ManagementPageHeader from "@/components/shared/ManagementPageHeader";
 import { Plus } from "lucide-react";
-import { IBackendProduct } from "@/types/product.types";
+import { useRouter } from "next/navigation";
+import { useCallback, useState, useTransition } from "react";
+import ProductFormDialog from "./ProductFormDialog";
+// import { IBackendProduct } from "@/types/product.types";
 
-
-
-
-
-
-interface ProductsManagementHeaderProps {
-    product: IBackendProduct;
-}
-
-export default function ProductsManagementHeader({
-  product,
-}: ProductsManagementHeaderProps) {
-     const router = useRouter();
+export default function ProductsManagementHeader() {
+  const router = useRouter();
   const [, startTransition] = useTransition();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const handleSuccess = () => {
+
+  const handleSuccess = useCallback(() => {
     startTransition(() => {
       router.refresh();
     });
-  };
+  }, [router]);
+  const handleClose = useCallback(() => {
+    setIsDialogOpen(false);
+  }, []);
   return (
     <>
       <ProductFormDialog
         open={isDialogOpen}
-        onClose={() => setIsDialogOpen(false)}
+        onClose={handleClose}
         onSuccess={handleSuccess}
-        product={product}
       />
 
       <ManagementPageHeader
@@ -46,5 +38,5 @@ export default function ProductsManagementHeader({
         }}
       />
     </>
-  )
+  );
 }

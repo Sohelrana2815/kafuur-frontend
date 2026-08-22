@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
-import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
-import { CartProvider } from "@/context/CartContext";
 import LoggedInSuccessToast from "@/components/shared/LoggedInSuccessToast";
 import LoggedOutSuccessToast from "@/components/shared/LoggedOutSuccessToast";
+import { Toaster } from "@/components/ui/sonner";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import "./globals.css";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -52,7 +51,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <CartProvider>{children}</CartProvider>
+          {children}
         </ThemeProvider>
         <Toaster richColors position="top-right" />
         <LoggedInSuccessToast />

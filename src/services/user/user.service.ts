@@ -64,3 +64,30 @@ export const registerAction = async (
     };
   }
 };
+
+export async function getMyProfile() {
+  try {
+    const res = await serverFetch.get("/users/me");
+    const result = await res.json();
+
+    // console.log("From Get Product Server Action:", res);
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message:
+          result.message || "My profile information retrieved successfully",
+      };
+    }
+    return {
+      success: true,
+      message: result.message || "Profile information retrieved successfully",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error("Error retrieving profile information", error);
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+}

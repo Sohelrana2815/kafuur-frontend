@@ -19,7 +19,7 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
       price: Number(formData.get("price")),
       category: formData.get("category") as "MEN" | "WOMEN",
     };
-    console.log(payload);
+    // console.log(payload);
     const validatedPayload = createProductZodSchema.safeParse(payload);
 
     if (!validatedPayload.success) {
@@ -33,7 +33,8 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
         }),
       };
     }
-    console.log(validatedPayload.data);
+
+    // console.log(validatedPayload.data);
     const newFormData = new FormData();
     newFormData.append("data", JSON.stringify(validatedPayload.data));
 
@@ -46,7 +47,7 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
     const res = await serverFetch.post("/products", {
       body: newFormData,
     });
-    console.log("From Create Product Action:", res);
+    // console.log("From Create Product Action:", res);
     const result = await res.json();
 
     if (!res.ok || !result.success) {
@@ -73,12 +74,12 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
 export async function getProducts(queryString?: string) {
   try {
     const res = await serverFetch.get(
-      `/products${queryString ? `?${queryString}` : ""}`,
+      `/products${queryString ? `?${queryString}` : ""}`, // category=MEN
     );
 
     const result = await res.json();
 
-    // console.log("From Create Product Action:", res);
+    // console.log("From Get Product Server Action:", res);
     if (!res.ok || !result.success) {
       return {
         success: false,
@@ -88,6 +89,7 @@ export async function getProducts(queryString?: string) {
     return {
       success: true,
       message: result.message || "Products retrieved successfully",
+      meta: result.meta,
       data: result.data,
     };
   } catch (error: any) {
@@ -107,7 +109,7 @@ export const updateProduct = async (
   try {
     const payload: Partial<IBackendProduct> = {
       name: formData.get("name") as string,
-      slug: formData.get("slug") as string,
+      // slug: formData.get("slug") as string,
       shortDescription: formData.get("shortDescription") as string,
       longDescription: formData.get("longDescription") as string,
       price: Number(formData.get("price")),
@@ -141,15 +143,20 @@ export const updateProduct = async (
     });
 
     const result = await res.json();
-    console.log("From Create Product Action:", res);
-    // if (!res.ok || !result.success) {
-    //   return {
-    //     success: false,
-    //     message: result.message || "Failed to create product",
-    //   };
-    // }
+    // console.log("From Update Product Action:", res);
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to update product",
+      };
+    }
+    return {
+      success: true,
+      message: result.message || "Product updated successfully",
+      data: result.data,
+    };
     // 5. Explicitly return success state to client
-    return result;
+    // return result;
   } catch (error: any) {
     console.error("Error creating product:", error);
     return {
