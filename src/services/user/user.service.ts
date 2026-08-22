@@ -75,7 +75,7 @@ export async function getMyProfile() {
       return {
         success: false,
         message:
-          result.message || "My profile information retrieved successfully",
+          result.message || "Failed to retrieved profile information",
       };
     }
     return {
