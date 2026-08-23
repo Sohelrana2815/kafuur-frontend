@@ -29,7 +29,7 @@ export default function Hero() {
               Body Spray Canister Container 
               Replace the internal div/SVG with your actual transparency-masked `.png` body spray render path when ready.
             */}
-            <div className="relative w-44 h-72 sm:w-52 sm:h-80 transition-transform duration-750 ease-out group-hover:scale-105 filter drop-shadow-[0_25px_25px_rgba(0,0,0,0.7)]">
+            <div className="relative w-44 h-72 sm:w-52 sm:h-80 transition-transform duration-750 ease-out group-hover:scale-105 filter fdrop-shadow-[0_25px_25px_rgba(0,0,0,0.7)]">
               {/* Fallback Beautiful Aerosol Deodorant CSS Canvas Structure */}
               <div className="w-full h-full rounded-t-[2.5rem] rounded-b-[1.5rem] bg-gradient-to-b from-neutral-800 via-neutral-900 to-black border border-white/10 p-4 flex flex-col justify-between items-center relative overflow-hidden">
                 {/* Matte Spray Cap Divider line */}

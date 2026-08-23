@@ -7,6 +7,7 @@ import { queryStringFormatter } from "@/lib/formatters";
 import { getProducts } from "@/services/admin/productsManagement";
 import { categoryOptions } from "@/utils/category-options";
 import { sortOptions } from "@/utils/sort-options";
+import { Suspense } from "react";
 
 export default async function ProductsPage({
   searchParams,
@@ -23,18 +24,23 @@ export default async function ProductsPage({
     <div className="space-y-6">
       <ProductsPageHeader title="All Body sprays" />
       <div className="flex space-x-2">
-        <SearchFilter paramName="searchTerm" placeholder="Search products..." />
-        <SelectFilter
-          paramName="category"
-          placeholder="Filter by category"
-          options={categoryOptions}
-        />
-        <SelectFilter
-          paramName="sort"
-          placeholder="Filter by price"
-          options={sortOptions}
-        />
-        <RefreshButton />
+        <Suspense fallback={null}>
+          <SearchFilter
+            paramName="searchTerm"
+            placeholder="Search products..."
+          />
+          <SelectFilter
+            paramName="category"
+            placeholder="Filter by category"
+            options={categoryOptions}
+          />
+          <SelectFilter
+            paramName="sort"
+            placeholder="Filter by price"
+            options={sortOptions}
+          />
+          <RefreshButton />
+        </Suspense>
       </div>
       <ProductGrid data={productsResult.data} />
     </div>

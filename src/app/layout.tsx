@@ -6,6 +6,7 @@ import LoggedOutSuccessToast from "@/components/shared/LoggedOutSuccessToast";
 import { Toaster } from "@/components/ui/sonner";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -54,8 +55,10 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         <Toaster richColors position="top-right" />
-        <LoggedInSuccessToast />
-        <LoggedOutSuccessToast />
+        <Suspense fallback={null}>
+          <LoggedInSuccessToast />
+          <LoggedOutSuccessToast />
+        </Suspense>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { addToCart } from "@/services/cart/cartManagement";
 import { IBackendProduct } from "@/types/product.types";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -11,7 +12,7 @@ interface IProductsCardProps {
 }
 
 export default function ProductCard({ product }: IProductsCardProps) {
-  const { id, name, category, images, price } = product;
+  const { id, name, slug, category, images, price } = product;
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const mainImage = images?.[0] || "/placeholder.svg";
   const handleAddToCart = async () => {
@@ -37,15 +38,17 @@ export default function ProductCard({ product }: IProductsCardProps) {
 
   return (
     <div className="group flex flex-col justify-between rounded-xl p-4 text-card-foreground transition-all border border-primary/10">
-      {/* Product Image Container */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted flex items-center justify-center p-4">
-        <Image
-          src={mainImage}
-          alt={name}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-lg"
-        />
-      </div>
+      <Link href={`/products/${slug}`}>
+        {/* Product Image Container */}
+        <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-muted flex items-center justify-center p-4">
+          <Image
+            src={mainImage}
+            alt={name}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105 rounded-lg"
+          />
+        </div>
+      </Link>
 
       {/* Product Details */}
       <div className="mt-3 flex flex-col grow justify-between gap-2">

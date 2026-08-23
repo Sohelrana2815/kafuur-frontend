@@ -101,6 +101,34 @@ export async function getProducts(queryString?: string) {
   }
 }
 
+export const getSingleProduct = async (slug: string) => {
+  try {
+    const res = await serverFetch.get(`/products/${slug}`);
+
+    const result = await res.json();
+    // console.log("From Update Product Action:", res);
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieved product details",
+      };
+    }
+    return {
+      success: true,
+      message: result.message || "Product details retrieved successfully",
+      data: result.data,
+    };
+    // 5. Explicitly return success state to client
+    // return result;
+  } catch (error: any) {
+    console.error("Error retrieving product details:", error);
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};
+
 export const updateProduct = async (
   id: string,
   _prevState: any,

@@ -28,18 +28,23 @@ export default async function AdminProductsManagementPage({
     <div className="space-y-6">
       <ProductsManagementHeader />
       <div className="flex space-x-2">
-        <SearchFilter paramName="searchTerm" placeholder="Search products..." />
-        <SelectFilter
-          paramName="category"
-          placeholder="Filter by category"
-          options={categoryOptions}
-        />
-        <SelectFilter
-          paramName="sort"
-          placeholder="Sort by price"
-          options={sortOptions}
-        />
-        <RefreshButton />
+        <Suspense fallback={null}>
+          <SearchFilter
+            paramName="searchTerm"
+            placeholder="Search products..."
+          />
+          <SelectFilter
+            paramName="category"
+            placeholder="Filter by category"
+            options={categoryOptions}
+          />
+          <SelectFilter
+            paramName="sort"
+            placeholder="Sort by price"
+            options={sortOptions}
+          />
+          <RefreshButton />
+        </Suspense>
       </div>
       <Suspense fallback={<TableSkeleton columns={10} rows={10} />}>
         <ProductsTable products={productsResult.data} />

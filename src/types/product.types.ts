@@ -7,8 +7,17 @@ export interface IBackendProduct {
   shortDescription: string;
   longDescription: string;
   price: number;
-  category:ProductCategory;
+  category: ProductCategory;
   isDeleted?: boolean;
   createdAt?: string;
   updatedAt?: string;
+}
+export interface IProductDetails {
+  name: string;
+  slug: string;
+  images: string[]; // Cloudinary secure image URLs array
+  shortDescription: string;
+  longDescription: string;
+  price: number;
+  category: ProductCategory;
 }
