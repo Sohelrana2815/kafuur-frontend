@@ -5,3 +5,28 @@ export interface UserInfo {
   email: string;
   role: UserRole;
 }
+export interface IUserProfile {
+  id?: string;
+  name: string | null;
+  email: string;
+  picture: string | null;
+  role: UserRole;
+  status: "ACTIVE" | "BLOCKED" | "BANNED" | "DELETED";
+  isVerified: boolean;
+  phone: string | null;
+  altPhone: string | null;
+  address: string | null;
+  city: string | null;
+  thana: string | null;
+  createdAt: string; // ISO Date String
+  updatedAt: string; // ISO Date String
+}
+export interface IEditProfile {
+  name: string;
+  picture: string;
+  phone: string;
+  altPhone: string;
+  city: string;
+  thana: string;
+  address: string;
+}

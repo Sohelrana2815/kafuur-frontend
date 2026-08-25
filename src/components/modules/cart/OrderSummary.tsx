@@ -57,9 +57,9 @@ export default function OrderSummary({ summary }: IOrderSummaryProps) {
         <button
           type="button"
           disabled={!hasSelectedItems}
-          className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-opacity disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-opacity disabled:cursor-not-allowed disabled:opacity-50 uppercase cursor-pointer"
         >
-          Proceed to Pay ({itemCount})
+          Proceed to Checkout ({itemCount})
         </button>
       </div>
     </div>

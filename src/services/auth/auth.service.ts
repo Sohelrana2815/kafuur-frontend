@@ -2,6 +2,7 @@
 "use server";
 
 import { serverFetch } from "@/lib/server-fetch";
+import { IEditProfile } from "@/types/user.interface";
 import {
   getDefaultDashboardRoute,
   isValidRedirectForRole,
@@ -12,6 +13,7 @@ import { parseCookie } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
 import { deleteCookie, setCookie } from "./tokenHandlers";
+import { updateUserZodSchema } from "@/zod/user.validation";
 // Login Server Action
 
 export const loginAction = async (_currentState: any, formData: FormData) => {
@@ -38,10 +40,10 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
         }),
       };
     }
-  //     if (zodValidator(payload, loginUserSchema).success === false) {
-  //           return zodValidator(payload, loginUserSchema);
-  //       }
-  //  const validatedPayload = zodValidator(payload, loginUserSchema).data;
+    //     if (zodValidator(payload, loginUserSchema).success === false) {
+    //           return zodValidator(payload, loginUserSchema);
+    //       }
+    //  const validatedPayload = zodValidator(payload, loginUserSchema).data;
     // 2. Fetch from Backend
     const res = await serverFetch.post("/auth/login", {
       body: JSON.stringify(validatedFields.data),
@@ -151,3 +153,103 @@ export const logoutUser = async () => {
 
   redirect("/login?loggedOut=true");
 };
+
+export async function getMyProfile() {
+  try {
+    const res = await serverFetch.get("/users/me");
+    const result = await res.json();
+
+    // console.log("From Get Product Server Action:", res);
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieved profile information",
+      };
+    }
+    return {
+      success: true,
+      message: result.message || "Profile information retrieved successfully",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error("Error retrieving profile information", error);
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+}
+
+export async function updateMyProfile(_prevState: any, formData: FormData) {
+  try {
+    // const payload: Partial<IEditProfile> = {
+    //   name: formData.get("name") as string,
+    //   phone: formData.get("phone") as string,
+    //   altPhone: formData.get("altPhone") as string,
+    //   thana: formData.get("thana") as string,
+    //   city: formData.get("city") as string,
+    //   address: formData.get("address") as string,
+    // };
+
+    const fields = [
+      "name",
+      "phone",
+      "altPhone",
+      "thana",
+      "city",
+      "address",
+    ] as const;
+
+    const payload: Partial<IEditProfile> = {};
+
+    for (const field of fields) {
+      const value = formData.get(field); // = "Sohel Rana"
+
+      if (typeof value === "string" && value.trim() !== "") {
+        payload[field] = value.trim();
+      }
+    }
+
+    const validatedPayload = updateUserZodSchema.safeParse(payload);
+
+    if (!validatedPayload.success) {
+      return {
+        success: false,
+        errors: validatedPayload.error.issues.map((issue) => {
+          return {
+            field: issue.path[0],
+            message: issue.message,
+          };
+        }),
+      };
+    }
+
+    const res = await serverFetch.patch("/users/me", {
+      body: JSON.stringify(validatedPayload.data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const result = await res.json();
+    // console.log("From Update Product Action:", res);
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to update profile",
+      };
+    }
+    return {
+      success: true,
+      message: result.message || "Profile updated successfully",
+      data: result.data,
+    };
+    // 5. Explicitly return success state to client
+    // return result;
+  } catch (error: any) {
+    console.error("Error Updating profile:", error);
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+}
