@@ -56,8 +56,8 @@ export const adminNavItems: NavSection[] = [
       //     roles: ["ADMIN"],
       // },
       {
-        title: "Customers",
-        href: "/admin/dashboard/customers-management",
+        title: "Users",
+        href: "/admin/dashboard/users-management",
         icon: "User", // ✅ String
         roles: ["ADMIN"],
       },

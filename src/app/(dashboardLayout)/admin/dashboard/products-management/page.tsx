@@ -35,7 +35,7 @@ export default async function AdminProductsManagementPage({
           />
           <SelectFilter
             paramName="category"
-            placeholder="Filter by category"
+            placeholder="Category"
             options={categoryOptions}
           />
           <SelectFilter

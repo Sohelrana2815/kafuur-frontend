@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 interface IOrderSummary {
   itemCount: number;
   subtotal: number;
@@ -9,11 +11,17 @@ interface IOrderSummary {
 
 interface IOrderSummaryProps {
   summary: IOrderSummary;
+  actionLabel: string;
+  actionHref: string;
 }
 
-export default function OrderSummary({ summary }: IOrderSummaryProps) {
+export default function OrderSummary({
+  summary,
+  actionLabel,
+  actionHref,
+}: IOrderSummaryProps) {
   const { itemCount, subtotal, shippingFee, total } = summary;
-
+  console.log("From order summary", itemCount, subtotal, summary);
   const hasSelectedItems = itemCount > 0;
 
   return (
@@ -54,13 +62,16 @@ export default function OrderSummary({ summary }: IOrderSummaryProps) {
         </div>
 
         {/* Proceed */}
-        <button
-          type="button"
-          disabled={!hasSelectedItems}
-          className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground transition-opacity disabled:cursor-not-allowed disabled:opacity-50 uppercase cursor-pointer"
+        <Link
+          href={hasSelectedItems ? actionHref : "#"}
+          onClick={(e) => {
+            if (!hasSelectedItems) e.preventDefault();
+          }}
+          className="block w-full rounded-lg bg-primary px-4 py-3 text-center text-sm font-semibold uppercase text-primary-foreground transition-opacity hover:opacity-90 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+          aria-disabled={!hasSelectedItems}
         >
-          Proceed to Checkout ({itemCount})
-        </button>
+          {actionLabel} ({itemCount})
+        </Link>
       </div>
     </div>
   );

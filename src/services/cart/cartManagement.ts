@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { serverFetch } from "@/lib/server-fetch";
 import {
@@ -61,16 +61,49 @@ export const addToCart = async (productId: string) => {
   }
 };
 
-export async function getCarts() {
+// export async function getCarts() {
+//   try {
+//     const res = await serverFetch.get("/cart");
+//     const result = await res.json();
+
+//     // console.log("From Get Product Server Action:", res);
+//     if (!res.ok || !result.success) {
+//       return {
+//         success: false,
+//         message: result.message || "Failed to retrieved cart items",
+//       };
+//     }
+//     return {
+//       success: true,
+//       message: result.message || "Cart items retrieved successfully",
+//       data: result.data,
+//     };
+//   } catch (error: any) {
+//     console.error("Error retrieving cart items:", error);
+//     return {
+//       success: false,
+//       message: error.message || "An unexpected error occurred.",
+//     };
+//   }
+// }
+
+// Add or update these functions in cartManagement.ts
+
+export async function getCarts(cartItemIds?: string[]) {
   try {
-    const res = await serverFetch.get("/cart");
+    // Build query parameter if cartItemIds are provided
+    const queryString =
+      cartItemIds && cartItemIds.length > 0
+        ? `?ids=${cartItemIds.join(",")}`
+        : "";
+
+    const res = await serverFetch.get(`/cart${queryString}`);
     const result = await res.json();
 
-    // console.log("From Get Product Server Action:", res);
     if (!res.ok || !result.success) {
       return {
         success: false,
-        message: result.message || "Failed to retrieved cart items",
+        message: result.message || "Failed to retrieve cart items",
       };
     }
     return {
@@ -86,6 +119,39 @@ export async function getCarts() {
     };
   }
 }
+
+// export async function getOrderSummary(cartItemIds: string[]) {
+//   try {
+//     if (!cartItemIds || cartItemIds.length === 0) {
+//       return {
+//         success: false,
+//         message: "At least one cart item ID is required.",
+//       };
+//     }
+
+//     const queryString = `?ids=${cartItemIds.join(",")}`;
+//     const res = await serverFetch.get(`/cart/order-summary${queryString}`);
+//     const result = await res.json();
+
+//     if (!res.ok || !result.success) {
+//       return {
+//         success: false,
+//         message: result.message || "Failed to retrieve order summary",
+//       };
+//     }
+//     return {
+//       success: true,
+//       message: result.message || "Order summary calculated successfully",
+//       data: result.data,
+//     };
+//   } catch (error: any) {
+//     console.error("Error retrieving order summary:", error);
+//     return {
+//       success: false,
+//       message: error.message || "An unexpected error occurred.",
+//     };
+//   }
+// }
 
 export const incrementCartItem = async (productId: string) => {
   try {

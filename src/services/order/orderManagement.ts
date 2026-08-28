@@ -1,5 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+"use server";
 import { serverFetch } from "@/lib/server-fetch";
+import { ICreateOrderPayload } from "@/types/order.types";
+import { createOrderZodSchema } from "@/zod/order.validation";
 
 // export async function getOrderSummary(cartItemIds: string[]) {
 //   try {
@@ -28,6 +30,57 @@ import { serverFetch } from "@/lib/server-fetch";
 //   }
 // }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+export const createOrder = async (payload: ICreateOrderPayload) => {
+  try {
+    // 1. Validate payload locally using Zod
+    const validatedPayload = createOrderZodSchema.safeParse(payload);
+
+    if (!validatedPayload.success) {
+      return {
+        success: false,
+        errors: validatedPayload.error.issues.map((issue) => {
+          return {
+            field: issue.path[0],
+            message: issue.message,
+          };
+        }),
+      };
+    }
+
+    // 2. Make authenticated API call via serverFetch with JSON headers
+    const res = await serverFetch.post("/orders", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(validatedPayload.data),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to place order.",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "Order processed successfully.",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error("Error placing order:", error);
+    return {
+      success: false,
+      message:
+        error.message ||
+        "An unexpected error occurred while processing your order.",
+    };
+  }
+};
 
 export async function getOrderSummary(cartItemIds: string[]) {
   try {
@@ -51,29 +104,49 @@ export async function getOrderSummary(cartItemIds: string[]) {
     if (!res.ok || !result.success) {
       return {
         success: false,
-        message:
-          result.message || "Failed to retrieve order summary",
+        message: result.message || "Failed to retrieve order summary",
       };
     }
 
     return {
       success: true,
-      message:
-        result.message ||
-        "Order summary retrieved successfully",
+      message: result.message || "Order summary retrieved successfully",
       data: result.data,
     };
   } catch (error: any) {
-    console.error(
-      "Error retrieving order summary:",
-      error,
-    );
+    console.error("Error retrieving order summary:", error);
 
     return {
       success: false,
-      message:
-        error.message ||
-        "An unexpected error occurred.",
+      message: error.message || "An unexpected error occurred.",
     };
   }
 }
+
+export const getOrderById = async (orderId: string) => {
+  try {
+    const res = await serverFetch.get(`/orders/${orderId}`);
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieve order details",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "Order details retrieved successfully",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error("Error retrieving order details:", error);
+
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};
