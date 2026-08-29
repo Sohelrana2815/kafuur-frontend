@@ -9,6 +9,7 @@ import { useCallback, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { usersColumns } from "./UsersColumns";
 import UserViewDetailDialog from "./UserViewDetailDialog";
+import UserFormDialog from "./UserFormDialog";
 
 interface UsersTableProps {
   users: IUser[];
@@ -36,7 +37,6 @@ export default function UsersTable({ users }: UsersTableProps) {
     setEditingUser(user);
   };
   const handleEditSuccess = useCallback(() => {
-    // setEditingUser(user);
     setEditingUser(null);
     handleRefresh();
   }, [handleRefresh]);
@@ -44,6 +44,8 @@ export default function UsersTable({ users }: UsersTableProps) {
   const handleEditClose = useCallback(() => {
     setEditingUser(null);
   }, []);
+  
+  // Delete
   const handleDelete = (user: IUser) => {
     setDeletingUser(user);
   };
@@ -69,7 +71,6 @@ export default function UsersTable({ users }: UsersTableProps) {
       <ManagementTable
         data={users}
         columns={usersColumns}
-        
         onView={handleView}
         onEdit={handleEdit}
         onDelete={handleDelete}
@@ -77,6 +78,14 @@ export default function UsersTable({ users }: UsersTableProps) {
         emptyMessage="No users found"
       />
       {/* Edit User Form Dialog */}
+      {editingUser && (
+        <UserFormDialog
+          open={true}
+          onClose={handleEditClose}
+          user={editingUser}
+          onSuccess={handleEditSuccess}
+        />
+      )}
       {/* <UserFormDialog
         open={!!editingUser}
         onClose={handleEditClose}

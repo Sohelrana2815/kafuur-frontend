@@ -2,10 +2,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { serverFetch } from "@/lib/server-fetch";
-import { IEditUserByAdmin } from "@/types/user.interface";
+import { IUser } from "@/types/user.interface";
+import { UserRole } from "@/utils/auth-utils";
 import { createUserSchema, updateUserZodSchema } from "@/zod/user.validation";
 import { loginAction } from "../auth/auth.service";
-import { UserRole } from "@/utils/auth-utils";
 
 // Login Server Action
 
@@ -105,7 +105,7 @@ export const updateUserByAdmin = async (
 ) => {
   try {
     // 1. Extract fields based on IEditUserByAdmin interface
-    const payload: Partial<IEditUserByAdmin> = {
+    const payload: Partial<IUser> = {
       name: formData.get("name") as string,
       role: formData.get("role") as UserRole, // Cast to UserRole based on your imports
       status: formData.get("status") as

@@ -79,7 +79,7 @@ export default function ProductsTable({ products }: ProductsTableProps) {
         onEdit={handleEdit}
         onDelete={handleDelete}
         getRowKey={(product) => product.id!}
-        emptyMessage="No doctors found"
+        emptyMessage="No products found"
       />
       {/* Edit Product Form Dialog */}
       <ProductFormDialog

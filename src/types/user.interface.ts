@@ -49,7 +49,6 @@ export interface IUser {
 }
 
 export interface IEditUserByAdmin {
-  id?: string ;
   name: string;
   picture: string;
   role: UserRole;
