@@ -8,3 +8,21 @@ export const verificationOptions = [
     value: "false",
   },
 ];
+export const statusOptions = [
+  {
+    label: "Active",
+    value: "ACTIVE",
+  },
+  {
+    label: "Blocked",
+    value: "BLOCKED",
+  },
+  {
+    label: "Banned",
+    value: "BANNED",
+  },
+  {
+    label: "Deleted",
+    value: "DELETED",
+  },
+];

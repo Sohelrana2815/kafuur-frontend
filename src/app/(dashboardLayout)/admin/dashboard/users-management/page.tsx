@@ -7,7 +7,10 @@ import TableSkeleton from "@/components/shared/TableSkeleton";
 import { queryStringFormatter } from "@/lib/formatters";
 import { getAllUsers } from "@/services/user/user.service";
 import { roleOptions } from "@/utils/role-options";
-import { verificationOptions } from "@/utils/verification-options";
+import {
+  statusOptions,
+  verificationOptions,
+} from "@/utils/verification-options";
 import { Suspense } from "react";
 
 export default async function AdminUsersManagementPage({
@@ -39,8 +42,13 @@ export default async function AdminUsersManagementPage({
           />
           <SelectFilter
             paramName="isVerified"
-            placeholder="Verified Status"
+            placeholder="Verification"
             options={verificationOptions}
+          />
+          <SelectFilter
+            paramName="status"
+            placeholder="Status"
+            options={statusOptions}
           />
           <RefreshButton />
         </Suspense>

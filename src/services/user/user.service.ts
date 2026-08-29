@@ -4,7 +4,10 @@
 import { serverFetch } from "@/lib/server-fetch";
 import { IUser } from "@/types/user.interface";
 import { UserRole } from "@/utils/auth-utils";
-import { createUserSchema, updateUserZodSchema } from "@/zod/user.validation";
+import {
+  createUserSchema,
+  updateUserByAdminZodSchema,
+} from "@/zod/user.validation";
 import { loginAction } from "../auth/auth.service";
 
 // Login Server Action
@@ -104,6 +107,8 @@ export const updateUserByAdmin = async (
   formData: FormData,
 ) => {
   try {
+    console.log("FORM DATA:", Object.fromEntries(formData.entries()));
+
     // 1. Extract fields based on IEditUserByAdmin interface
     const payload: Partial<IUser> = {
       name: formData.get("name") as string,
@@ -121,8 +126,10 @@ export const updateUserByAdmin = async (
       address: formData.get("address") as string,
     };
 
+    // console.log(payload, "From updateUserByAdmin");
+
     // 2. Zod Validation (Make sure to import your specific update schema, e.g., updateUserSchema)
-    const validatedPayload = updateUserZodSchema.safeParse(payload);
+    const validatedPayload = updateUserByAdminZodSchema.safeParse(payload);
 
     if (!validatedPayload.success) {
       return {
@@ -160,6 +167,65 @@ export const updateUserByAdmin = async (
   } catch (error: any) {
     console.error(`Error updating user (${id}):`, error);
 
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};
+
+// Get User by ID
+export const getUserById = async (id: string) => {
+  try {
+    // 1. Fetch from Backend
+    const res = await serverFetch.get(`/users/${id}`);
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieve user.",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "User retrieved successfully.",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error(`Error retrieving user (${id}):`, error);
+
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};
+
+// Delete User by ID (Soft Delete)
+export const deleteUserById = async (id: string) => {
+  try {
+    // 1. Fetch from Backend using DELETE method
+    const res = await serverFetch.delete(`/users/${id}`);
+    
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to delete user.",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "User deleted successfully.",
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error(`Error deleting user (${id}):`, error);
+    
     return {
       success: false,
       message: error.message || "An unexpected error occurred.",

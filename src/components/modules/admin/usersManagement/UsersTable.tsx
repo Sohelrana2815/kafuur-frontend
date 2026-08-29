@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { usersColumns } from "./UsersColumns";
 import UserViewDetailDialog from "./UserViewDetailDialog";
 import UserFormDialog from "./UserFormDialog";
+import { deleteUserById } from "@/services/user/user.service";
 
 interface UsersTableProps {
   users: IUser[];
@@ -54,7 +55,7 @@ export default function UsersTable({ users }: UsersTableProps) {
     if (!deletingUser) return;
 
     setIsDeleting(true);
-    const result = await deleteProduct(deletingUser.id!);
+    const result = await deleteUserById(deletingUser.id!);
     setIsDeleting(false);
 
     if (result.success) {

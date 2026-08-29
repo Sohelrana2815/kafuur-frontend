@@ -36,7 +36,7 @@ export default function UserFormDialog({
     updateUserByAdmin.bind(null, user.id!),
     null,
   );
-  console.log("State from Product form:", state);
+  console.log("State from UserFormDialog:", state);
 
   const getFieldError = (fieldName: string) => {
     if (state && state.errors) {
@@ -184,22 +184,13 @@ export default function UserFormDialog({
             <Field>
               <FieldLabel htmlFor="role">Role</FieldLabel>
 
-              <input type="hidden" name="role" value={user.role} />
-
-              <Select
-                defaultValue={user.role}
-                onValueChange={() => {
-                  // The hidden input is static here.
-                  // For a controlled Select, use state.
-                }}
-              >
-                <SelectTrigger id="role">
+              <Select name="role" defaultValue={user.role}>
+                <SelectTrigger>
                   <SelectValue placeholder="Select role" />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem value="CUSTOMER">Customer</SelectItem>
-
                   <SelectItem value="ADMIN">Admin</SelectItem>
                 </SelectContent>
               </Select>
@@ -215,20 +206,14 @@ export default function UserFormDialog({
             <Field>
               <FieldLabel htmlFor="status">Status</FieldLabel>
 
-              <input type="hidden" name="status" value={user.status} />
-
-              <Select defaultValue={user.status}>
+              <Select name="status" defaultValue={user.status}>
                 <SelectTrigger id="status">
                   <SelectValue placeholder="Select status" />
                 </SelectTrigger>
-
                 <SelectContent>
                   <SelectItem value="ACTIVE">Active</SelectItem>
-
                   <SelectItem value="BLOCKED">Blocked</SelectItem>
-
                   <SelectItem value="BANNED">Banned</SelectItem>
-
                   <SelectItem value="DELETED">Deleted</SelectItem>
                 </SelectContent>
               </Select>
@@ -239,25 +224,19 @@ export default function UserFormDialog({
                 </FieldDescription>
               )}
             </Field>
-
             {/* Verification */}
             <Field>
               <FieldLabel htmlFor="isVerified">Verification</FieldLabel>
 
-              <input
-                type="hidden"
+              <Select
                 name="isVerified"
-                value={user.isVerified ? "true" : "false"}
-              />
-
-              <Select defaultValue={user.isVerified ? "true" : "false"}>
+                defaultValue={user.isVerified ? "true" : "false"}
+              >
                 <SelectTrigger id="isVerified">
                   <SelectValue placeholder="Select verification status" />
                 </SelectTrigger>
-
                 <SelectContent>
                   <SelectItem value="true">Verified</SelectItem>
-
                   <SelectItem value="false">Not Verified</SelectItem>
                 </SelectContent>
               </Select>
