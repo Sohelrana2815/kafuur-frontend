@@ -1,5 +1,3 @@
-"use client";
-
 import { Badge } from "@/components/ui/badge";
 
 interface StatusBadgeCellProps {
@@ -17,50 +15,32 @@ export function StatusBadgeCell({
   activeText = "Active",
   deletedText = "Deleted",
 }: StatusBadgeCellProps) {
-  // Deleted status
-  if (isDeleted || status === "DELETED") {
-    return (
-      <Badge variant="destructive">
-        {deletedText}
-      </Badge>
-    );
+  if (isDeleted) {
+    return <Badge variant="destructive">{deletedText}</Badge>;
   }
 
-  // User status
-  if (status) {
-    const statusText = {
-      ACTIVE: "Active",
-      BLOCKED: "Blocked",
-      BANNED: "Banned",
-      DELETED: "Deleted",
-    };
-
-    const statusVariant = {
-      ACTIVE: "default",
-      BLOCKED: "secondary",
-      BANNED: "destructive",
-      DELETED: "destructive",
-    } as const;
-
-    return (
-      <Badge variant={statusVariant[status]}>
-        {statusText[status]}
-      </Badge>
-    );
+  if (isVerified === true) {
+    return <Badge>Verified</Badge>;
   }
 
-  // Verification status
-  if (typeof isVerified === "boolean") {
-    return (
-      <Badge variant={isVerified ? "default" : "secondary"}>
-        {isVerified ? "Verified" : "Not Verified"}
-      </Badge>
-    );
+  if (isVerified === false) {
+    return <Badge variant="secondary">Not Verified</Badge>;
   }
 
-  return (
-    <Badge variant="default">
-      {activeText}
-    </Badge>
-  );
+  switch (status) {
+    case "ACTIVE":
+      return <Badge>{activeText}</Badge>;
+
+    case "BLOCKED":
+      return <Badge variant="secondary">Blocked</Badge>;
+
+    case "BANNED":
+      return <Badge variant="destructive">Banned</Badge>;
+
+    case "DELETED":
+      return <Badge variant="destructive">{deletedText}</Badge>;
+
+    default:
+      return <Badge variant="outline">Unknown</Badge>;
+  }
 }

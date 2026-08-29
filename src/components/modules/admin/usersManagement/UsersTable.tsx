@@ -2,15 +2,14 @@
 
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import ManagementTable from "@/components/shared/ManagementTable";
-import { deleteProduct } from "@/services/admin/productsManagement";
+import { deleteUserById } from "@/services/user/user.service";
 import { IUser } from "@/types/user.interface";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
 import { toast } from "sonner";
+import UserFormDialog from "./UserFormDialog";
 import { usersColumns } from "./UsersColumns";
 import UserViewDetailDialog from "./UserViewDetailDialog";
-import UserFormDialog from "./UserFormDialog";
-import { deleteUserById } from "@/services/user/user.service";
 
 interface UsersTableProps {
   users: IUser[];

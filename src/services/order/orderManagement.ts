@@ -32,6 +32,7 @@ import { createOrderZodSchema } from "@/zod/order.validation";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
 export const createOrder = async (payload: ICreateOrderPayload) => {
   try {
     // 1. Validate payload locally using Zod
@@ -78,6 +79,36 @@ export const createOrder = async (payload: ICreateOrderPayload) => {
       message:
         error.message ||
         "An unexpected error occurred while processing your order.",
+    };
+  }
+};
+// Get All Orders Admin
+export const getAllOrders = async (queryString?: string) => {
+  try {
+    const url = queryString ? `/orders?${queryString}` : "/orders";
+    const res = await serverFetch.get(url);
+
+    const result = await res.json();
+
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieve orders",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message || "Orders retrieved successfully",
+      data: result.data,
+      meta: result.meta,
+    };
+  } catch (error: any) {
+    console.error("Error retrieving orders:", error);
+
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
     };
   }
 };
