@@ -1,8 +1,6 @@
-"use client";
-
-import React from "react";
+import { ArrowRight, Leaf, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { Leaf, ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -13,57 +11,16 @@ export default function Hero() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Side: Elegant Body Spray Visual Representation */}
-        <div className="relative flex items-center justify-center order-first">
-          {/* Main Glowing Backdrop Frame */}
-          <div className="absolute inset-0 m-auto h-[75%] w-[75%] rounded-3xl bg-gradient-to-tr from-amber-500/10 via-neutral-900/40 to-emerald-500/5 blur-xl -z-10" />
 
-          {/* Luxury Structured Display Card */}
-          <div className="relative w-full max-w-sm sm:max-w-md aspect-[4/5] rounded-3xl border border-white/[0.06] bg-gradient-to-b from-neutral-900/60 to-neutral-950/90 p-6 shadow-2xl flex flex-col items-center justify-center group overflow-hidden">
-            {/* Fine Geometric Luxury Accents */}
-            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent" />
-            <div className="absolute bottom-6 right-6 opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-500">
-              <Leaf className="h-40 w-40 text-amber-400 rotate-12 stroke-[0.5]" />
-            </div>
-
-            {/* 
-              Body Spray Canister Container 
-              Replace the internal div/SVG with your actual transparency-masked `.png` body spray render path when ready.
-            */}
-            <div className="relative w-44 h-72 sm:w-52 sm:h-80 transition-transform duration-750 ease-out group-hover:scale-105 filter fdrop-shadow-[0_25px_25px_rgba(0,0,0,0.7)]">
-              {/* Fallback Beautiful Aerosol Deodorant CSS Canvas Structure */}
-              <div className="w-full h-full rounded-t-[2.5rem] rounded-b-[1.5rem] bg-gradient-to-b from-neutral-800 via-neutral-900 to-black border border-white/10 p-4 flex flex-col justify-between items-center relative overflow-hidden">
-                {/* Matte Spray Cap Divider line */}
-                <div className="absolute top-[22%] left-0 w-full h-[2px] bg-black/80 shadow-[0_1px_0_rgba(255,255,255,0.05)]" />
-                <div className="absolute top-[4%] right-[45%] w-3 h-2 bg-neutral-900 rounded-sm border-t border-white/10" />
-
-                {/* Minimalist Premium Branding on the can */}
-                <div className="pt-24 w-full text-center z-10">
-                  <Leaf className="h-5 w-5 text-amber-400/80 mx-auto mb-2 animate-pulse" />
-                  <p className="text-[10px] uppercase tracking-[0.3em] text-primary font-bold">
-                    Kafuur
-                  </p>
-                  <p className="text-[7px] uppercase tracking-[0.4em] text-muted-foreground mt-1">
-                    Aromatic Intense
-                  </p>
-                </div>
-
-                <div className="pb-4 w-full text-center z-10">
-                  <div className="h-px w-8 bg-neutral-800 mx-auto mb-2" />
-                  <p className="text-[8px] uppercase tracking-[0.2em] text-muted-foreground">
-                    Premium Deodorant
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Subtle floating feature tags */}
-            <div className="absolute top-8 left-8 flex items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-3 py-1 backdrop-blur-md">
-              <Sparkles className="h-3 w-3 text-amber-400" />
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-primary">
-                Pure Paradise
-              </span>
-            </div>
-          </div>
+        <div className="relative flex items-center justify-center overflow-hidden rounded-2xl border max-h-100 border-white/10 lg:max-h-150 w-full">
+          <Image
+            src="/hero-product.jpg"
+            alt="Dark glass bottle with single liquid drop"
+            width={500}
+            height={500}
+            priority
+            className="h-100 lg:h-150 w-full object-cover rounded-2xl"
+          />
         </div>
 
         {/* Right Side: Luxury Value Proposition & Context */}
@@ -72,7 +29,7 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-500/10 bg-emerald-500/5 px-3 py-1">
             <Leaf className="h-3.5 w-3.5 text-emerald-400" />
             <span className="text-xs font-medium tracking-wide text-primary">
-              Breathe Pure Paradise
+              Quality You Can Trust
             </span>
           </div>
 
@@ -88,22 +45,21 @@ export default function Hero() {
 
           {/* Re-written context focusing cleanly on actual luxury body sprays */}
           <p className="max-w-xl text-base sm:text-lg text-muted-foreground font-light leading-relaxed">
-            No synthetic imitations. No compromises. Discover a higher standard
-            of daily protection with premium authentic body sprays. Experience
-            all-day uncompromising freshness from the icons you respect—
-            <span className="text-foreground font-medium">
-              Fogg, Axe, and Wild Stone
-            </span>
-            —delivered directly to your door.
+            Quality is our priority. We bring you a carefully selected
+            collection of authentic premium perfumes from trusted sources, each
+            chosen for its distinctive character and refined scent. Whether you
+            prefer something fresh, subtle, or bold, find a premium perfume that
+            complements your style and leaves a lasting impression wherever you
+            go.
           </p>
 
           {/* Luxury Re-imagined Action Trigger */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
             <Link
-              href="/collections/all"
+              href="/products"
               className="group relative flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all duration-300"
             >
-              <span>Discover Pure Freshness</span>
+              <span>Explore Our Collection</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
 
@@ -119,11 +75,11 @@ export default function Hero() {
           <div className="pt-6 border-t border-white/[0.06] flex flex-wrap gap-x-6 gap-y-3">
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium tracking-wide uppercase">
               <ShieldCheck className="h-4 w-4 text-amber-400/80" />
-              100% Brand Certified Genuine
+              Premium Quality
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium tracking-wide uppercase">
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Sourced Direct From Importers
+              Made for You
             </div>
           </div>
         </div>

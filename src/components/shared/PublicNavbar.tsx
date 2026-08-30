@@ -2,11 +2,12 @@ import Link from "next/link";
 import { NAV_ITEMS } from "@/lib/nav-config";
 import NavActions from "./NavActions";
 import { getCookie } from "@/services/auth/tokenHandlers";
+import { Leaf } from "lucide-react";
 
 export default async function PublicNavbar() {
   // 1. Await the cookie on the server
   const accessToken = await getCookie("accessToken");
-  
+
   // 2. Convert to a boolean: true if token exists, false if not
   const isLoggedIn = !!accessToken;
 
@@ -15,13 +16,13 @@ export default async function PublicNavbar() {
       <div className="mx-auto max-w-7xl w-full">
         <nav className="relative w-full rounded-full border border-white/10 bg-[#121214]/80 backdrop-blur-md px-4 py-2.5 md:px-6 md:py-3 shadow-2xl transition-all duration-300">
           <div className="flex items-center justify-between">
-            
             {/* Left Side: Brand Identity */}
             <div className="flex items-center gap-2 md:gap-3">
-              <div className="flex h-9 w-9 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-full bg-[#ff5294]">
-                <div className="h-3.5 w-3.5 md:h-4 md:w-4 rotate-45 bg-white rounded-sm" />
-              </div>
-              <Link href="/" className="flex flex-col justify-center focus:outline-none group">
+              <Leaf className="text-primary" />
+              <Link
+                href="/"
+                className="flex flex-col justify-center focus:outline-none group"
+              >
                 <span className="font-bold text-sm md:text-base tracking-wide text-white leading-tight group-hover:text-white/90 transition-colors">
                   Kafuur
                 </span>
@@ -44,7 +45,6 @@ export default async function PublicNavbar() {
 
             {/* 3. Pass the boolean prop to the Client Component */}
             <NavActions isLoggedIn={isLoggedIn} />
-            
           </div>
         </nav>
       </div>
