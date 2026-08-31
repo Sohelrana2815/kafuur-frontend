@@ -1,7 +1,7 @@
 import { getCookie } from "@/services/auth/tokenHandlers";
 
 const BACKEND_API_URL =
-  process.env.BACKEND_API_URL || "http://localhost:5000/api/v1";
+  process.env.BACKEND_API_URL || "https://kafuur-backend.vercel.app/api/v1";
 
 // /auth/login
 const serverFetchHelper = async (
