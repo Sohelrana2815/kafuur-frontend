@@ -3,6 +3,7 @@ import OrdersTable from "@/components/modules/admin/ordersManagement/OrdersTable
 import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/SelectFilter";
+import TablePagination from "@/components/shared/TablePagination";
 import TableSkeleton from "@/components/shared/TableSkeleton";
 import { queryStringFormatter } from "@/lib/formatters";
 import { getAllOrders } from "@/services/order/orderManagement";
@@ -31,10 +32,7 @@ export default async function AdminOrdersManagementPage({
       <OrdersManagementHeader />
       <div className="flex space-x-2">
         <Suspense fallback={null}>
-          <SearchFilter
-            paramName="searchTerm"
-            placeholder="Find orders"
-          />
+          <SearchFilter paramName="searchTerm" placeholder="Find orders" />
           <SelectFilter
             paramName="status"
             placeholder="Status"
@@ -56,12 +54,12 @@ export default async function AdminOrdersManagementPage({
       <Suspense fallback={<TableSkeleton columns={10} rows={10} />}>
         <OrdersTable orders={ordersResult.data} />
 
-        {/* {productsResult.success && (
-               <TablePagination
-                 currentPage={productsResult.meta?.page}
-                 totalPages={totalPages}
-               />
-             )} */}
+        {ordersResult.success && (
+          <TablePagination
+            currentPage={ordersResult.meta?.page}
+            totalPages={totalPages}
+          />
+        )}
       </Suspense>
     </div>
   );

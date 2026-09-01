@@ -39,7 +39,7 @@ export default function TablePagination({ currentPage, totalPages }: TablePagina
         disabled={currentPage <= 1 || isPending}
       >
         <ChevronLeft className="h-4 w-4 mr-1" />
-        Previous
+        Prev
       </Button>
 
       <div className="flex items-center gap-1">
