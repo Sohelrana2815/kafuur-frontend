@@ -3,8 +3,8 @@ import ManagementTable from "@/components/shared/ManagementTable";
 import { IOrder } from "@/types/order.types";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
-import { toast } from "sonner";
 import { ordersColumns } from "./OrdersColumns";
+import OrdersFormDialog from "./OrdersFormDialog";
 import OrderViewDetailDialog from "./OrderViewDetailDialog";
 
 interface OrdersTableProps {
@@ -74,14 +74,14 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
         emptyMessage="No users found"
       />
       {/* Edit User Form Dialog */}
-      {/* {editingUser && (
-           <UserFormDialog
-             open={true}
-             onClose={handleEditClose}
-             user={editingUser}
-             onSuccess={handleEditSuccess}
-           />
-         )} */}
+      {editingOrder && (
+        <OrdersFormDialog
+          open={true}
+          onClose={handleEditClose}
+          order={editingOrder}
+          onSuccess={handleEditSuccess}
+        />
+      )}
       {/* <UserFormDialog
            open={!!editingUser}
            onClose={handleEditClose}

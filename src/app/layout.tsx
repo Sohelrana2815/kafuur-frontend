@@ -5,8 +5,8 @@ import LoggedInSuccessToast from "@/components/shared/LoggedInSuccessToast";
 import LoggedOutSuccessToast from "@/components/shared/LoggedOutSuccessToast";
 import { Toaster } from "@/components/ui/sonner";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-import "./globals.css";
 import { Suspense } from "react";
+import "./globals.css";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],

@@ -3,6 +3,7 @@ import UsersTable from "@/components/modules/admin/usersManagement/UsersTable";
 import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/SelectFilter";
+import TablePagination from "@/components/shared/TablePagination";
 import TableSkeleton from "@/components/shared/TableSkeleton";
 import { queryStringFormatter } from "@/lib/formatters";
 import { getAllUsers } from "@/services/user/user.service";
@@ -56,12 +57,12 @@ export default async function AdminUsersManagementPage({
       <Suspense fallback={<TableSkeleton columns={10} rows={10} />}>
         <UsersTable users={usersResult.data} />
 
-        {/* {productsResult.success && (
-             <TablePagination
-               currentPage={productsResult.meta?.page}
-               totalPages={totalPages}
-             />
-           )} */}
+        {usersResult.success && (
+          <TablePagination
+            currentPage={usersResult.meta?.page}
+            totalPages={totalPages}
+          />
+        )}
       </Suspense>
     </div>
   );
