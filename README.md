@@ -10,8 +10,8 @@ Kafuur is designed to provide a seamless online shopping experience for customer
 
 The application supports two primary user roles:
 
-* **User** — Browse products, manage cart items, place orders, manage payments, and update account information.
-* **Admin** — Manage users, products, and orders through a dedicated administrative dashboard.
+* **CUSTOMER** — Browse products, manage cart items, place orders, manage payments, and update account information.
+* **ADMIN** — Manage users, products, and orders through a dedicated administrative dashboard.
 
 The frontend and backend are maintained as **separate repositories** and communicate through a REST API.
 
@@ -33,19 +33,19 @@ The frontend and backend are maintained as **separate repositories** and communi
 
   * Cash on Delivery (COD)
   * Online Payment
-* View and manage personal orders
-* View order details
+* View and manage personal orders (Currently Developing)
+* View order details 
 * Update profile information
 * Responsive design across desktop, tablet, and mobile devices
 
 ### Admin Features
 
 * Role-based administrative dashboard
-* Manage all users
+* Manage all users 
 * Manage products
-* Manage orders
+* Manage orders (Currently Developing 40% already done.)
 * View order details
-* Update order information and status
+* Update order information and status (Currently Developing)
 * Monitor platform operations from a centralized dashboard
 
 ## Technology Stack
@@ -111,7 +111,7 @@ Contains reusable UI and shared application components.
 **`modules/`**
 Organizes feature-specific components and logic into independent modules.
 
-**`actions/`**
+**`services/`**
 Contains server actions and server-side application operations.
 
 **`services/`**
@@ -254,7 +254,7 @@ The frontend communicates with the backend through its configured API URL.
 ### Backend Repository
 
 **Kafuur Backend:**
-[Backend Repository](BACKEND_REPOSITORY_URL)
+[Backend Repository]([BACKEND_REPOSITORY_URL](https://github.com/Sohelrana2815/kafuur-backend)])
 
 ## Repository Structure
 
@@ -279,13 +279,13 @@ Kafuur
 ### Related Repository
 
 * **Frontend:** This repository
-* **Backend:** [Kafuur Backend Repository](BACKEND_REPOSITORY_URL)
+* **Backend:** [Kafuur Backend Repository](https://github.com/Sohelrana2815/kafuur-backend)
 
 ## Authentication & Authorization
 
 Kafuur uses authentication and role-based authorization to provide different experiences for customers and administrators.
 
-### User
+### User and Admin
 
 Authenticated customers can:
 
@@ -311,7 +311,7 @@ Kafuur supports two checkout payment methods:
 
 Customers can place an order and pay when the order is delivered.
 
-### Online Payment
+### Online Payment (Stripe)
 
 Customers can complete payment through the integrated online payment flow.
 
@@ -349,7 +349,6 @@ Planned improvements may include:
 * AI-assisted fragrance recommendations
 * Enhanced product filtering
 * Customer reviews and ratings
-* Wishlist functionality
 * Improved analytics dashboards
 * Additional payment methods
 
