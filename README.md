@@ -352,43 +352,15 @@ Planned improvements may include:
 * Improved analytics dashboards
 * Additional payment methods
 
-## Screenshots
-
-Add screenshots of the application here to showcase the user interface.
-
-Example:
-
-```md
-![Home Page](./screenshots/home.png)
-
-![Products Page](./screenshots/products.png)
-
-![Product Details](./screenshots/product-details.png)
-
-![Cart](./screenshots/cart.png)
-
-![Admin Dashboard](./screenshots/admin-dashboard.png)
-```
-
 ## Live Demo
 
-**Frontend:** `<LIVE_FRONTEND_URL>`
+**Frontend:** `https://kafuur.vercel.app`
 
-**Backend API:** `<LIVE_BACKEND_URL>`
+**Backend API:** `https://kafuur-backend.vercel.app`
 
-## License
-
-This project is developed for portfolio and demonstration purposes.
 
 ## Author
 
-**Your Name**
+**MD. Sohel Rana Moon**
 
-GitHub: `<YOUR_GITHUB_PROFILE>`
-
----
-
-### Related Project
-
-**Kafuur Backend**
-[View Backend Repository](BACKEND_REPOSITORY_URL)
+GitHub: `https://github.com/Sohelrana2815`
