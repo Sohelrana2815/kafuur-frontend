@@ -1,7 +1,9 @@
 "use client";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
+import { loading } from "@/components/ui/authLoading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/context/CartContext";
 import {
   decrementCartItem,
   deleteCartItem,
@@ -26,22 +28,48 @@ export default function CartItemCard({
   onSelectionChange,
 }: ICartItemCardProps) {
   const router = useRouter();
+  const { updateCartCountOptimistically } = useCart();
   const { id, quantity, product } = cart;
   const mainImage = product?.images?.[0] || "/placeholder.svg";
   const price = Number(product?.price || 0);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  // const handleIncrementCartItem = async () => {
+  //   updateCartCountOptimistically(1);
+  //   await incrementCartItem(product.id);
+  //   router.refresh();
+  // };
 
   const handleIncrementCartItem = async () => {
-    await incrementCartItem(product.id);
-    router.refresh();
+    if (isUpdating) return;
+    setIsUpdating(true);
+    try {
+      updateCartCountOptimistically(1);
+      await incrementCartItem(product.id);
+      router.refresh();
+    } finally {
+      setIsUpdating(false);
+    }
   };
-  const handleDecrementCartItem = async () => {
-    await decrementCartItem(product.id);
-    router.refresh();
-  };
+  // const handleDecrementCartItem = async () => {
+  //   updateCartCountOptimistically(-1);
+  //   await decrementCartItem(product.id);
+  //   router.refresh();
+  // };
 
+  const handleDecrementCartItem = async () => {
+    if (isUpdating) return;
+    setIsUpdating(true);
+    try {
+      updateCartCountOptimistically(-1);
+      await decrementCartItem(product.id);
+      router.refresh();
+    } finally {
+      setIsUpdating(false);
+    }
+  };
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSelectionChange(id, e.target.checked);
   };
@@ -49,6 +77,7 @@ export default function CartItemCard({
   // 2. Wire up the confirmation function
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
+    updateCartCountOptimistically(-quantity);
     const result = await deleteCartItem(id);
     setIsDeleting(false);
 
@@ -57,6 +86,7 @@ export default function CartItemCard({
       setIsDeleteDialogOpen(false); // Close dialog on success
       router.refresh();
     } else {
+      updateCartCountOptimistically(quantity);
       toast.error(result.message || "Failed to remove item");
     }
   };
@@ -101,22 +131,29 @@ export default function CartItemCard({
           </span>
 
           {/* Quantity Toggle */}
-          <div className="flex items-center border border-border rounded-md overflow-hidden bg-background shrink-0">
+          <div
+            className={`flex items-center border border-border rounded-md overflow-hidden bg-background shrink-0 transition-opacity duration-200 ${
+              isUpdating ? "opacity-60" : "opacity-100"
+            }`}
+          >
             <button
               onClick={handleDecrementCartItem}
-              disabled={quantity <= 1}
+              disabled={quantity <= 1 || isUpdating}
               type="button"
-              className="border-none cursor-pointer"
+              className="border-none cursor-pointer disabled:cursor-not-allowed p-1"
             >
               <Minus size={16} width={24} />
             </button>
-            <span className="h-7 px-3 flex items-center justify-center text-xs font-semibold border-x border-border min-w-[2rem]">
+
+            <span className="h-7 px-3 flex items-center justify-center text-xs font-semibold border-x border-border min-w-[2.5rem]">
               {quantity}
             </span>
+
             <button
               onClick={handleIncrementCartItem}
+              disabled={isUpdating}
               type="button"
-              className="border-none cursor-pointer"
+              className="border-none cursor-pointer disabled:cursor-not-allowed p-1"
             >
               <Plus size={16} width={24} />
             </button>

@@ -7,6 +7,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
+import { getCarts } from "@/services/cart/cartManagement";
+import { CartProvider } from "@/context/CartContext";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -34,11 +36,22 @@ export const metadata: Metadata = {
   description: "Original Body deodorant and Body Spray For you",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cartsResult = await getCarts();
+
+  // Calculate total initial items based on quantity
+  const initialCount =
+    cartsResult?.success && cartsResult.data
+      ? cartsResult.data.reduce(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (acc: number, item: any) => acc + item.quantity,
+          0,
+        )
+      : 0;
   return (
     <html
       lang="en"
@@ -52,9 +65,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {/* Wrap the app with the CartProvider */}
+          <CartProvider initialCount={initialCount}>{children}</CartProvider>
         </ThemeProvider>
-        <Toaster richColors position="top-right" />
+        <Toaster richColors position="top-center" />
         <Suspense fallback={null}>
           <LoggedInSuccessToast />
           <LoggedOutSuccessToast />

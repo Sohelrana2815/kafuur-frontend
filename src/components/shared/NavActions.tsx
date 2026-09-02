@@ -5,6 +5,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import * as React from "react";
 import LogoutButton from "./LogoutButton"; // Adjust path to your LogoutButton
+import CartIconBadge from "./CartIconBadge";
 
 // 1. Define the props interface
 interface NavItem {
@@ -43,13 +44,11 @@ export default function NavActions({ isLoggedIn, navItems }: NavActionsProps) {
           )}
         </button>
 
-        <Link
-          href="/cart"
-          className={`relative ${iconBtnClass}`}
-          aria-label="Shopping cart"
-        >
-          <ShoppingCart className="h-[17px] w-[17px]" />
-        </Link>
+        {/* 2. Replace the hardcoded cart link with the dynamic badge */}
+        <CartIconBadge
+          className={iconBtnClass}
+          iconClassName="h-[17px] w-[17px]"
+        />
 
         {/* 2. Desktop Conditional Rendering */}
         {isLoggedIn ? (
