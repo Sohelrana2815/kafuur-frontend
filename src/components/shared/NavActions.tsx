@@ -1,6 +1,5 @@
 "use client";
 
-import { NAV_ITEMS } from "@/lib/nav-config";
 import { Heart, Menu, Moon, ShoppingCart, Sun, User, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -8,11 +7,17 @@ import * as React from "react";
 import LogoutButton from "./LogoutButton"; // Adjust path to your LogoutButton
 
 // 1. Define the props interface
-interface NavActionsProps {
-  isLoggedIn: boolean;
+interface NavItem {
+  label: string;
+  href: string;
 }
 
-export default function NavActions({ isLoggedIn }: NavActionsProps) {
+interface NavActionsProps {
+  isLoggedIn: boolean;
+  navItems: NavItem[];
+}
+
+export default function NavActions({ isLoggedIn, navItems }: NavActionsProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const [mounted, setMounted] = React.useState(false);
   const { theme, setTheme } = useTheme();
@@ -78,7 +83,7 @@ export default function NavActions({ isLoggedIn }: NavActionsProps) {
       {isMobileMenuOpen && (
         <div className="absolute top-[60px] left-0 right-0 mt-3 flex flex-col gap-4 rounded-2xl border border-white/5 bg-[#121214]/95 backdrop-blur-xl p-4 md:hidden animate-in fade-in slide-in-from-top-3 duration-200">
           <div className="flex flex-col gap-1">
-            {NAV_ITEMS.map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}

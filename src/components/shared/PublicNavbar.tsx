@@ -1,15 +1,45 @@
-import Link from "next/link";
-import { NAV_ITEMS } from "@/lib/nav-config";
-import NavActions from "./NavActions";
 import { getCookie } from "@/services/auth/tokenHandlers";
+import { getDefaultDashboardRoute, UserRole } from "@/utils/auth-utils";
+import jwt from "jsonwebtoken";
 import { Leaf } from "lucide-react";
+import Link from "next/link";
+import NavActions from "./NavActions";
 
 export default async function PublicNavbar() {
   // 1. Await the cookie on the server
   const accessToken = await getCookie("accessToken");
+  let userRole: UserRole | null = null;
+  if (accessToken) {
+    try {
+      const verifiedToken = jwt.verify(
+        accessToken,
+        process.env.JWT_ACCESS_SECRET as string,
+      );
 
+      if (typeof verifiedToken !== "string") {
+        userRole = (verifiedToken as { role: UserRole }).role;
+      }
+    } catch {
+      userRole = null;
+    }
+  }
   // 2. Convert to a boolean: true if token exists, false if not
   const isLoggedIn = !!accessToken;
+
+  const NAV_ITEMS = [
+    { label: "Products", href: "/products" },
+    { label: "Our Mission", href: "/our-mission" },
+    { label: "Contact Us", href: "/contact-us" },
+
+    ...(userRole
+      ? [
+          {
+            label: "Dashboard",
+            href: getDefaultDashboardRoute(userRole),
+          },
+        ]
+      : []),
+  ];
 
   return (
     <div className="sticky top-0 z-50 w-full pt-4 md:pt-6 pb-2 px-3 sm:px-6 lg:px-8 bg-transparent">
@@ -44,7 +74,7 @@ export default async function PublicNavbar() {
             </div>
 
             {/* 3. Pass the boolean prop to the Client Component */}
-            <NavActions isLoggedIn={isLoggedIn} />
+            <NavActions navItems={NAV_ITEMS} isLoggedIn={isLoggedIn} />
           </div>
         </nav>
       </div>
