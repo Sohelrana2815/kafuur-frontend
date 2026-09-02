@@ -10,6 +10,7 @@ import { getProducts } from "@/services/admin/productsManagement";
 import { categoryOptions } from "@/utils/category-options";
 import { sortOptions } from "@/utils/sort-options";
 import { Suspense } from "react";
+export const dynamic = "force-dynamic";
 
 export default async function AdminProductsManagementPage({
   searchParams,
