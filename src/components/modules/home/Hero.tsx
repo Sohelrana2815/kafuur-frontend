@@ -6,15 +6,15 @@ export default function Hero() {
   return (
     <section className="relative w-full py-12 md:py-20 lg:py-24 overflow-hidden">
       {/* Subtle Luxury Ambient Glows */}
-      <div className="absolute top-1/4 left-10 -z-10 h-[300px] w-[300px] rounded-full blur-[120px]" />
-      <div className="absolute bottom-10 right-10 -z-10 h-[250px] w-[250px] rounded-full  blur-[100px]" />
+      <div className="absolute top-1/4 left-10 -z-10 h-75 w-75 rounded-full blur-[120px]" />
+      <div className="absolute bottom-10 right-10 -z-10 h-75 w-75 rounded-full  blur-[100px]" />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
         {/* Left Side: Elegant Body Spray Visual Representation */}
 
         <div className="relative flex items-center justify-center overflow-hidden rounded-2xl border max-h-100 border-white/10 lg:max-h-150 w-full">
           <Image
-            src="/hero-product.jpg"
+            src="/hero-product.webp"
             alt="Dark glass bottle with single liquid drop"
             width={500}
             height={500}
@@ -37,7 +37,7 @@ export default function Hero() {
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
               Elevate Your <br />
-              <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-amber-200 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
                 Everyday Aura.
               </span>
             </h1>
@@ -72,7 +72,7 @@ export default function Hero() {
           </div>
 
           {/* Bottom Trust Indicators */}
-          <div className="pt-6 border-t border-white/[0.06] flex flex-wrap gap-x-6 gap-y-3">
+          <div className="pt-6 border-t border-white/6 flex flex-wrap gap-x-6 gap-y-3">
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium tracking-wide uppercase">
               <ShieldCheck className="h-4 w-4 text-amber-400/80" />
               Premium Quality
