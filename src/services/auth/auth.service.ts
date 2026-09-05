@@ -14,6 +14,7 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import { redirect } from "next/navigation";
 import { deleteCookie, setCookie } from "./tokenHandlers";
 import { updateUserZodSchema } from "@/zod/user.validation";
+import { updateTag } from "next/cache";
 // Login Server Action
 
 export const loginAction = async (_currentState: any, formData: FormData) => {
@@ -156,7 +157,10 @@ export const logoutUser = async () => {
 
 export async function getMyProfile() {
   try {
-    const res = await serverFetch.get("/users/me");
+    const res = await serverFetch.get("/users/me", {
+      cache: "force-cache",
+      next: { tags: ["my-profile"] },
+    });
     const result = await res.json();
 
     // console.log("From Get Product Server Action:", res);
@@ -238,6 +242,9 @@ export async function updateMyProfile(_prevState: any, formData: FormData) {
         message: result.message || "Failed to update profile",
       };
     }
+    // Profile was successfully updated.
+    // Expire the cached profile data immediately.
+    updateTag("my-profile");0
     return {
       success: true,
       message: result.message || "Profile updated successfully",

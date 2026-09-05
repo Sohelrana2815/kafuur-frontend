@@ -3,13 +3,14 @@ import { Separator } from "@/components/ui/separator";
 import { IProductDetails } from "@/types/product.types";
 import { ShieldCheck, ShoppingCart, Truck } from "lucide-react";
 import Image from "next/image";
+import ProductImageGallery from "./ProductImageGallery";
 
 export interface IProductDetailsProps {
   product: IProductDetails;
 }
 
 export default function ProductDetails({ product }: IProductDetailsProps) {
-  const mainImage = product.images?.[0] || "/placeholder.svg";
+  // const mainImage = product.images?.[0] || "/placeholder.svg";
 
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
@@ -41,7 +42,7 @@ export default function ProductDetails({ product }: IProductDetailsProps) {
       {/* Main Product Section */}
       <section className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14">
         {/* Product Image */}
-        <div className="w-full">
+        {/* <div className="w-full">
           <div className="relative mx-auto aspect-square w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-muted/30">
             <Image
               src={mainImage}
@@ -52,8 +53,12 @@ export default function ProductDetails({ product }: IProductDetailsProps) {
               className="object-contain p-6 sm:p-8 lg:p-10"
             />
           </div>
-        </div>
+        </div> */}
 
+        <ProductImageGallery
+          images={product.images}
+          productName={product.name}
+        />
         {/* Product Information */}
         <div className="flex min-w-0 flex-col pt-0 lg:pt-4">
           {/* Category */}
