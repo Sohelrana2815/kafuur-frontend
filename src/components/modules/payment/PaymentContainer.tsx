@@ -6,6 +6,7 @@ import { CreditCard, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { IOrderSummary } from "@/types/order.types";
 import { createOrder } from "@/services/order/orderManagement";
+export const dynamic = "force-dynamic";
 
 interface IPaymentContainerProps {
   cartItemIds: string[];
