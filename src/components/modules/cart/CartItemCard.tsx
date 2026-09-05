@@ -1,6 +1,5 @@
 "use client";
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { loading } from "@/components/ui/authLoading";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/context/CartContext";
@@ -32,6 +31,8 @@ export default function CartItemCard({
   const { id, quantity, product } = cart;
   const mainImage = product?.images?.[0] || "/placeholder.svg";
   const price = Number(product?.price || 0);
+  // Local optimistic quantity for this cart item
+  const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -45,10 +46,29 @@ export default function CartItemCard({
   const handleIncrementCartItem = async () => {
     if (isUpdating) return;
     setIsUpdating(true);
+    // Save current value in case we need to rollback
+    const previousQuantity = currentQuantity;
+
     try {
+      // Optimistic UI update
+      setCurrentQuantity((prev) => prev + 1);
       updateCartCountOptimistically(1);
-      await incrementCartItem(product.id);
+      // Update database
+      const result = await incrementCartItem(product.id);
+      // Handle failed request
+      if (!result.success) {
+        setCurrentQuantity(previousQuantity);
+        updateCartCountOptimistically(-1);
+        toast.error(result.message || "Failed to increase quantity");
+        return;
+      }
+      // Sync with server data
       router.refresh();
+    } catch {
+      // Rollback optimistic update
+      setCurrentQuantity(previousQuantity);
+      updateCartCountOptimistically(-1);
+      toast.error("Failed to increase quantity");
     } finally {
       setIsUpdating(false);
     }
@@ -60,12 +80,31 @@ export default function CartItemCard({
   // };
 
   const handleDecrementCartItem = async () => {
-    if (isUpdating) return;
+    if (isUpdating || currentQuantity <= 1) return;
     setIsUpdating(true);
+    const previousQuantity = currentQuantity;
     try {
+      // Optimistic UI update
+      setCurrentQuantity((prev) => Math.max(1, prev - 1));
       updateCartCountOptimistically(-1);
-      await decrementCartItem(product.id);
+      // Update database
+      const result = await decrementCartItem(product.id);
+      // Handle failed request
+      if (!result.success) {
+        setCurrentQuantity(previousQuantity);
+        updateCartCountOptimistically(1);
+
+        toast.error(result.message || "Failed to decrease quantity");
+        return;
+      }
+      // Sync with server data
       router.refresh();
+    } catch {
+      // Rollback optimistic update
+      setCurrentQuantity(previousQuantity);
+      updateCartCountOptimistically(1);
+
+      toast.error("Failed to decrease quantity");
     } finally {
       setIsUpdating(false);
     }
@@ -75,19 +114,31 @@ export default function CartItemCard({
   };
 
   // 2. Wire up the confirmation function
+  
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
-    updateCartCountOptimistically(-quantity);
-    const result = await deleteCartItem(id);
-    setIsDeleting(false);
+    // Optimistically remove this item's quantity from total cart count
+    updateCartCountOptimistically(-currentQuantity);
 
-    if (result.success) {
+    try {
+      const result = await deleteCartItem(id);
+      if (!result.success) {
+        // Rollback cart count
+        updateCartCountOptimistically(currentQuantity);
+
+        toast.error(result.message || "Failed to remove item");
+        return;
+      }
       toast.success(result.message || "Item removed from cart");
-      setIsDeleteDialogOpen(false); // Close dialog on success
+      setIsDeleteDialogOpen(false);
       router.refresh();
-    } else {
-      updateCartCountOptimistically(quantity);
-      toast.error(result.message || "Failed to remove item");
+    } catch {
+      // Rollback cart count
+      updateCartCountOptimistically(currentQuantity);
+
+      toast.error("Failed to remove item");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -146,7 +197,7 @@ export default function CartItemCard({
             </button>
 
             <span className="h-7 px-3 flex items-center justify-center text-xs font-semibold border-x border-border min-w-[2.5rem]">
-              {quantity}
+              {currentQuantity}
             </span>
 
             <button

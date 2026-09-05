@@ -1,11 +1,11 @@
 "use client";
 
-import { Heart, Menu, Moon, ShoppingCart, Sun, User, X } from "lucide-react";
+import { Heart, Menu, Moon, Sun, User, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import * as React from "react";
-import LogoutButton from "./LogoutButton"; // Adjust path to your LogoutButton
 import CartIconBadge from "./CartIconBadge";
+import LogoutButton from "./LogoutButton"; // Adjust path to your LogoutButton
 
 // 1. Define the props interface
 interface NavItem {
