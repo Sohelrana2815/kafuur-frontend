@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import { Separator } from "@/components/ui/separator";
 import { IProductDetails } from "@/types/product.types";
-import { ShieldCheck, ShoppingCart, Truck } from "lucide-react";
-import Image from "next/image";
+import { ShieldCheck, Truck } from "lucide-react";
+import AddToCartButton from "./AddToCartButton";
 import ProductImageGallery from "./ProductImageGallery";
 
 export interface IProductDetailsProps {
@@ -10,8 +10,6 @@ export interface IProductDetailsProps {
 }
 
 export default function ProductDetails({ product }: IProductDetailsProps) {
-  // const mainImage = product.images?.[0] || "/placeholder.svg";
-
   return (
     <main className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
       {/* Breadcrumb */}
@@ -42,18 +40,6 @@ export default function ProductDetails({ product }: IProductDetailsProps) {
       {/* Main Product Section */}
       <section className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-14">
         {/* Product Image */}
-        {/* <div className="w-full">
-          <div className="relative mx-auto aspect-square w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-muted/30">
-            <Image
-              src={mainImage}
-              alt={product.name}
-              fill
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-contain p-6 sm:p-8 lg:p-10"
-            />
-          </div>
-        </div> */}
 
         <ProductImageGallery
           images={product.images}
@@ -89,14 +75,10 @@ export default function ProductDetails({ product }: IProductDetailsProps) {
 
           {/* Actions */}
           <div className="mt-8 flex flex-col sm:mt-10">
-            <Button
-              size="lg"
-              type="button"
-              className="h-12 w-full text-base font-semibold sm:h-14"
-            >
-              <ShoppingCart className="mr-2" size={20} />
-              Add to Cart
-            </Button>
+            <AddToCartButton
+              productId={product.id}
+              productName={product.name}
+            />
           </div>
 
           {/* Value propositions */}

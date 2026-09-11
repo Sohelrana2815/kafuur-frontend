@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
@@ -12,9 +17,11 @@ import {
 } from "@/components/ui/select";
 import {
   createProduct,
-  updateProduct
+  updateProduct,
 } from "@/services/admin/productsManagement";
 import { IBackendProduct } from "@/types/product.types";
+import { X } from "lucide-react";
+import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -31,15 +38,34 @@ export default function ProductFormDialog({
   onSuccess,
   product,
 }: IProductFormDialogProps) {
-  const isEdit = !!product; 
+  const isEdit = !!product;
   const [category, setCategory] = useState<"MEN" | "WOMEN">(
-     product?.category || "MEN",
+    product?.category || "MEN",
   );
+
+  // Existing images from Cloudinary
+  const [existingImages, setExistingImages] = useState<string[]>(
+    product?.images || [],
+  );
+
+  // Images that should be deleted from Cloudinary/backend
+  const [deleteImages, setDeleteImages] = useState<string[]>([]);
+
   const [state, formAction, pending] = useActionState(
     isEdit ? updateProduct.bind(null, product.id!) : createProduct,
     null,
   );
-  // const [state, formAction, pending] = useActionState(createProduct, null);
+  /**
+   * Reset image state whenever the product changes.
+   * This is important when opening the dialog for different products.
+   */
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCategory(product?.category || "MEN");
+    setExistingImages(product?.images || []);
+    setDeleteImages([]);
+  }, [product]);
 
   console.log("State from Product form:", state);
   // isEdit ? updateProduct.bind(null, product.id!) :
@@ -52,6 +78,23 @@ export default function ProductFormDialog({
       return null;
     }
   };
+
+  const handleDeleteExistingImage = (imageUrl: string) => {
+    setExistingImages((prev) => prev.filter((image) => image !== imageUrl));
+
+    setDeleteImages((prev) => [...prev, imageUrl]);
+  };
+
+  /**
+   * If the user changes their mind before submitting,
+   * restore the image back to the existing images list.
+   */
+  const handleRestoreExistingImage = (imageUrl: string) => {
+    setDeleteImages((prev) => prev.filter((image) => image !== imageUrl));
+
+    setExistingImages((prev) => [...prev, imageUrl]);
+  };
+
   useEffect(() => {
     if (state && state?.success) {
       toast.success(state.message);
@@ -61,12 +104,14 @@ export default function ProductFormDialog({
       toast.error(state.message);
     }
   }, [state, onSuccess, onClose]);
-
+  console.log(deleteImages);
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-h-[90vh] flex flex-col p-0">
         <DialogHeader className="px-6 pt-6 pb-4">
-          <DialogTitle>{isEdit ? "Edit Product" : "Add New Product"}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? "Edit Product" : "Add New Product"}
+          </DialogTitle>
         </DialogHeader>
 
         <form action={formAction} className="flex flex-col flex-1 min-h-0">
@@ -172,8 +217,103 @@ export default function ProductFormDialog({
               )}
             </Field>
             {/* Product Images */}
+            {isEdit && existingImages.length > 0 && (
+              // <Field>
+              //   <FieldLabel htmlFor="files">Product Images</FieldLabel>
+              //   <Input
+              //     id="files"
+              //     name="files"
+              //     type="file"
+              //     accept="image/*"
+              //     multiple
+              //     className="cursor-pointer"
+              //   />
+              //   <p className="text-xs text-foreground mt-1">
+              //     Upload Images For Product.
+              //   </p>
+              //   {getFieldError("files") && (
+              //     <FieldDescription className="text-red-600">
+              //       {getFieldError("files")}
+              //     </FieldDescription>
+              //   )}
+              // </Field>
+
+              <Field>
+                <FieldLabel>Existing Images</FieldLabel>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {existingImages.map((image) => (
+                    <div
+                      key={image}
+                      className="relative group aspect-square overflow-hidden rounded-md border bg-muted"
+                    >
+                      <Image
+                        src={image}
+                        width={200}
+                        height={200}
+                        alt="Product"
+                        className="w-full h-full object-cover"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteExistingImage(image)}
+                        disabled={pending}
+                        className="absolute top-2 right-2 rounded-full bg-background/90 p-1.5 text-foreground shadow-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:cursor-not-allowed"
+                        aria-label="Delete image"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </Field>
+            )}
+            {/* Images marked for deletion */}
+            {isEdit && deleteImages.length > 0 && (
+              <Field>
+                <FieldLabel>Images to Delete</FieldLabel>
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {deleteImages.map((image) => (
+                    <div
+                      key={image}
+                      className="relative aspect-square overflow-hidden rounded-md border border-destructive/50 bg-muted"
+                    >
+                      <Image
+                        src={image}
+                        width={200}
+                        height={200}
+                        alt="Image marked for deletion"
+                        className="w-full h-full object-cover opacity-50"
+                      />
+
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-xs font-medium bg-background/90 px-2 py-1 rounded">
+                          Will be deleted
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => handleRestoreExistingImage(image)}
+                        disabled={pending}
+                        className="absolute top-2 right-2 rounded-full bg-background/90 p-1.5 text-foreground shadow-sm"
+                        aria-label="Restore image"
+                      >
+                        <X className="size-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </Field>
+            )}
+            {/* Product Images */}
             <Field>
-              <FieldLabel htmlFor="files">Product Images</FieldLabel>
+              <FieldLabel htmlFor="files">
+                {isEdit ? "Add New Images" : "Product Images"}
+              </FieldLabel>
+
               <Input
                 id="files"
                 name="files"
@@ -182,15 +322,27 @@ export default function ProductFormDialog({
                 multiple
                 className="cursor-pointer"
               />
+
               <p className="text-xs text-foreground mt-1">
-                Upload Images For Product.
+                {isEdit
+                  ? "Select new images to add to this product."
+                  : "Upload images for the product."}
               </p>
+
               {getFieldError("files") && (
                 <FieldDescription className="text-red-600">
                   {getFieldError("files")}
                 </FieldDescription>
               )}
             </Field>
+            {/* Hidden deleteImages field */}
+            {isEdit && deleteImages.length > 0 && (
+              <input
+                type="hidden"
+                name="deleteImages"
+                value={JSON.stringify(deleteImages)}
+              />
+            )}
           </div>
 
           <div className="flex justify-end gap-2 px-6 py-4 border-t ">

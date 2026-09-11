@@ -1,17 +1,16 @@
 "use client";
 
+import { loading } from "@/components/ui/authLoading";
+import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
-  FieldError,
   FieldGroup,
-  FieldLabel,
+  FieldLabel
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useActionState, useEffect } from "react";
 import { registerAction } from "@/services/user/user.service";
-import { loading } from "@/components/ui/authLoading";
+import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
 export default function RegisterForm() {

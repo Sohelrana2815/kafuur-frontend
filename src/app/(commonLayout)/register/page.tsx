@@ -2,7 +2,7 @@ import RegisterForm from "@/components/modules/user/register-form";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
+export const dynamic = "force-dynamic";
 export default function RegisterPage() {
   return (
      <div className="flex h-svh w-full items-center justify-center p-4 overflow-hidden relative">

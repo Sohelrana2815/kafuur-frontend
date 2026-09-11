@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { serverFetch } from "@/lib/server-fetch";
-import { IBackendProduct } from "@/types/product.types";
+import { IBackendProduct, IUpdateProductPayload } from "@/types/product.types";
 import {
   createProductZodSchema,
   updateProductZodSchema,
@@ -135,13 +135,22 @@ export const updateProduct = async (
   formData: FormData,
 ) => {
   try {
-    const payload: Partial<IBackendProduct> = {
+    const deleteImagesString = formData.get("deleteImages") as string;
+    let parsedDeleteImages: string[] = [];
+    if (deleteImagesString) {
+      try {
+        parsedDeleteImages = JSON.parse(deleteImagesString);
+      } catch (error) {
+        console.error("Failed to parse deleteImages array:", error);
+      }
+    }
+    const payload: Partial<IUpdateProductPayload> = {
       name: formData.get("name") as string,
-      // slug: formData.get("slug") as string,
       shortDescription: formData.get("shortDescription") as string,
       longDescription: formData.get("longDescription") as string,
       price: Number(formData.get("price")),
       category: formData.get("category") as "MEN" | "WOMEN",
+      deleteImages: parsedDeleteImages,
     };
 
     const validatedPayload = updateProductZodSchema.safeParse(payload);
@@ -158,6 +167,7 @@ export const updateProduct = async (
       };
     }
     const newFormData = new FormData();
+
     newFormData.append("data", JSON.stringify(validatedPayload.data));
 
     const files = formData.getAll("files") as File[];
@@ -166,6 +176,7 @@ export const updateProduct = async (
         newFormData.append("files", file);
       }
     });
+
     const res = await serverFetch.patch(`/products/${id}`, {
       body: newFormData,
     });

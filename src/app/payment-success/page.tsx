@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle } from "lucide-react";
 import Link from "next/link";
-
+export const dynamic = "force-dynamic";
 export default function PaymentSuccessPage() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center p-4">

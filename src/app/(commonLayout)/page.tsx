@@ -1,7 +1,7 @@
 import Hero from "@/components/modules/home/Hero";
 import FeaturedProducts from "@/components/modules/home/featured-products";
 import ScentWardrobe from "@/components/modules/home/ScentWardrobe"; // Adjust this path if your file is named differently
-
+export const dynamic = "force-dynamic";
 export default function HomePage() {
   return (
     <div className="w-full flex flex-col gap-16 md:gap-24 pb-16 md:pb-24">

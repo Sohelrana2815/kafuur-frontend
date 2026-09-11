@@ -1,11 +1,10 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { useCart } from "@/context/CartContext";
+import { useAddToCart } from "@/hooks/useAddToCart";
 import { addToCart } from "@/services/cart/cartManagement";
 import { IBackendProduct } from "@/types/product.types";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 import { toast } from "sonner";
 
 interface IProductsCardProps {
@@ -14,31 +13,13 @@ interface IProductsCardProps {
 
 export default function ProductCard({ product }: IProductsCardProps) {
   const { id, name, slug, category, images, price } = product;
-  const { updateCartCountOptimistically } = useCart();
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { handleAddToCart, isAddingToCart } = useAddToCart({
+    productId: id!,
+    productName: name,
+  });
   const mainImage = images?.[0] || "/placeholder.svg";
-  const handleAddToCart = async () => {
-    if (isAddingToCart) return;
 
-    setIsAddingToCart(true);
-    updateCartCountOptimistically(1);
-    try {
-      const response = await addToCart(id!);
-
-      if (!response?.success) {
-        updateCartCountOptimistically(-1);
-        toast.error(response?.message ?? "Failed to add item to cart.");
-        return;
-      }
-      console.log(response.message, "from cart page");
-      toast.success(`${name} added to cart!`);
-    } catch {
-      updateCartCountOptimistically(-1);
-      toast.error("An unexpected error occurred.");
-    } finally {
-      setIsAddingToCart(false);
-    }
-  };
+  
 
   return (
     <div className="group flex flex-col justify-between rounded-xl p-4 text-card-foreground transition-all border border-primary/10">

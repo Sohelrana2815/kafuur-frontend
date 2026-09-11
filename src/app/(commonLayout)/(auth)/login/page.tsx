@@ -8,9 +8,9 @@ export default async function LoginPage({
 }: {
   searchParams?: Promise<{ redirect?: string }>;
 }) {
-    const params = (await searchParams) || {};
+  const params = (await searchParams) || {};
   return (
-     <div className="flex h-svh w-full items-center justify-center p-4 overflow-hidden relative">
+    <div className="flex h-svh w-full items-center justify-center p-4 overflow-hidden relative">
       {/* Absolute Back Button (Top Left) */}
       <div className="absolute top-6 left-6">
         <Button
@@ -27,13 +27,11 @@ export default async function LoginPage({
       {/* Main Login Card */}
       <div className="w-full max-w-md p-8 bg-card text-card-foreground border border-border rounded-lg shadow-sm">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight uppercase">
-              Login
-          </h1>
+          <h1 className="text-2xl font-bold tracking-tight uppercase">Login</h1>
         </div>
 
         {/* Stateful client components are mounted here */}
-        <LoginForm  redirect={params.redirect} />
+        <LoginForm redirect={params.redirect} />
       </div>
     </div>
   );
