@@ -14,7 +14,7 @@ export default function Hero() {
 
         <div className="relative flex items-center justify-center overflow-hidden rounded-2xl border max-h-100 border-white/10 lg:max-h-150 w-full">
           <Image
-            src="/hero-product.webp"
+            src="/hero-product.jpg"
             alt="Dark glass bottle with single liquid drop"
             width={500}
             height={500}
@@ -29,28 +29,26 @@ export default function Hero() {
           <div className="inline-flex items-center gap-2 self-start rounded-full border border-emerald-500/10 bg-emerald-500/5 px-3 py-1">
             <Leaf className="h-3.5 w-3.5 text-emerald-400" />
             <span className="text-xs font-medium tracking-wide text-primary">
-              Quality You Can Trust
+              Fresh Scents. Lasting Impressions.
             </span>
           </div>
 
           {/* Premium Headline */}
           <div className="space-y-2">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Elevate Your <br />
+              Find Your <br />
               <span className="bg-linear-to-r from-amber-200 via-amber-400 to-yellow-600 bg-clip-text text-transparent">
-                Everyday Aura.
+                Signature Scent.
               </span>
             </h1>
           </div>
 
           {/* Re-written context focusing cleanly on actual luxury body sprays */}
           <p className="max-w-xl text-base sm:text-lg text-muted-foreground font-light leading-relaxed">
-            Quality is our priority. We bring you a carefully selected
-            collection of authentic premium perfumes from trusted sources, each
-            chosen for its distinctive character and refined scent. Whether you
-            prefer something fresh, subtle, or bold, find a premium perfume that
-            complements your style and leaves a lasting impression wherever you
-            go.
+            Discover premium body sprays and fragrances designed to keep you
+            feeling fresh, confident, and unforgettable. From clean and
+            refreshing notes to rich and captivating aromas, explore scents made
+            to complement your personality and elevate every moment.
           </p>
 
           {/* Luxury Re-imagined Action Trigger */}
@@ -59,7 +57,7 @@ export default function Hero() {
               href="/products"
               className="group relative flex items-center justify-center gap-2 rounded-full bg-primary px-8 py-3.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all duration-300"
             >
-              <span>Explore Our Collection</span>
+              <span>Shop Fragrances</span>
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
 
@@ -79,7 +77,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium tracking-wide uppercase">
               <div className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-              Made for You
+              Everyday Freshness
             </div>
           </div>
         </div>

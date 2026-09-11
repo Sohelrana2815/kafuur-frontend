@@ -63,7 +63,7 @@ export default function ProductViewDetailDialog({
                 Price
               </span>
               <span className="text-3xl font-extrabold text-primary">
-                ${Number(product?.price || 0).toFixed(2)}
+                ৳{Number(product?.price || 0).toFixed(2)}
               </span>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function ProductViewDetailDialog({
                 <DollarSign className="h-4 w-4 mt-1 text-muted-foreground" />
                 <InfoRow
                   label="Price"
-                  value={`$${Number(product?.price || 0).toFixed(2)}`}
+                  value={`৳${Number(product?.price || 0).toFixed(2)}`}
                 />
               </div>
 

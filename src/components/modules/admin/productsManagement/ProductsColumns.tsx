@@ -44,7 +44,7 @@ export const productsColumns: Column<IBackendProduct>[] = [
   {
     header: "Price",
     accessor: (product) => (
-      <span className="font-bold text-primary">${product.price || "N/A"}</span>
+      <span className="font-bold text-primary">৳{product.price || "N/A"}</span>
     ),
   },
   {

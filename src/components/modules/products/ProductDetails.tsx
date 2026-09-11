@@ -60,7 +60,7 @@ export default function ProductDetails({ product }: IProductDetailsProps) {
           {/* Price */}
           <div className="mt-5 flex items-end gap-2 sm:mt-6">
             <span className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-              ${Number(product.price).toFixed(2)}
+              ৳ {Number(product.price).toFixed(2)}
             </span>
           </div>
 

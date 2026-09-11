@@ -1,7 +1,7 @@
 "use client";
 
 import { products } from "@/data/featured-products-data";
-import { Award, Clock3, CornerDownRight, Leaf, Sparkles } from "lucide-react";
+import { Award, Clock3, CornerDownRight, Leaf } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,8 +15,8 @@ export default function FeaturedProducts() {
             Signature Perfumes
           </h2>
           <p className="max-w-2xl text-xs sm:text-base text-muted-foreground font-light leading-relaxed">
-            Discover fragrances crafted to match your style, mood, and every
-            memorable moment.
+            Explore refined fragrances selected for everyday elegance,
+            confidence, and lasting impressions.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export default function FeaturedProducts() {
             {/* Left Column: Spotlight Image Card */}
             <div className="lg:col-span-5 relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[3/4] w-full rounded-xl sm:rounded-2xl border border-border overflow-hidden bg-card">
               <Image
-                src="/image_1e6b9c.jpg"
+                src="https://res.cloudinary.com/dt683zwm2/image/upload/v1789102016/perk-ave_c9lkic.jpg"
                 alt="Park Avenue Spotlight Campaign"
                 fill
                 sizes="(max-w-7xl) 40vw, 100vw"
@@ -96,7 +96,7 @@ export default function FeaturedProducts() {
               <div className="space-y-1 sm:space-y-2">
                 <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-primary">
                   <Leaf className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />{" "}
-                  Brand Spotlight
+                  Brand spotlight eyebrow
                 </span>
                 <h3 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight font-heading">
                   Meet <br className="hidden sm:block" />

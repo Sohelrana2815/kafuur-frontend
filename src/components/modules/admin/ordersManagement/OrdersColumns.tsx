@@ -45,7 +45,7 @@ export const ordersColumns: Column<IOrder>[] = [
     header: "Total",
     accessor: (order) => (
       <span className="font-semibold text-sm">
-        ${Number(order.totalAmount || 0).toFixed(2)}
+        ৳{Number(order.totalAmount || 0).toFixed(2)}
       </span>
     ),
   },

@@ -1,11 +1,9 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useAddToCart } from "@/hooks/useAddToCart";
-import { addToCart } from "@/services/cart/cartManagement";
 import { IBackendProduct } from "@/types/product.types";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "sonner";
 
 interface IProductsCardProps {
   product: IBackendProduct;
@@ -18,8 +16,6 @@ export default function ProductCard({ product }: IProductsCardProps) {
     productName: name,
   });
   const mainImage = images?.[0] || "/placeholder.svg";
-
-  
 
   return (
     <div className="group flex flex-col justify-between rounded-xl p-4 text-card-foreground transition-all border border-primary/10">
@@ -45,7 +41,7 @@ export default function ProductCard({ product }: IProductsCardProps) {
             {name}
           </h3>
           <p className="text-sm font-semibold text-foreground">
-            ${Number(price).toFixed(2)}
+            ৳ {Number(price).toFixed(2)}
           </p>
         </div>
 

@@ -169,7 +169,7 @@ export default function CartItemCard({
               {product?.name || "Unnamed Product"}
             </h3>
             <p className="text-xs text-muted-foreground font-semibold">
-              ${price.toFixed(2)}
+              ৳{price.toFixed(2)}
             </p>
           </div>
         </div>
@@ -178,7 +178,7 @@ export default function CartItemCard({
         <div className="flex items-center justify-between sm:justify-end gap-4 shrink-0 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-t-0 border-border/60">
           {/* Item Total */}
           <span className="text-base font-bold text-primary shrink-0">
-            ${price.toFixed(2)}
+            ৳{price.toFixed(2)}
           </span>
 
           {/* Quantity Toggle */}

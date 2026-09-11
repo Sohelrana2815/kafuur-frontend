@@ -30,7 +30,7 @@ export default function CheckoutItemCard({ cart }: ICheckoutItemCardProps) {
           </h3>
 
           <p className="mt-1 text-sm text-muted-foreground">
-            ${price.toFixed(2)} × {quantity}
+            ৳{price.toFixed(2)} × {quantity}
           </p>
         </div>
 
@@ -39,7 +39,7 @@ export default function CheckoutItemCard({ cart }: ICheckoutItemCardProps) {
           <p className="text-sm text-muted-foreground">Subtotal</p>
 
           <p className="text-base font-bold text-primary">
-            ${itemTotal.toFixed(2)}
+            ৳{itemTotal.toFixed(2)}
           </p>
         </div>
       </div>

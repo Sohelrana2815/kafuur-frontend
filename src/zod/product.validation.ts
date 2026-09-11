@@ -7,16 +7,6 @@ export const createProductZodSchema = z.object({
     .min(3, "Product name is too short!")
     .max(100, "Product name is too long"),
 
-  // images: z
-  //   .any()
-  //   .refine(
-  //     (value) =>
-  //       typeof window !== "undefined" &&
-  //       value instanceof FileList &&
-  //       value.length > 0,
-  //     { message: "At least one product image asset is required." },
-  //   ),
-
   shortDescription: z
     .string({
       error: "Short description is required",

@@ -1,44 +1,56 @@
 export const products = [
   {
     id: 1,
-    type: "Eau de Parfum",
-    brand: "Dior",
-    name: "Sauvage",
+    type: "Body Spray",
+    brand: "Fogg",
+    name: "Fogg Master",
     description:
-      "Powerful freshness of Calabrian bergamot combined with spicy Sichuan pepper and warm Papua New Guinean vanilla absolute.",
+      "A bold and refreshing fragrance designed for everyday wear, combining a confident masculine character with long-lasting freshness.",
     image:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1788400061/Eau_de_Parfum_m0tm9i.webp",
+      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789100715/fogg-master_eqawp6.jpg",
     isFeatured: true,
   },
   {
     id: 2,
-    type: "Eau de Parfum",
-    brand: "Creed",
-    name: "Aventus",
+    type: "Body Spray",
+    brand: "Fogg",
+    name: "One Champion",
     description:
-      "Iconic fruity-chypre blend featuring signature pineapple, Calabrian bergamot, smoky birch wood, and rich oakmoss.",
+      "A fresh and energetic body spray with a masculine scent profile, made for an active lifestyle and everyday confidence.",
     image:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1788400060/Creed_Aventus_gfvjuc.webp",
+      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789100715/fogg-master_eqawp6.jpg",
+    isFeatured: false,
   },
   {
     id: 3,
-    type: "Eau de Parfum",
-    brand: "Tom Ford",
-    name: "Black Orchid",
+    type: "Body Spray",
+    brand: "Park Avenue",
+    name: "Voyage",
     description:
-      "Luxurious dark accords blended with rare black orchid, French jasmine, black truffle, and rich Mexican dark chocolate.",
+      "A strong and invigorating fragrance with oceanic, musky, and tonka bean accords that delivers a fresh and confident feel.",
     image:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1788400060/Tom_Ford_Black_Orchid_naio7a.webp",
-    isFeatured: true,
+      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789100715/fogg-master_eqawp6.jpg",
+    isFeatured: false,
   },
   {
     id: 4,
-    type: "Extrait de Parfum",
-    brand: "Maison Francis Kurkdjian",
-    name: "Baccarat Rouge 540",
+    type: "Body Spray",
+    brand: "Park Avenue",
+    name: "Good Morning",
     description:
-      "Graphic, luminous signature with airy Egyptian jasmine, saffron, bitter almond, and warm ambery-woody accords.",
+      "A clean and refreshing everyday fragrance created to keep you feeling fresh and confident throughout the day.",
     image:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1788400060/Maison_Francis_Kurkdjian_bz7miw.webp",
+      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789100715/fogg-master_eqawp6.jpg",
+  },
+  {
+    id: 5,
+    type: "Body Spray",
+    brand: "Park Avenue",
+    name: "Neo",
+    description:
+      "A modern masculine fragrance with a fresh, stylish character that works well for daily wear and casual occasions.",
+    image:
+      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789100715/fogg-master_eqawp6.jpg",
+    isFeatured: true,
   },
 ];
