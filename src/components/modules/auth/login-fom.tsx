@@ -13,12 +13,12 @@ import { useActionState, useEffect } from "react";
 import { loginAction } from "@/services/auth/auth.service";
 import { loading } from "@/components/ui/authLoading";
 import { toast } from "sonner";
-
-
+import Link from "next/link";
+import GoogleAuthButton from "@/components/shared/auth/GoogleAuthButton";
 
 export default function LoginForm({ redirect }: { redirect?: string }) {
   const [state, formAction, isPending] = useActionState(loginAction, null);
-   console.log("State: ", state);
+  console.log("State: ", state);
   const getFieldError = (fieldName: string) => {
     if (state && state.errors) {
       const error = state.errors.find((err: any) => err.field === fieldName);
@@ -28,35 +28,30 @@ export default function LoginForm({ redirect }: { redirect?: string }) {
     }
   };
 
+  useEffect(() => {
+    console.log("STATE:", state);
 
-useEffect(() => {
-  console.log("STATE:", state);
-
-  if (state && !state.success && state.message) {
-    // console.log("CALLING TOAST:", state.message);
-    toast.error(state.message);
-  }
-}, [state]);
+    if (state && !state.success && state.message) {
+      // console.log("CALLING TOAST:", state.message);
+      toast.error(state.message);
+    }
+  }, [state]);
   return (
     <div className="w-full">
       <form action={formAction}>
-         {redirect && <input type="hidden" name="redirect" value={redirect} />}
-         
+        {redirect && <input type="hidden" name="redirect" value={redirect} />}
+
         <FieldGroup>
           <div className="grid grid-cols-1 gap-4">
             {/* Email */}
             <Field>
               <FieldLabel htmlFor="email">Email</FieldLabel>
-              <Input
-                id="email"
-                name="email"
-                placeholder="m@example.com"
-              />
+              <Input id="email" name="email" placeholder="m@example.com" />
               {getFieldError("email") && (
-              <FieldDescription className="text-red-600">
-                {getFieldError("email")}
-              </FieldDescription>
-            )}
+                <FieldDescription className="text-red-600">
+                  {getFieldError("email")}
+                </FieldDescription>
+              )}
             </Field>
 
             {/* Password */}
@@ -68,11 +63,11 @@ useEffect(() => {
                 type="password"
                 placeholder="Enter your password"
               />
-                 {getFieldError("password") && (
-              <FieldDescription className="text-red-600">
-                {getFieldError("password")}
-              </FieldDescription>
-            )}
+              {getFieldError("password") && (
+                <FieldDescription className="text-red-600">
+                  {getFieldError("password")}
+                </FieldDescription>
+              )}
             </Field>
           </div>
           <FieldGroup className="mt-4">
@@ -84,6 +79,24 @@ useEffect(() => {
           </FieldGroup>
         </FieldGroup>
       </form>
+      {/* Others Auths */}
+      <div className="pt-4">
+        <p className="text-center">
+          Don&apos;t have an account?{" "}
+          <Link href="/register">
+            <span className="text-primary hover:underline cursor-pointer">
+              Sign up
+            </span>
+          </Link>
+        </p>
+        {/* <-- Google Auth Section Added Here --> */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 flex-shrink text-foreground">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+        <GoogleAuthButton />
+      </div>
     </div>
   );
 }

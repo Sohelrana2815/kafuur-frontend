@@ -9,12 +9,12 @@ import {
   UserRole,
 } from "@/utils/auth-utils";
 import { loginUserSchema } from "@/zod/auth.validation";
+import { updateUserZodSchema } from "@/zod/user.validation";
 import { parseCookie } from "cookie";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { deleteCookie, setCookie } from "./tokenHandlers";
-import { updateUserZodSchema } from "@/zod/user.validation";
-import { updateTag } from "next/cache";
 // Login Server Action
 
 export const loginAction = async (_currentState: any, formData: FormData) => {
@@ -148,6 +148,10 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
   }
 };
 
+// Add this inside your auth.service.ts file
+
+
+
 export const logoutUser = async () => {
   await deleteCookie("accessToken");
   await deleteCookie("refreshToken");
@@ -244,7 +248,8 @@ export async function updateMyProfile(_prevState: any, formData: FormData) {
     }
     // Profile was successfully updated.
     // Expire the cached profile data immediately.
-    updateTag("my-profile");0
+    updateTag("my-profile");
+    0;
     return {
       success: true,
       message: result.message || "Profile updated successfully",

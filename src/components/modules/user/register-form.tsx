@@ -1,15 +1,18 @@
 "use client";
 
+import GoogleAuthButton from "@/components/shared/auth/GoogleAuthButton";
 import { loading } from "@/components/ui/authLoading";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldGroup,
-  FieldLabel
+  FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { registerAction } from "@/services/user/user.service";
+import Link from "next/link";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
 
@@ -27,11 +30,10 @@ export default function RegisterForm() {
   };
 
   useEffect(() => {
-
-  if (state && !state.success && state.message) {
-    toast.error(state.message);
-  }
-}, [state]);
+    if (state && !state.success && state.message) {
+      toast.error(state.message);
+    }
+  }, [state]);
   return (
     <div className="w-full">
       <form action={formAction}>
@@ -88,6 +90,23 @@ export default function RegisterForm() {
           </FieldGroup>
         </FieldGroup>
       </form>
+      {/* Other Auths */}
+      <div className="pt-4">
+        <p className="text-center">
+          Already have an account?{" "}
+          <Link href="/login">
+            <span className="text-primary hover:underline cursor-pointer">
+              Sign in
+            </span>
+          </Link>
+        </p>
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="mx-4 flex-shrink text-foreground">OR</span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+        <GoogleAuthButton />
+      </div>
     </div>
   );
 }
