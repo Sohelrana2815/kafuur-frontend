@@ -138,6 +138,13 @@ body {
     @apply border-border outline-ring/50;
   }
 
+  *::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  *::-moz-selection {
+    @apply bg-primary text-primary-foreground;
+  }
   body {
     @apply bg-background text-foreground;
   }

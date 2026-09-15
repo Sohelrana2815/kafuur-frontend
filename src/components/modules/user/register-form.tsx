@@ -10,7 +10,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { registerAction } from "@/services/user/user.service";
 import Link from "next/link";
 import { useActionState, useEffect } from "react";

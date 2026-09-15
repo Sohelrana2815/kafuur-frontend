@@ -1,150 +1,137 @@
 "use client";
 
 import { products } from "@/data/featured-products-data";
-import { Award, Clock3, CornerDownRight, Leaf } from "lucide-react";
+import { Award, Clock3, Crown, Leaf } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function FeaturedProducts() {
+  const featuredProducts = products.filter((p) => p.isFeatured);
   return (
-    <section className="w-full py-12 md:py-16 text-foreground">
+    <section className="w-full py-12 text-foreground md:py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-8 md:mb-12 space-y-2">
-          <h2 className="text-2xl sm:text-4xl font-bold tracking-tight text-foreground font-heading">
+        <header className="mb-8 space-y-2 md:mb-12">
+          <h2 className="font-heading text-2xl font-bold tracking-tight text-foreground sm:text-4xl">
             Signature Perfumes
           </h2>
-          <p className="max-w-2xl text-xs sm:text-base text-muted-foreground font-light leading-relaxed">
+
+          <p className="max-w-2xl text-xs font-light leading-relaxed text-muted-foreground sm:text-base">
             Explore refined fragrances selected for everyday elegance,
             confidence, and lasting impressions.
           </p>
-        </div>
+        </header>
 
-        {/* 
-          UPDATED RESPONSIVE GRID: 
-          grid-cols-2 (Mobile) -> sm:grid-cols-2 (Tablet) -> lg:grid-cols-4 (Desktop) 
-        */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 xl:gap-8 mb-16 md:mb-20">
-          {products.map((product) => (
-            <div
+        {/* Featured Products */}
+        <div className="mb-16 grid grid-cols-2 gap-3 md:mb-20 sm:gap-6 xl:gap-8 lg:grid-cols-4">
+          {featuredProducts.map((product, index) => (
+            <article
               key={product.id}
-              className="group flex flex-col justify-between rounded-xl sm:rounded-2xl p-2.5 sm:p-3 bg-card border border-border hover:border-primary/30 transition-all duration-300"
+              className="group flex flex-col justify-between rounded-xl border border-border bg-card p-2.5 transition-colors duration-300 hover:border-primary/30 sm:rounded-2xl sm:p-3"
             >
               <div>
-                {/* Product Image Holder */}
+                {/* Product Image */}
                 <div
-                  className={`relative aspect-square w-full rounded-lg sm:rounded-xl bg-gradient-to-b from-muted to-card border border-border overflow-hidden flex items-center justify-center p-3 sm:p-6 mb-3 transition-all duration-300 ${
-                    product.isFeatured ? "ring-1 ring-primary/40 shadow-sm" : ""
+                  className={`relative mb-3 flex aspect-square w-full items-center justify-center overflow-hidden rounded-lg border border-border bg-muted sm:rounded-xl ${
+                    product.isFeatured ? "ring-1 ring-primary/40" : ""
                   }`}
                 >
                   <Image
                     src={product.image}
-                    alt={`${product.name}`}
+                    alt={product.name}
                     fill
-                    sizes="(max-w-7xl) 25vw, 50vw"
-                    className="object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
+                    priority={index === 0}
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover opacity-90 transition-all duration-500 group-hover:scale-105 group-hover:opacity-100"
                   />
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0  bg-linear-to-t from-background/80 via-background/20 to-transparent" />
 
                   {product.isFeatured && (
-                    <span className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-primary/10 border border-primary/30 text-primary text-[7px] sm:text-[9px] uppercase tracking-widest font-bold px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full backdrop-blur-md">
-                      Best
+                    <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary px-1.5 py-0.5 text-[7px] font-bold uppercase tracking-widest text-primary-foreground backdrop-blur-md sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[9px]">
+                      <Crown size={14} />
                     </span>
                   )}
                 </div>
 
-                {/* Product Details Meta */}
-                <div className="px-0.5 space-y-0.5 sm:space-y-1">
-                  <span className="text-[8px] sm:text-[10px] uppercase tracking-wider text-primary font-bold">
+                {/* Product Information */}
+                <div className="space-y-0.5 px-0.5 sm:space-y-1">
+                  <span className="text-[8px] font-bold uppercase tracking-wider text-primary sm:text-[10px]">
                     {product.type}
                   </span>
-                  <h3 className="text-xs sm:text-base font-bold text-foreground tracking-tight line-clamp-1">
+
+                  <h3 className="line-clamp-1 text-xs font-bold tracking-tight text-foreground sm:text-base">
                     {product.brand}{" "}
-                    <span className="text-muted-foreground font-normal">
+                    <span className="font-normal text-muted-foreground">
                       {product.name}
                     </span>
                   </h3>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground line-clamp-1 font-light">
+
+                  <p className="line-clamp-1 text-[10px] font-light text-muted-foreground sm:text-xs">
                     {product.description}
                   </p>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        {/* Feature Spotlight Banner Section */}
-        <div className="w-full rounded-2xl sm:rounded-3xl border border-border bg-gradient-to-b from-card/50 to-background/80 p-5 sm:p-8 lg:p-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/[0.02] rounded-full blur-[80px] pointer-events-none" />
+        {/* Brand Spotlight */}
+        <section className="relative w-full overflow-hidden rounded-2xl border border-border bg-linear-to-b from-card to-background p-5 shadow-2xl sm:rounded-3xl sm:p-8 lg:p-12">
+          <div className="pointer-events-none absolute right-0 top-0 size-100 rounded-full bg-primary/5 blur-[80px]" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-center">
-            {/* Left Column: Spotlight Image Card */}
-            <div className="lg:col-span-5 relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[3/4] w-full rounded-xl sm:rounded-2xl border border-border overflow-hidden bg-card">
+          <div className="relative grid grid-cols-1 items-center gap-6 sm:gap-8 lg:grid-cols-12 lg:gap-12">
+            {/* Spotlight Image */}
+            <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl border border-border bg-card sm:aspect-video sm:rounded-2xl lg:col-span-5 lg:aspect-3/4">
               <Image
-                src="https://res.cloudinary.com/dt683zwm2/image/upload/v1789102016/perk-ave_c9lkic.jpg"
+                src="https://res.cloudinary.com/dt683zwm2/image/upload/v1789432167/perk-ave_c9lkic_piw2n3.webp"
                 alt="Park Avenue Spotlight Campaign"
                 fill
-                sizes="(max-w-7xl) 40vw, 100vw"
+                sizes="(max-width: 1024px) 100vw, 40vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80" />
+
+              <div className="absolute inset-0 bg-linear-to-t from-background/80 via-background/20 to-transparent" />
             </div>
 
-            {/* Right Column: Narrative Presentation & Rebuilt CTA Button */}
-            <div className="lg:col-span-7 flex flex-col justify-center space-y-4 sm:space-y-6">
+            {/* Spotlight Content */}
+            <div className="flex flex-col justify-center space-y-4 sm:space-y-6 lg:col-span-7">
               <div className="space-y-1 sm:space-y-2">
-                <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-primary">
-                  <Leaf className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />{" "}
-                  Brand spotlight eyebrow
+                <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
+                  <Leaf className="size-3.5 text-primary sm:size-3.5" />
+                  Featured Brand
                 </span>
-                <h3 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-tight font-heading">
-                  Meet <br className="hidden sm:block" />
-                  <span className="bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-                    Park Avenue
-                  </span>
+
+                <h3 className="font-heading text-2xl font-bold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+                  Discover <span className="text-primary">Park Avenue</span>
                 </h3>
               </div>
 
-              <p className="text-xs sm:text-base text-muted-foreground font-light leading-relaxed max-w-xl">
-                A grooming house built on absolute certainty. Every single
-                aerosol can of Park Avenue we secure is imported directly from
-                authenticated channels — completely bypassing parallel brokers
-                or lookalike formulations. Just the long-lasting, uncompromised
-                signature aura your day demands.
+              <p className="max-w-xl text-xs font-light leading-relaxed text-muted-foreground sm:text-base">
+                Fresh, confident, and effortlessly classic. Park Avenue
+                fragrances are made for everyday wear, bringing a refined scent
+                and lasting freshness to your daily routine.
               </p>
 
-              {/* Pill Trust Metrics */}
-              <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
-                <div className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-border bg-muted/50 px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs text-muted-foreground">
-                  <Clock3 className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />
+              {/* Trust Metrics */}
+              <div className="flex flex-wrap gap-1.5 pt-1 sm:gap-2">
+                <div className="flex items-center gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-[10px] text-muted-foreground sm:gap-1.5 sm:px-3.5 sm:py-1.5 sm:text-xs">
+                  <Clock3 className="size-3 text-primary sm:size-3.5" />
                   <span>Long-Lasting</span>
                 </div>
-                <div className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-border bg-muted/50 px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs text-muted-foreground">
-                  <Award className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />
-                  <span>Direct Sourcing</span>
-                </div>
-                <div className="flex items-center gap-1 sm:gap-1.5 rounded-full border border-border bg-muted/50 px-2.5 py-1 sm:px-3.5 sm:py-1.5 text-[10px] sm:text-xs text-muted-foreground">
-                  <Leaf className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-primary" />
-                  <span>30-Day Returns</span>
-                </div>
-              </div>
 
-              {/* Action Trigger */}
-              <div className="pt-2 sm:pt-4">
-                <Link
-                  href="/brand/park-avenue"
-                  className="inline-flex w-full sm:w-auto items-center justify-center gap-3 rounded-full border border-primary/60 bg-primary/5 hover:bg-primary/10 px-6 py-3 sm:px-8 sm:py-3.5 transition-all duration-300 group focus:outline-none"
-                >
-                  <span className="text-xs sm:text-sm font-semibold text-foreground tracking-wide">
-                    Go to Park Avenue
-                  </span>
-                  <CornerDownRight className="h-3.5 w-3.5 text-primary transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
+                <div className="flex items-center gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-[10px] text-muted-foreground sm:gap-1.5 sm:px-3.5 sm:py-1.5 sm:text-xs">
+                  <Award className="size-3 text-primary sm:size-3.5" />
+                  <span>Trusted Brand</span>
+                </div>
+
+                <div className="flex items-center gap-1 rounded-full border border-border bg-muted px-2.5 py-1 text-[10px] text-muted-foreground sm:gap-1.5 sm:px-3.5 sm:py-1.5 sm:text-xs">
+                  <Leaf className="size-3 text-primary sm:size-3.5" />
+                  <span>Everyday Freshness</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );

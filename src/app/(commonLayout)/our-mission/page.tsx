@@ -1,6 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-"use client";
-
 import { Leaf, Award, ShieldCheck, MapPin, Sparkles, Box } from "lucide-react";
 
 const missionFeatures = [
@@ -121,9 +118,9 @@ export default function OurMissionPage() {
           <ShieldCheck className="absolute -top-10 -right-10 h-48 w-48 text-neutral-800/10 stroke-[0.5] rotate-12 pointer-events-none" />
 
           <p className="text-xl md:text-2xl font-light text-neutral-200 leading-normal font-sans">
-            "Your trust isn’t built on our goals; it’s built when you verify our
-            seals. Every purchase comes with guaranteed authenticity and
-            verified secure local payment."
+            &quot;Your trust isn’t built on our goals; it’s built when you
+            verify our seals. Every purchase comes with guaranteed authenticity
+            and verified secure local payment.&quot;
           </p>
           <p className="mt-8 text-xs text-neutral-600 uppercase tracking-widest font-mono">
             Logistics Certified Authentic Pipeline v1.2

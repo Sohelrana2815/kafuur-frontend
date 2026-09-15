@@ -68,7 +68,7 @@ export default async function RootLayout({
           {/* Wrap the app with the CartProvider */}
           <CartProvider initialCount={initialCount}>{children}</CartProvider>
         </ThemeProvider>
-        <Toaster richColors position="top-center" />
+        <Toaster richColors position="top-right" duration={3000} />
         <Suspense fallback={null}>
           <LoggedInSuccessToast />
           <LoggedOutSuccessToast />

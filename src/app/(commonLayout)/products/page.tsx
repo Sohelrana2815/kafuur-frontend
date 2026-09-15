@@ -3,6 +3,8 @@ import ProductsPageHeader from "@/components/modules/products/ProductsPageHeader
 import RefreshButton from "@/components/shared/RefreshButton";
 import SearchFilter from "@/components/shared/SearchFilter";
 import SelectFilter from "@/components/shared/SelectFilter";
+import TablePagination from "@/components/shared/TablePagination";
+import TableSkeleton from "@/components/shared/TableSkeleton";
 import { queryStringFormatter } from "@/lib/formatters";
 import { getProducts } from "@/services/admin/productsManagement";
 import { categoryOptions } from "@/utils/category-options";
@@ -18,7 +20,9 @@ export default async function ProductsPage({
   const searchParamsObj = await searchParams;
   const queryString = queryStringFormatter(searchParamsObj);
   const productsResult = await getProducts(queryString);
-
+  const totalPages = Math.ceil(
+    productsResult.meta?.total / productsResult.meta?.limit,
+  );
   // console.log(productsResult, "From Products Page");
   return (
     <div className="space-y-6">
@@ -42,7 +46,17 @@ export default async function ProductsPage({
           <RefreshButton />
         </Suspense>
       </div>
-      <ProductGrid data={productsResult.data} />
+
+      <Suspense fallback={<TableSkeleton columns={10} rows={10} />}>
+        <ProductGrid data={productsResult.data} />
+
+        {productsResult.success && (
+          <TablePagination
+            currentPage={productsResult.meta?.page}
+            totalPages={totalPages}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

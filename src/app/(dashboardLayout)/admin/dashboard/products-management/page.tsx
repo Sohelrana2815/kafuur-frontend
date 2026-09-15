@@ -20,7 +20,7 @@ export default async function AdminProductsManagementPage({
   const searchParamsObj = await searchParams;
   // console.log(searchParamsObj,"from admin p management");
   const queryString = queryStringFormatter(searchParamsObj);
-  const productsResult = await getProducts(queryString);
+  const productsResult = await getProducts(queryString, { cache: "no-store" });
   const totalPages = Math.ceil(
     productsResult.meta?.total / productsResult.meta?.limit,
   );

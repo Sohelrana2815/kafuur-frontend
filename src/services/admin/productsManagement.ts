@@ -7,6 +7,7 @@ import {
   createProductZodSchema,
   updateProductZodSchema,
 } from "@/zod/product.validation";
+import { updateTag } from "next/cache";
 
 // CRUD OPERATIONS FOR PRODUCTS MANAGEMENT
 
@@ -56,6 +57,7 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
         message: result.message || "Failed to create product",
       };
     }
+    updateTag("products");
     // 5. Explicitly return success state to client
     return {
       success: true,
@@ -71,10 +73,18 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
   }
 };
 
-export async function getProducts(queryString?: string) {
+export async function getProducts(
+  queryString?: string,
+  cacheConfig?: { cache?: RequestCache; tags?: string[] },
+) {
   try {
     const res = await serverFetch.get(
-      `/products${queryString ? `?${queryString}` : ""}`, // category=MEN
+      `/products${queryString ? `?${queryString}` : ""}`,
+      {
+        cache: cacheConfig?.cache || "force-cache",
+        next: { tags: cacheConfig?.tags || ["products"] },
+      },
+      // category=MEN
     );
 
     const result = await res.json();
