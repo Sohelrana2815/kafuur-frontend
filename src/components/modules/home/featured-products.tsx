@@ -83,7 +83,7 @@ export default function FeaturedProducts() {
             {/* Spotlight Image */}
             <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl border border-border bg-card sm:aspect-video sm:rounded-2xl lg:col-span-5 lg:aspect-3/4">
               <Image
-                src="https://res.cloudinary.com/dt683zwm2/image/upload/v1789432167/perk-ave_c9lkic_piw2n3.webp"
+                src="https://res.cloudinary.com/dt683zwm2/image/upload/v1789434532/perk-ave_c9lkic_nlw189.webp"
                 alt="Park Avenue Spotlight Campaign"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
