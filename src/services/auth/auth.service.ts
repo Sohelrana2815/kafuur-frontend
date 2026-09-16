@@ -53,16 +53,6 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
       },
     });
 
-    // const res = await fetch(
-    //   `${process.env.NEXT_PUBLIC_BACKEND_API_URL}/auth/login`,
-    //   {
-    //     method:"POST",
-    //     body: JSON.stringify(payload),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   },
-    // );
     const result = await res.json();
     if (!res.ok || !result.success) {
       return {
@@ -149,8 +139,6 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
 };
 
 // Add this inside your auth.service.ts file
-
-
 
 export const logoutUser = async () => {
   await deleteCookie("accessToken");

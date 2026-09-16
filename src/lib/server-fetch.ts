@@ -1,8 +1,9 @@
 import { getCookie } from "@/services/auth/tokenHandlers";
 
-const BACKEND_API_URL =
-  process.env.BACKEND_API_URL || "https://kafuur-backend.vercel.app/api/v1";
-
+const BACKEND_API_URL = process.env.BACKEND_API_URL;
+if (!BACKEND_API_URL) {
+  throw new Error("Missing BACKEND_API_URL environment variable.");
+}
 // /auth/login
 const serverFetchHelper = async (
   endpoint: string,
@@ -10,7 +11,7 @@ const serverFetchHelper = async (
 ): Promise<Response> => {
   const { headers, ...restOptions } = options;
 
-  console.log({ body: options.body });
+  // console.log({ body: options.body });
 
   const accessToken = await getCookie("accessToken");
 
