@@ -1,23 +1,23 @@
 import InfoRow from "@/components/shared/InfoRow";
 import { Badge } from "@/components/ui/badge";
 import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/formatters";
 import { IOrder } from "@/types/order.types";
 import {
-    Calendar,
-    CreditCard,
-    Mail,
-    MapPin,
-    Package,
-    Phone,
-    ReceiptText,
-    ShoppingBag,
+  Calendar,
+  CreditCard,
+  Mail,
+  MapPin,
+  Package,
+  Phone,
+  ReceiptText,
+  ShoppingBag,
 } from "lucide-react";
 import Image from "next/image";
 

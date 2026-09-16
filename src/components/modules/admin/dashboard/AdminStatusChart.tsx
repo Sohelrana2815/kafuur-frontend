@@ -4,6 +4,8 @@ import { Pie, PieChart, Cell } from "recharts";
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -15,11 +17,11 @@ interface ChartData {
 
 const chartConfig = {
   count: { label: "Orders" },
-  PROCESSING: { label: "Processing", color: "#f59e0b" },
-  CONFIRMED: { label: "Confirmed", color: "#3b82f6" },
-  DELIVERED: { label: "Delivered", color: "#10b981" },
-  PENDING: { label: "Pending", color: "#eab308" },
-  CANCELLED: { label: "Cancelled", color: "#ef4444" },
+  PROCESSING: { label: "Processing", color: "#FBF5DD" },
+  CONFIRMED: { label: "Confirmed", color: "#86BCBD" },
+  DELIVERED: { label: "Delivered", color: "#063B00" },
+  PENDING: { label: "Pending", color: "#FED24F" },
+  CANCELLED: { label: "Cancelled", color: "#D90000" },
 } satisfies ChartConfig;
 
 export default function AdminStatusChart({
@@ -30,17 +32,11 @@ export default function AdminStatusChart({
   // 1. Guard clause against undefined/empty data array
   if (!chartData || chartData.length === 0) {
     return (
-      <div className="flex h-[250px] items-center justify-center text-sm text-muted-foreground">
+      <div className="flex h-62.5 items-center justify-center text-sm text-muted-foreground">
         No order status data available.
       </div>
     );
   }
-
-  // 2. Map fill directly to shadcn's auto-generated CSS variables
-  // const formattedData = chartData.map((item) => ({
-  //   ...item,
-  //   fill: `var(--color-${item.status})`,
-  // }));
 
   const formattedData = chartData.map((item) => ({
     ...item,
@@ -50,7 +46,7 @@ export default function AdminStatusChart({
   return (
     <ChartContainer
       config={chartConfig}
-      className="mx-auto aspect-square max-h-[300px]"
+      className="mx-auto aspect-square max-h-75"
     >
       <PieChart>
         <ChartTooltip
@@ -61,12 +57,16 @@ export default function AdminStatusChart({
           data={formattedData}
           dataKey="count"
           nameKey="status"
-          innerRadius={60}
+          // innerRadius={60}
           strokeWidth={5}
         >
-          {formattedData.map((entry, index) => (
+          <ChartLegend
+            content={<ChartLegendContent nameKey="status" />}
+            className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+          />
+          {/* {formattedData.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.fill} />
-          ))}
+          ))} */}
         </Pie>
       </PieChart>
     </ChartContainer>

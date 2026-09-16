@@ -50,10 +50,10 @@ export default function CustomerSpendChart({
   }
 
   return (
-    <ChartContainer config={chartConfig} className="h-[250px] w-full">
+    <ChartContainer config={chartConfig} className="h-62.5 w-full">
       <AreaChart
         data={chartData}
-        margin={{ left: 12, right: 12, top: 12, bottom: 12 }}
+        margin={{ left: 12, right: 12, top: 18, bottom: 12 }}
       >
         <CartesianGrid vertical={false} />
         <XAxis

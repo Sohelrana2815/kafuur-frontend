@@ -23,7 +23,8 @@ export default async function CustomerOrdersPage({
   const totalPages = Math.ceil(
     (ordersResult.meta?.total || 0) / (ordersResult.meta?.limit || 10),
   );
-
+  console.log(ordersResult?.data[0].orderItems[0].productId);
+  // console.log(ordersResult?.data?.orderItems[0]);
   return (
     <div className="space-y-6">
       <ManagementPageHeader
