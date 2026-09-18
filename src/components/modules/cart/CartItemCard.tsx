@@ -2,19 +2,18 @@
 import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useCart } from "@/context/CartContext";
 import {
   decrementCartItem,
   deleteCartItem,
   incrementCartItem,
 } from "@/services/cart/cartManagement";
+import { useCartStore } from "@/store/useCartStore";
 import { ICartItem } from "@/types/cart.types";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
-
 interface ICartItemCardProps {
   cart: ICartItem;
   checked: boolean;
@@ -27,7 +26,9 @@ export default function CartItemCard({
   onSelectionChange,
 }: ICartItemCardProps) {
   const router = useRouter();
-  const { updateCartCountOptimistically } = useCart();
+  const updateCartCountOptimistically = useCartStore(
+    (state) => state.updateCartCountOptimistically,
+  );
   const { id, quantity, product } = cart;
   const mainImage = product?.images?.[0] || "/placeholder.svg";
   const price = Number(product?.price || 0);
@@ -37,11 +38,6 @@ export default function CartItemCard({
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
-  // const handleIncrementCartItem = async () => {
-  //   updateCartCountOptimistically(1);
-  //   await incrementCartItem(product.id);
-  //   router.refresh();
-  // };
 
   const handleIncrementCartItem = async () => {
     if (isUpdating) return;
@@ -73,11 +69,6 @@ export default function CartItemCard({
       setIsUpdating(false);
     }
   };
-  // const handleDecrementCartItem = async () => {
-  //   updateCartCountOptimistically(-1);
-  //   await decrementCartItem(product.id);
-  //   router.refresh();
-  // };
 
   const handleDecrementCartItem = async () => {
     if (isUpdating || currentQuantity <= 1) return;
@@ -114,7 +105,7 @@ export default function CartItemCard({
   };
 
   // 2. Wire up the confirmation function
-  
+
   const handleConfirmDelete = async () => {
     setIsDeleting(true);
     // Optimistically remove this item's quantity from total cart count

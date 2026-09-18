@@ -5,33 +5,7 @@ import {
   createOrderZodSchema,
   updateOrderAdminZodSchema,
 } from "@/zod/order.validation";
-
-// export async function getOrderSummary(cartItemIds: string[]) {
-//   try {
-//     const res = await serverFetch.get(`/cart/order-summary/ids=${}`);
-//     const result = await res.json();
-
-//     // console.log("From Get Product Server Action:", res);
-//     if (!res.ok || !result.success) {
-//       return {
-//         success: false,
-//         message: result.message || "Failed to Retrieved Order Summary",
-//       };
-//     }
-//     return {
-//       success: true,
-//       message: result.message || "Order Summary Retrieved successfully",
-//       meta: result.meta,
-//       data: result.data,
-//     };
-//   } catch (error: any) {
-//     console.error("Error retrieving Order summary:", error);
-//     return {
-//       success: false,
-//       message: error.message || "An unexpected error occurred.",
-//     };
-//   }
-// }
+import { revalidatePath } from "next/cache";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -68,7 +42,8 @@ export const createOrder = async (payload: ICreateOrderPayload) => {
         message: result.message || "Failed to place order.",
       };
     }
-
+    revalidatePath("/");
+    revalidatePath("/cart");
     return {
       success: true,
       message: result.message || "Order processed successfully.",

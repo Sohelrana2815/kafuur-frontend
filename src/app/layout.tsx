@@ -7,8 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
-import { getCarts } from "@/services/cart/cartManagement";
-import { CartProvider } from "@/context/CartContext";
+import CartHydrator from "@/components/shared/CartHydrator";
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
 //   subsets: ["latin"],
@@ -41,17 +40,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cartsResult = await getCarts();
-
-  // Calculate total initial items based on quantity
-  const initialCount =
-    cartsResult?.success && cartsResult.data
-      ? cartsResult.data.reduce(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (acc: number, item: any) => acc + item.quantity,
-          0,
-        )
-      : 0;
   return (
     <html
       lang="en"
@@ -66,7 +54,8 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           {/* Wrap the app with the CartProvider */}
-          <CartProvider initialCount={initialCount}>{children}</CartProvider>
+          <CartHydrator />
+          {children}
         </ThemeProvider>
         <Toaster richColors position="top-right" duration={3000} />
         <Suspense fallback={null}>

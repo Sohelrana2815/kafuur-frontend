@@ -6,6 +6,7 @@ import { CreditCard, Truck } from "lucide-react";
 import { toast } from "sonner";
 import { IOrderSummary } from "@/types/order.types";
 import { createOrder } from "@/services/order/orderManagement";
+import { useCartStore } from "@/store/useCartStore";
 export const dynamic = "force-dynamic";
 
 interface IPaymentContainerProps {
@@ -23,20 +24,34 @@ export default function PaymentContainer({
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
+  // 1. Import the optimistic updater from your Zustand store
+  const updateCartCountOptimistically = useCartStore(
+    (state) => state.updateCartCountOptimistically,
+  );
   const handlePlaceOrder = () => {
     startTransition(async () => {
-      const result = await createOrder({ cartItemIds, paymentMethod });
+      const payload = {
+        cartItemIds,
+        paymentMethod,
+      };
 
+      const result = await createOrder(payload);
+
+      // 1. Return early if the server action failed
       if (!result.success) {
-        toast.error(result.message);
+        toast.error(result.message || "Failed to place order.");
         return;
       }
 
+      // 2. Instantly update UI cart count on success
+      if (summary?.itemCount) {
+        updateCartCountOptimistically(-summary.itemCount);
+      }
+
+      // 3. Perform a single redirect based on the payment method
       if (paymentMethod === "ONLINE" && result.data?.paymentUrl) {
-        // Direct redirect to Stripe Hosted Page
         window.location.href = result.data.paymentUrl;
       } else {
-        // Direct redirect to Internal Success Page for COD
         toast.success("Order placed successfully!");
         router.push(`/payment-success?orderId=${result.data?.order?.id}`);
       }
@@ -105,7 +120,7 @@ export default function PaymentContainer({
         <button
           onClick={handlePlaceOrder}
           disabled={isPending}
-          className="w-full mt-4 bg-primary text-primary-foreground font-semibold py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50"
+          className="w-full mt-4 bg-primary text-primary-foreground font-semibold py-3 rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
         >
           {isPending ? "Processing..." : "Place Order"}
         </button>

@@ -1,7 +1,7 @@
 // src/components/shared/CartIconBadge.tsx
 "use client";
 
-import { useCart } from "@/context/CartContext";
+import { useCartStore } from "@/store/useCartStore";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
@@ -14,7 +14,8 @@ export default function CartIconBadge({
   className,
   iconClassName,
 }: CartIconBadgeProps) {
-  const { cartCount } = useCart();
+  // Subscribe directly to cartCount from Zustand
+  const cartCount = useCartStore((state) => state.cartCount);
 
   return (
     <Link
