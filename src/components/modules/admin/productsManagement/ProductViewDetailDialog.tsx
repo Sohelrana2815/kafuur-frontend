@@ -138,7 +138,7 @@ export default function ProductViewDetailDialog({
             <Link className="h-4 w-4 mt-1 text-muted-foreground" />
             <InfoRow
               label="Product Slug"
-              value={`kafuur/products/${product?.slug}` || "N/A"}
+              value={`kafuur.com/products/${product?.slug}` || "N/A"}
             />
           </div>
           {/* Long Description */}
