@@ -37,7 +37,7 @@ export default function OrderSummary({
             Subtotal ({itemCount} {itemCount === 1 ? "item" : "items"})
           </span>
 
-          <span className="text-sm font-semibold">${subtotal.toFixed(2)}</span>
+          <span className="text-sm font-semibold">৳{subtotal.toFixed(2)}</span>
         </div>
 
         {/* Shipping */}
@@ -45,7 +45,7 @@ export default function OrderSummary({
           <span className="text-sm text-muted-foreground">Shipping Fee</span>
 
           <span className="text-sm font-semibold">
-            ${shippingFee.toFixed(2)}
+            ৳{shippingFee.toFixed(2)}
           </span>
         </div>
 
@@ -57,7 +57,7 @@ export default function OrderSummary({
           <span className="text-base font-bold">Total</span>
 
           <span className="text-lg font-bold text-primary">
-            ${total.toFixed(2)}
+            ৳{total.toFixed(2)}
           </span>
         </div>
 

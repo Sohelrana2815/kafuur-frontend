@@ -27,7 +27,7 @@ export default function CartIconBadge({
 
       {/* Badge rendering logic */}
       {cartCount > 0 && (
-        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-bold dark:text-black text-white shadow-sm">
+        <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#E7AC2A] text-[9px] font-bold text-black shadow-sm">
           {cartCount > 99 ? "99+" : cartCount}
         </span>
       )}

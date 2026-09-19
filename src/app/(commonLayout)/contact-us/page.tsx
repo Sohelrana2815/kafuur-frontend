@@ -2,7 +2,6 @@ import ContactForm from "@/components/modules/contact/contact-form";
 import { ExternalLink, Mail, MapPin, Phone, Sparkles } from "lucide-react";
 import Link from "next/link";
 
-
 function FacebookIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -88,32 +87,31 @@ const socialPlatforms = [
   },
 ];
 
+const cardClass =
+  "group flex items-start gap-4 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/50";
+
 export default function ContactUsPage() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#09090b] text-neutral-100">
+    <main className="relative min-h-screen overflow-hidden text-foreground">
       {/* Background atmosphere */}
-      <div
-        className="pointer-events-none absolute left-1/2 top-1/4 -z-0 h-[500px] w-[500px]
-        -translate-x-1/2 rounded-full bg-amber-500/[0.035] blur-[140px]"
-      />
+      <div className="pointer-events-none absolute left-1/2 top-1/4 -z-10 h-125 w-125 -translate-x-1/2 rounded-full bg-primary/10 blur-[140px]" />
 
-      <section className="relative z-10 border-t border-white/[0.04] py-20 md:py-28">
+      <section className="relative z-10 border-t border-border py-20 md:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="mx-auto mb-16 max-w-3xl text-center md:mb-20">
             <div className="mb-5 flex items-center justify-center gap-2">
-              <Sparkles className="h-4 w-4 text-amber-500" />
-
-              <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-amber-500 sm:text-xs">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.35em] text-primary sm:text-xs">
                 Get in touch
               </span>
             </div>
 
-            <h1 className="font-heading text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl">
+            <h1 className="font-heading text-4xl font-semibold tracking-tight text-foreground sm:text-5xl md:text-6xl">
               We&apos;d love to hear from you.
             </h1>
 
-            <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-neutral-400 sm:text-base">
+            <p className="mx-auto mt-6 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
               Have a question about an order, a product, or our fragrances? Send
               us a message and our team will get back to you as soon as
               possible.
@@ -124,71 +122,58 @@ export default function ContactUsPage() {
           <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             {/* Left side */}
             <div className="space-y-10">
-              {/* Contact information */}
+              {/* Contact Information */}
               <div>
-                <div className="mb-6 border-b border-white/[0.06] pb-4">
-                  <h2 className="font-heading text-xl font-semibold text-white">
+                <div className="mb-6 border-b border-border pb-4">
+                  <h2 className="font-heading text-xl font-semibold text-foreground">
                     Contact information
                   </h2>
-
-                  <p className="mt-2 text-sm leading-6 text-neutral-500">
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
                     Choose the channel that works best for you.
                   </p>
                 </div>
 
                 <div className="space-y-5">
                   {/* Email */}
-                  <a
-                    href="mailto:hello@kafuur.com"
-                    className="group flex items-start gap-4 rounded-2xl border border-white/[0.05] bg-white/[0.015] p-4 transition-colors hover:border-amber-500/20 hover:bg-white/[0.025]"
-                  >
-                    <div className="rounded-xl border border-white/[0.06] bg-neutral-900 p-3">
-                      <Mail className="h-5 w-5 text-amber-500" />
+                  <a href="mailto:hello@kafuur.com" className={cardClass}>
+                    <div className="rounded-xl border border-border bg-muted p-3">
+                      <Mail className="h-5 w-5 text-primary" />
                     </div>
-
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+                      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Email
                       </p>
-
-                      <p className="mt-1 text-sm text-white transition-colors group-hover:text-amber-400">
+                      <p className="mt-1 text-sm text-foreground transition-colors group-hover:text-primary">
                         hello@kafuur.com
                       </p>
                     </div>
                   </a>
 
                   {/* Phone */}
-                  <a
-                    href="tel:+8801XXXXXXXXX"
-                    className="group flex items-start gap-4 rounded-2xl border border-white/[0.05] bg-white/[0.015] p-4 transition-colors hover:border-amber-500/20 hover:bg-white/[0.025]"
-                  >
-                    <div className="rounded-xl border border-white/[0.06] bg-neutral-900 p-3">
-                      <Phone className="h-5 w-5 text-amber-500" />
+                  <a href="tel:+8801XXXXXXXXX" className={cardClass}>
+                    <div className="rounded-xl border border-border bg-muted p-3">
+                      <Phone className="h-5 w-5 text-primary" />
                     </div>
-
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+                      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Phone
                       </p>
-
-                      <p className="mt-1 text-sm text-white transition-colors group-hover:text-amber-400">
+                      <p className="mt-1 text-sm text-foreground transition-colors group-hover:text-primary">
                         +880 1XXXXXXXXX
                       </p>
                     </div>
                   </a>
 
                   {/* Location */}
-                  <div className="flex items-start gap-4 rounded-2xl border border-white/[0.05] bg-white/[0.015] p-4">
-                    <div className="rounded-xl border border-white/[0.06] bg-neutral-900 p-3">
-                      <MapPin className="h-5 w-5 text-amber-500" />
+                  <div className="flex items-start gap-4 rounded-2xl border border-border bg-card p-4">
+                    <div className="rounded-xl border border-border bg-muted p-3">
+                      <MapPin className="h-5 w-5 text-primary" />
                     </div>
-
                     <div>
-                      <p className="text-xs font-medium uppercase tracking-wider text-neutral-500">
+                      <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Location
                       </p>
-
-                      <p className="mt-1 text-sm text-white">
+                      <p className="mt-1 text-sm text-foreground">
                         Dhaka, Bangladesh
                       </p>
                     </div>
@@ -198,40 +183,37 @@ export default function ContactUsPage() {
 
               {/* Support */}
               <div>
-                <div className="mb-5 border-b border-white/[0.06] pb-4">
-                  <h2 className="font-heading text-xl font-semibold text-white">
+                <div className="mb-5 border-b border-border pb-4">
+                  <h2 className="font-heading text-xl font-semibold text-foreground">
                     Need help?
                   </h2>
                 </div>
 
                 <Link
                   href="/help-center"
-                  className="group flex items-center justify-between rounded-2xl border border-white/[0.05] bg-white/[0.015] p-5 transition-colors hover:border-amber-500/20 hover:bg-white/[0.025]"
+                  className="group flex items-center justify-between rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40 hover:bg-accent/50"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="rounded-xl border border-white/[0.06] bg-neutral-900 p-3">
-                      <ExternalLink className="h-5 w-5 text-amber-500" />
+                    <div className="rounded-xl border border-border bg-muted p-3">
+                      <ExternalLink className="h-5 w-5 text-primary" />
                     </div>
-
                     <div>
-                      <p className="text-sm font-semibold text-white">
+                      <p className="text-sm font-semibold text-foreground">
                         Visit our Help Center
                       </p>
-
-                      <p className="mt-1 text-xs text-neutral-500">
+                      <p className="mt-1 text-xs text-muted-foreground">
                         Find answers to common questions
                       </p>
                     </div>
                   </div>
-
-                  <ExternalLink className="h-4 w-4 text-neutral-600 transition-colors group-hover:text-amber-500" />
+                  <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
                 </Link>
               </div>
 
               {/* Socials */}
               <div>
-                <div className="mb-5 border-b border-white/[0.06] pb-4">
-                  <h2 className="font-heading text-xl font-semibold text-white">
+                <div className="mb-5 border-b border-border pb-4">
+                  <h2 className="font-heading text-xl font-semibold text-foreground">
                     Follow Kafuur
                   </h2>
                 </div>
@@ -239,25 +221,22 @@ export default function ContactUsPage() {
                 <div className="grid grid-cols-2 gap-3">
                   {socialPlatforms.map((platform) => {
                     const Icon = platform.icon;
-
                     return (
                       <a
                         key={platform.name}
                         href={platform.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="group flex items-center gap-3 rounded-2xl border border-white/[0.05] bg-white/[0.015] p-4 transition-colors hover:border-amber-500/20 hover:bg-white/[0.025]"
+                        className="group flex items-center gap-3 rounded-2xl border border-border bg-card p-4 transition-colors hover:border-primary/40 hover:bg-accent/50"
                       >
-                        <div className="rounded-xl border border-white/[0.06] bg-neutral-900 p-2.5">
-                          <Icon className="h-4 w-4 text-amber-500" />
+                        <div className="rounded-xl border border-border bg-muted p-2.5">
+                          <Icon className="h-4 w-4 text-primary" />
                         </div>
-
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-white">
+                          <p className="text-sm font-medium text-foreground">
                             {platform.name}
                           </p>
-
-                          <p className="truncate text-xs text-neutral-500">
+                          <p className="truncate text-xs text-muted-foreground">
                             {platform.username}
                           </p>
                         </div>
@@ -268,7 +247,7 @@ export default function ContactUsPage() {
               </div>
             </div>
 
-            {/* Right side - client component */}
+            {/* Right Side - Form */}
             <ContactForm />
           </div>
         </div>

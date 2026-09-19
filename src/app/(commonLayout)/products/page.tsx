@@ -20,6 +20,7 @@ export default async function ProductsPage({
   const searchParamsObj = await searchParams;
   const queryString = queryStringFormatter(searchParamsObj);
   const productsResult = await getProducts(queryString);
+  console.log(productsResult);
   const totalPages = Math.ceil(
     productsResult.meta?.total / productsResult.meta?.limit,
   );

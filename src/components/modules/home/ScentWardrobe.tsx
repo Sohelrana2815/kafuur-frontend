@@ -1,44 +1,8 @@
 "use client";
 
-import { ArrowUpRight, Leaf, Sparkles } from "lucide-react";
+import { items } from "@/data/scent-wardrobe-data";
+import { Leaf, Sparkles } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-
-const items = [
-  {
-    id: "01",
-    name: "Aura Vetiver",
-    category: "BODY SPRAY",
-    description:
-      "Smoky, deep roots mixed with a bright citrus kick. Minimalist, clean, and highly refined.",
-    price: "$18.00",
-    status: "IN STOCK | SHIPS DIRECT",
-    imgSrc:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789101896/nivia-man_euweab.jpg",
-  },
-  {
-    id: "02",
-    name: "Cedarwood Rain",
-    category: "DEODORANT SPRAY",
-    description:
-      "Wet bark, cool morning air, and rich, earthy evergreen. Deeply grounding aroma.",
-    price: "$14.50",
-    status: "IN STOCK | LIMITED BATCH",
-    imgSrc:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789101896/nivia-man_euweab.jpg",
-  },
-  {
-    id: "03",
-    name: "Nirvana Rose",
-    category: "PREMIUM MIST",
-    description:
-      "Velvet petals, rare oriental spice, and ancient wood. Layered, celestial beauty.",
-    price: "$21.00",
-    status: "IN STOCK | EXCLUSIVE EDIT",
-    imgSrc:
-      "https://res.cloudinary.com/dt683zwm2/image/upload/v1789101896/nivia-man_euweab.jpg",
-  },
-];
 
 export default function ScentWardrobe() {
   return (
@@ -106,18 +70,6 @@ export default function ScentWardrobe() {
             ))}
           </div>
         </div>
-
-        {/* Footer CTA */}
-        <div className="mt-20 text-center lg:mt-28">
-          <Link
-            href="/wardrobe-collections"
-            className="group inline-flex items-center gap-2 border-b border-neutral-800 pb-2 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-400 transition-all duration-300 hover:border-amber-500/60 hover:text-amber-400"
-          >
-            <span>View Full Scent Wardrobe</span>
-
-            <ArrowUpRight className="h-4 w-4 text-neutral-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-amber-400" />
-          </Link>
-        </div>
       </div>
     </section>
   );
@@ -184,10 +136,6 @@ function ScentItem({ item, variant }: ScentItemProps) {
           <h3 className="font-heading text-xl font-bold text-white">
             {item.name}
           </h3>
-
-          <span className="shrink-0 text-base font-semibold text-amber-400">
-            {item.price}
-          </span>
         </div>
 
         <p className="text-xs font-light leading-relaxed text-neutral-400 sm:text-sm">

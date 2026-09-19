@@ -9,6 +9,8 @@ export default async function PublicNavbar() {
   // 1. Await the cookie on the server
   const accessToken = await getCookie("accessToken");
   let userRole: UserRole | null = null;
+  let isLoggedIn = false;
+
   if (accessToken) {
     try {
       const verifiedToken = jwt.verify(
@@ -18,13 +20,13 @@ export default async function PublicNavbar() {
 
       if (typeof verifiedToken !== "string") {
         userRole = (verifiedToken as { role: UserRole }).role;
+        isLoggedIn = true;
       }
     } catch {
       userRole = null;
+      isLoggedIn = false;
     }
   }
-  // 2. Convert to a boolean: true if token exists, false if not
-  const isLoggedIn = !!accessToken;
 
   const NAV_ITEMS = [
     { label: "Products", href: "/products" },
@@ -37,6 +39,10 @@ export default async function PublicNavbar() {
             label: "Dashboard",
             href: getDefaultDashboardRoute(userRole),
           },
+          {
+            label: "My orders",
+            href: "/my-orders",
+          },
         ]
       : []),
   ];
@@ -48,7 +54,7 @@ export default async function PublicNavbar() {
           <div className="flex items-center justify-between">
             {/* Left Side: Brand Identity */}
             <div className="flex items-center gap-2 md:gap-3">
-              <Leaf className="text-primary" />
+              <Leaf className="text-[#E7AC2A]" />
               <Link
                 href="/"
                 className="flex flex-col justify-center focus:outline-none group"
