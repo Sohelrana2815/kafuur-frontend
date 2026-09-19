@@ -1,6 +1,6 @@
 "use client";
 import { Separator } from "@/components/ui/separator";
-import { IProductDetails } from "@/types/product.types";
+import { IProductDetails } from "@/types/product.interface";
 import { ShieldCheck, Truck } from "lucide-react";
 import AddToCartButton from "./AddToCartButton";
 import ProductImageGallery from "./ProductImageGallery";

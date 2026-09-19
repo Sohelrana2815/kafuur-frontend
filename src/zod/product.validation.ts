@@ -1,3 +1,8 @@
+import {
+  ScentProfile,
+  ScentStrength,
+  UsageOccasion,
+} from "@/types/product.interface";
 import z from "zod";
 
 export const createProductZodSchema = z.object({
@@ -31,6 +36,16 @@ export const createProductZodSchema = z.object({
   category: z.enum(["MEN", "WOMEN"], {
     error:
       "Target fragrance classification category is required (MEN or WOMEN)",
+  }),
+  usages: z
+    .array(z.enum(UsageOccasion))
+    .min(1, "At least one usage occasion is required"),
+  scentProfiles: z
+    .array(z.enum(ScentProfile))
+    .min(1, "At least one scent profile is required"),
+
+  strength: z.enum(ScentStrength, {
+    error: "Scent strength is required",
   }),
 });
 

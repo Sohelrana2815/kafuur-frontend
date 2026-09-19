@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { useAddToCart } from "@/hooks/useAddToCart";
-import { IBackendProduct } from "@/types/product.types";
+import { IBackendProduct } from "@/types/product.interface";
 import Image from "next/image";
 import Link from "next/link";
 

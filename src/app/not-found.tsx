@@ -17,7 +17,7 @@ export default function NotFound() {
             404 Error
           </span>
         </div>
-
+{/* // pnpm dev */}
         {/* Decorative Icon Card */}
         <div className="mb-8 inline-flex items-center justify-center rounded-3xl border border-border bg-card p-6 shadow-xl">
           <Compass className="h-14 w-14 text-primary" />

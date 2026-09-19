@@ -1,4 +1,4 @@
-import { ProductCategory } from "@/types/product.types";
+import { ProductCategory } from "@/types/product.interface";
 
 export const categoryOptions: {
   label: string;

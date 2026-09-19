@@ -2,7 +2,7 @@
 
 import { StatusBadgeCell } from "@/components/shared/cell/StatusBadgeCell";
 import { Column } from "@/components/shared/ManagementTable";
-import { IBackendProduct } from "@/types/product.types";
+import { IBackendProduct } from "@/types/product.interface";
 import Image from "next/image";
 
 export const productsColumns: Column<IBackendProduct>[] = [

@@ -2,7 +2,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { serverFetch } from "@/lib/server-fetch";
-import { IBackendProduct, IUpdateProductPayload } from "@/types/product.types";
+import {
+  IBackendProduct,
+  IUpdateProductPayload,
+  ScentProfile,
+  ScentStrength,
+  UsageOccasion,
+} from "@/types/product.interface";
 import {
   createProductZodSchema,
   updateProductZodSchema,
@@ -19,6 +25,9 @@ export const createProduct = async (_currentState: any, formData: FormData) => {
       longDescription: formData.get("longDescription") as string,
       price: Number(formData.get("price")),
       category: formData.get("category") as "MEN" | "WOMEN",
+      usages: formData.getAll("usages") as UsageOccasion[],
+      scentProfiles: formData.getAll("scentProfiles") as ScentProfile[],
+      strength: formData.get("strength") as ScentStrength,
     };
     // console.log(payload);
     const validatedPayload = createProductZodSchema.safeParse(payload);

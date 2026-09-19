@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select";
 import {
-  createProduct,
-  updateProduct,
+    createProduct,
+    updateProduct,
 } from "@/services/admin/productsManagement";
-import { IBackendProduct } from "@/types/product.types";
+import { IBackendProduct } from "@/types/product.interface";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";

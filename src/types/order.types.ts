@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { IBackendProduct } from "./product.types";
+import { IBackendProduct } from "./product.interface";
 import { IUser } from "./user.interface";
 
 export const ORDER_STATUSES = [

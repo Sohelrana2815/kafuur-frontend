@@ -1,22 +1,22 @@
 import InfoRow from "@/components/shared/InfoRow";
 import { Badge } from "@/components/ui/badge";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatDate } from "@/lib/formatters";
-import { IBackendProduct } from "@/types/product.types";
+import { IBackendProduct } from "@/types/product.interface";
 import {
-  Calendar,
-  DollarSign,
-  FileText,
-  ImageIcon,
-  Link,
-  Package,
-  Tag,
+    Calendar,
+    DollarSign,
+    FileText,
+    ImageIcon,
+    Link,
+    Package,
+    Tag,
 } from "lucide-react";
 import Image from "next/image";
 

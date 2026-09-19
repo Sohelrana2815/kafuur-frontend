@@ -1,14 +1,14 @@
 "use client";
 
+import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
 import ManagementTable from "@/components/shared/ManagementTable";
-import { IBackendProduct } from "@/types/product.types";
+import { deleteProduct } from "@/services/admin/productsManagement";
+import { IBackendProduct } from "@/types/product.interface";
 import { useRouter } from "next/navigation";
 import { useCallback, useState, useTransition } from "react";
+import { toast } from "sonner";
 import ProductFormDialog from "./ProductFormDialog";
 import { productsColumns } from "./ProductsColumns";
-import DeleteConfirmationDialog from "@/components/shared/DeleteConfirmationDialog";
-import { deleteProduct } from "@/services/admin/productsManagement";
-import { toast } from "sonner";
 import ProductViewDetailDialog from "./ProductViewDetailDialog";
 
 interface ProductsTableProps {

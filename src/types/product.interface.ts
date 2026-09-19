@@ -1,3 +1,23 @@
+export enum UsageOccasion {
+  DAILY = "DAILY",
+  OFFICE = "OFFICE",
+  PARTY = "PARTY",
+  DATE = "DATE",
+  OUTDOOR = "OUTDOOR",
+}
+export enum ScentProfile {
+  FRESH = "FRESH",
+  SWEET = "SWEET",
+  WOODY = "WOODY",
+  SPICY = "SPICY",
+}
+
+export enum ScentStrength {
+  MILD = "MILD",
+  MEDIUM = "MEDIUM",
+  STRONG = "STRONG",
+}
+
 export type ProductCategory = "MEN" | "WOMEN";
 export interface IBackendProduct {
   id?: string;
@@ -8,6 +28,9 @@ export interface IBackendProduct {
   longDescription: string;
   price: number;
   category: ProductCategory;
+  usages: UsageOccasion[];
+  scentProfiles: ScentProfile[];
+  strength: ScentStrength;
   isDeleted?: boolean;
   createdAt?: string;
   updatedAt?: string;
