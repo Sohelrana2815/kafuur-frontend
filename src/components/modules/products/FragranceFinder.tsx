@@ -21,6 +21,9 @@ import {
   ArrowRight,
   Loader2,
   User,
+  BicepsFlexed,
+  Feather,
+  Rows2,
 } from "lucide-react";
 import { getRecommendations } from "@/services/admin/productsManagement";
 import Image from "next/image";
@@ -51,13 +54,13 @@ const OptionCard = ({
     onClick={onClick}
     className={`relative flex flex-col items-center justify-center p-6 rounded-xl border transition-all duration-300 ${
       active
-        ? "border-amber-500 bg-amber-500/10 text-amber-500"
-        : "border-neutral-800 bg-neutral-900/50 text-neutral-400 hover:border-neutral-600 hover:bg-neutral-800"
+        ? "border-primary bg-primary/10 text-primary"
+        : "border-border bg-card/50 text-muted-foreground hover:border-ring hover:bg-muted"
     }`}
   >
     {active && (
-      <div className="absolute top-3 right-3 w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center">
-        <div className="w-2 h-2 bg-black rounded-full" />
+      <div className="absolute top-3 right-3 w-4 h-4 bg-primary rounded-full flex items-center justify-center">
+        <div className="w-2 h-2 bg-primary-foreground rounded-full" />
       </div>
     )}
     <Icon className="w-8 h-8 mb-3" strokeWidth={1.5} />
@@ -113,7 +116,7 @@ export default function FragranceFinder() {
     return (
       <div className="max-w-5xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700">
         <h2 className="text-2xl font-bold mb-2">Match Results</h2>
-        <p className="text-neutral-400 mb-8">
+        <p className="text-muted-foreground mb-8">
           We found {results.length} fragrances that meet your preferences.
         </p>
 
@@ -121,11 +124,12 @@ export default function FragranceFinder() {
           {results.map((item, idx) => (
             <div
               key={idx}
-              className="border border-neutral-800 rounded-2xl p-6 bg-neutral-900/50 flex flex-col relative"
+              className="border border-border rounded-2xl p-6 bg-card/50 flex flex-col relative"
             >
-              <div className="absolute top-6 right-6 border border-amber-500 text-amber-500 rounded-full w-14 h-14 flex items-center justify-center font-bold text-lg">
+              <div className="absolute top-6 right-6 border border-primary text-primary rounded-full w-14 h-14 flex items-center justify-center font-bold text-lg">
                 {item.matchPercentage}%
               </div>
+
               <div className="h-48 relative mb-6 w-full flex justify-center items-center">
                 <Image
                   src={item?.product?.images?.[0] || "/placeholder.jpg"}
@@ -135,27 +139,31 @@ export default function FragranceFinder() {
                   className="object-contain max-h-full"
                 />
               </div>
+
               <h3 className="text-xl font-semibold mb-2">
                 {item.product.name}
               </h3>
+
               <div className="flex flex-wrap gap-2 mb-4">
                 {item.product.scentProfiles?.map((s: string) => (
                   <span
                     key={s}
-                    className="text-xs text-neutral-400 bg-neutral-800 px-2 py-1 rounded"
+                    className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded"
                   >
                     {s}
                   </span>
                 ))}
               </div>
+
               <div className="mt-auto flex items-center justify-between">
                 <span className="text-xl font-bold">৳{item.product.price}</span>
+
                 <Link
                   href={`/products/${item.product.slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   type="button"
-                  className="bg-amber-500 text-black px-4 py-2 rounded-full font-semibold text-sm hover:bg-amber-400 transition-colors"
+                  className="bg-primary text-primary-foreground px-4 py-2 rounded-full font-semibold text-sm hover:bg-primary/90 transition-colors"
                 >
                   View Details →
                 </Link>
@@ -163,13 +171,14 @@ export default function FragranceFinder() {
             </div>
           ))}
         </div>
+
         <button
           type="button"
           onClick={() => {
             setResults(null);
             setCurrentStep(1);
           }}
-          className="mt-12 text-neutral-400 hover:text-white underline mx-auto block"
+          className="mt-12 text-muted-foreground hover:text-foreground underline mx-auto block"
         >
           Retake the Quiz
         </button>
@@ -183,15 +192,15 @@ export default function FragranceFinder() {
       <div
         className={`p-8 border rounded-2xl transition-all duration-500 ${
           currentStep === 1
-            ? "border-neutral-700 bg-neutral-900/80"
-            : "border-neutral-800 bg-neutral-950 opacity-50"
+            ? "border-primary/20 bg-background"
+            : "border-border bg-background opacity-50"
         }`}
       >
-        <div className="text-sm text-neutral-500 font-medium mb-1">
+        <div className="text-sm text-muted-foreground font-medium mb-1">
           Step 1 of 5
         </div>
         <h2 className="text-2xl font-semibold mb-2">Who is this for?</h2>
-        <p className="text-neutral-400 text-sm mb-6">
+        <p className="text-muted-foreground text-sm mb-6">
           Select the targeted category.
         </p>
 
@@ -216,7 +225,7 @@ export default function FragranceFinder() {
               type="button"
               disabled={!category}
               onClick={() => setCurrentStep(2)}
-              className="bg-amber-500 text-black px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next <ArrowRight className="w-4 h-4" />
             </button>
@@ -228,17 +237,17 @@ export default function FragranceFinder() {
       <div
         className={`p-8 border rounded-2xl transition-all duration-500 ${
           currentStep === 2
-            ? "border-neutral-700 bg-neutral-900/80"
-            : "border-neutral-800 bg-neutral-950 opacity-50"
+            ? "border-border bg-card/80"
+            : "border-border bg-background opacity-50"
         }`}
       >
-        <div className="text-sm text-neutral-500 font-medium mb-1">
+        <div className="text-sm text-muted-foreground font-medium mb-1">
           Step 2 of 5
         </div>
         <h2 className="text-2xl font-semibold mb-2">
           What are you looking for?
         </h2>
-        <p className="text-neutral-400 text-sm mb-6">
+        <p className="text-muted-foreground text-sm mb-6">
           Choose the occasion or use case.
         </p>
 
@@ -291,7 +300,7 @@ export default function FragranceFinder() {
               type="button"
               disabled={usages.length === 0}
               onClick={() => setCurrentStep(3)}
-              className="bg-amber-500 text-black px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next <ArrowRight className="w-4 h-4" />
             </button>
@@ -303,17 +312,17 @@ export default function FragranceFinder() {
       <div
         className={`p-8 border rounded-2xl transition-all duration-500 ${
           currentStep === 3
-            ? "border-neutral-700 bg-neutral-900/80"
-            : "border-neutral-800 bg-neutral-950 opacity-50"
+            ? "border-border bg-card/80"
+            : "border-border bg-background opacity-50"
         }`}
       >
-        <div className="text-sm text-neutral-500 font-medium mb-1">
+        <div className="text-sm text-muted-foreground font-medium mb-1">
           Step 3 of 5
         </div>
         <h2 className="text-2xl font-semibold mb-2">
           Select your scent profiles?
         </h2>
-        <p className="text-neutral-400 text-sm mb-6">
+        <p className="text-muted-foreground text-sm mb-6">
           Select your favorite scent profile(s).
         </p>
 
@@ -370,7 +379,7 @@ export default function FragranceFinder() {
               type="button"
               disabled={scentProfiles.length === 0}
               onClick={() => setCurrentStep(4)}
-              className="bg-amber-500 text-black px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next <ArrowRight className="w-4 h-4" />
             </button>
@@ -382,35 +391,35 @@ export default function FragranceFinder() {
       <div
         className={`p-8 border rounded-2xl transition-all duration-500 ${
           currentStep === 4
-            ? "border-neutral-700 bg-neutral-900/80"
-            : "border-neutral-800 bg-neutral-950 opacity-50"
+            ? "border-border bg-card/80"
+            : "border-border bg-background opacity-50"
         }`}
       >
-        <div className="text-sm text-neutral-500 font-medium mb-1">
+        <div className="text-sm text-muted-foreground font-medium mb-1">
           Step 4 of 5
         </div>
         <h2 className="text-2xl font-semibold mb-2">
           How strong do you want it?
         </h2>
-        <p className="text-neutral-400 text-sm mb-6">
+        <p className="text-muted-foreground text-sm mb-6">
           Choose the intensity you want.
         </p>
 
         <div className="grid grid-cols-3 gap-4">
           <OptionCard
-            icon={Wind}
+            icon={Feather}
             label="Mild"
             active={strength === ScentStrength.MILD}
             onClick={() => setStrength(ScentStrength.MILD)}
           />
           <OptionCard
-            icon={Wind}
+            icon={Rows2}
             label="Medium"
             active={strength === ScentStrength.MEDIUM}
             onClick={() => setStrength(ScentStrength.MEDIUM)}
           />
           <OptionCard
-            icon={Wind}
+            icon={BicepsFlexed}
             label="Strong"
             active={strength === ScentStrength.STRONG}
             onClick={() => setStrength(ScentStrength.STRONG)}
@@ -423,7 +432,7 @@ export default function FragranceFinder() {
               type="button"
               disabled={!strength}
               onClick={() => setCurrentStep(5)}
-              className="bg-amber-500 text-black px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-semibold flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next <ArrowRight className="w-4 h-4" />
             </button>
@@ -435,17 +444,17 @@ export default function FragranceFinder() {
       <div
         className={`p-8 border rounded-2xl transition-all duration-500 ${
           currentStep === 5
-            ? "border-neutral-700 bg-neutral-900/80"
-            : "border-neutral-800 bg-neutral-950 opacity-50"
+            ? "border-border bg-card/80"
+            : "border-border bg-background opacity-50"
         }`}
       >
-        <div className="text-sm text-neutral-500 font-medium mb-1">
+        <div className="text-sm text-muted-foreground font-medium mb-1">
           Step 5 of 5
         </div>
         <h2 className="text-2xl font-semibold mb-2">
           What&apos;s your budget?
         </h2>
-        <p className="text-neutral-400 text-sm mb-6">
+        <p className="text-muted-foreground text-sm mb-6">
           Select your price budget (Optional).
         </p>
 
@@ -457,8 +466,8 @@ export default function FragranceFinder() {
               onClick={() => setBudget(opt)}
               className={`px-6 py-3 rounded-full border font-medium transition-colors ${
                 budget?.label === opt.label
-                  ? "border-amber-500 text-amber-500 bg-amber-500/10"
-                  : "border-neutral-700 text-neutral-300 hover:border-neutral-500"
+                  ? "border-primary text-primary bg-primary/10"
+                  : "border-border text-foreground/80 hover:border-ring"
               }`}
             >
               {opt.label}
@@ -472,7 +481,7 @@ export default function FragranceFinder() {
               type="button"
               onClick={handleFetchRecommendations}
               disabled={loading}
-              className="bg-amber-500 text-black px-8 py-3 rounded-full font-bold flex items-center gap-2 disabled:opacity-70 hover:bg-amber-400 transition-colors shadow-[0_0_15px_rgba(245,158,11,0.3)]"
+              className="bg-primary text-primary-foreground px-8 py-3 rounded-full font-bold flex items-center gap-2 disabled:opacity-70 hover:bg-primary/90 transition-colors shadow-[0_0_15px_color-mix(in_oklab,var(--primary)_30%,transparent)]"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
