@@ -17,6 +17,14 @@ export enum ScentStrength {
   MEDIUM = "MEDIUM",
   STRONG = "STRONG",
 }
+export interface QuizAnswers {
+  usages: UsageOccasion[];
+  scentProfiles: ScentProfile[];
+  strength: ScentStrength;
+  category?: ProductCategory;
+  minPrice?: number;
+  maxPrice?: number;
+}
 
 export type ProductCategory = "MEN" | "WOMEN";
 export interface IBackendProduct {

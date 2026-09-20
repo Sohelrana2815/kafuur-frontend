@@ -5,6 +5,7 @@ import { serverFetch } from "@/lib/server-fetch";
 import {
   IBackendProduct,
   IUpdateProductPayload,
+  QuizAnswers,
   ScentProfile,
   ScentStrength,
   UsageOccasion,
@@ -270,3 +271,33 @@ export async function deleteProduct(id: string) {
     };
   }
 }
+
+export const getRecommendations = async (payload: QuizAnswers) => {
+  try {
+    const res = await serverFetch.post("/products/recommendations", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+    if (!res.ok || !result.success) {
+      return {
+        success: false,
+        message: result.message || "Failed to retrieve recommendations",
+      };
+    }
+
+    return {
+      success: true,
+      message: result.message,
+      data: result.data,
+    };
+  } catch (error: any) {
+    console.error("Error retrieving recommendations:", error);
+    return {
+      success: false,
+      message: error.message || "An unexpected error occurred.",
+    };
+  }
+};

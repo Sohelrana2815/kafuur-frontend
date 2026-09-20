@@ -61,32 +61,6 @@ export const addToCart = async (productId: string) => {
   }
 };
 
-// export async function getCarts() {
-//   try {
-//     const res = await serverFetch.get("/cart");
-//     const result = await res.json();
-
-//     // console.log("From Get Product Server Action:", res);
-//     if (!res.ok || !result.success) {
-//       return {
-//         success: false,
-//         message: result.message || "Failed to retrieved cart items",
-//       };
-//     }
-//     return {
-//       success: true,
-//       message: result.message || "Cart items retrieved successfully",
-//       data: result.data,
-//     };
-//   } catch (error: any) {
-//     console.error("Error retrieving cart items:", error);
-//     return {
-//       success: false,
-//       message: error.message || "An unexpected error occurred.",
-//     };
-//   }
-// }
-
 // Add or update these functions in cartManagement.ts
 
 export async function getCarts(cartItemIds?: string[]) {
@@ -277,54 +251,3 @@ export const deleteCartItem = async (cartItemId: string) => {
     };
   }
 };
-// export const updateCartItem = async (productId: string, quantity: number) => {
-//   try {
-//     // 1. Create the Payload
-//     const payload: ICartItemPayload = {
-//       productId,
-//       quantity,
-//     };
-
-//     // 2. Zod Validation
-//     const validatedPayload = updateCartItemZodSchema.safeParse(payload);
-
-//     if (!validatedPayload.success) {
-//       return {
-//         success: false,
-//         message: "Invalid cart data provided.",
-//         errors: validatedPayload.error.issues.map((issue) => ({
-//           field: issue.path[0],
-//           message: issue.message,
-//         })),
-//       };
-//     }
-//     // 3. Fetch from Backend
-//     const res = await serverFetch.post("/cart", {
-//       // api/v1/cart
-//       body: JSON.stringify(validatedPayload.data),
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     const result = await res.json();
-//     // 4. Handle Backend Errors
-//     if (!res.ok || !result.success) {
-//       return {
-//         success: false,
-//         message: result.message || "Failed to add cart item.",
-//       };
-//     }
-//     return {
-//       success: true,
-//       message: result.message || "Cart item added successfully.",
-//       data: result.data,
-//     };
-
-//   } catch (error: any) {
-//     console.error("Error updating cart item:", error);
-//     return {
-//       success: false,
-//       message: error.message || "An unexpected error occurred.",
-//     };
-//   }
-// };

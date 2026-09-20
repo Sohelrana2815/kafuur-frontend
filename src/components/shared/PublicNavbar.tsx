@@ -30,6 +30,7 @@ export default async function PublicNavbar() {
 
   const NAV_ITEMS = [
     { label: "Products", href: "/products" },
+    { label: "Find Your Fragrance", href: "/fragrance-finder" },
     { label: "Our Mission", href: "/our-mission" },
     { label: "Contact Us", href: "/contact-us" },
 
