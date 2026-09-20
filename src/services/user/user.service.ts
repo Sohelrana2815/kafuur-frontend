@@ -38,6 +38,7 @@ export const registerAction = async (
     }
     // 2. Fetch from Backend
     const res = await serverFetch.post("/users/register", {
+      credentials: "include",
       body: JSON.stringify(validatedFields.data),
       headers: {
         "Content-Type": "application/json",
@@ -208,7 +209,7 @@ export const deleteUserById = async (id: string) => {
   try {
     // 1. Fetch from Backend using DELETE method
     const res = await serverFetch.delete(`/users/${id}`);
-    
+
     const result = await res.json();
 
     if (!res.ok || !result.success) {
@@ -225,7 +226,7 @@ export const deleteUserById = async (id: string) => {
     };
   } catch (error: any) {
     console.error(`Error deleting user (${id}):`, error);
-    
+
     return {
       success: false,
       message: error.message || "An unexpected error occurred.",
