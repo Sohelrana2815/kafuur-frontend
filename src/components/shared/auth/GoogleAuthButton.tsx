@@ -26,7 +26,7 @@ export default function GoogleAuthButton() {
     }
 
     // 3. Redirect the browser to your Express backend Google Auth route
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL   || "http://localhost:5000/api/v1";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL   || "https://kafuur-backend.vercel.app/api/v1";
     const googleAuthUrl = `${backendUrl}/auth/google?redirect=${encodeURIComponent(finalRedirect)}`;
 
     window.location.href = googleAuthUrl;
