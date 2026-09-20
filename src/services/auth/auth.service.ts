@@ -47,7 +47,7 @@ export const loginAction = async (_currentState: any, formData: FormData) => {
     //  const validatedPayload = zodValidator(payload, loginUserSchema).data;
     // 2. Fetch from Backend
     const res = await serverFetch.post("/auth/login", {
-      credentials: "include",
+      // credentials: "include",
       body: JSON.stringify(validatedFields.data),
       headers: {
         "Content-Type": "application/json",

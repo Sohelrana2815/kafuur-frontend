@@ -38,7 +38,7 @@ export const registerAction = async (
     }
     // 2. Fetch from Backend
     const res = await serverFetch.post("/users/register", {
-      credentials: "include",
+      // credentials: "include",
       body: JSON.stringify(validatedFields.data),
       headers: {
         "Content-Type": "application/json",
